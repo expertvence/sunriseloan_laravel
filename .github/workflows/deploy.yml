@@ -14,14 +14,13 @@ jobs:
       - name: FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-        server: ftp.sunriseloan.expertvence.com
-        username: u847662062.sunriseloan
-        password: "mI7^CrzLxZKvXPQ@"
-        exclude: |
-            public/**
-            **/.git*
-            **/node_modules/**
-            **/tests/**
-            **/storage/**
-            **/stubs/**
-       
+          server: ftp.sunriseloan.expertvence.com
+          username: u847662062.sunriseloan
+          password: "mI7^CrzLxZKvXPQ@"
+          exclude: |
+           public/**
+           **/.git*
+           **/node_modules/**
+           **/tests/**
+           **/storage/**
+           **/stubs/**
