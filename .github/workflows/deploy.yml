@@ -2,7 +2,7 @@ name: Deploy Website on Every Commit
 on:
   push:
     branches:
-      - dev
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,9 +13,9 @@ jobs:
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ftp.obiram.xyz
-          username: app@loan.obiram.xyz
-          password: "VQV^)MATY@1$"
+          server: ftp.sunriseloan.expertvence.com
+          username: u847662062.sunriseloan
+          password: "F0#Y@h$*$io?H9?i"
          
 
         
