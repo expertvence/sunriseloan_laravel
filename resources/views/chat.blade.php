@@ -1,5 +1,4 @@
 @extends('layouts.master')
-
 @section('content')
 <main>    
     <div class="container">
