@@ -1,0 +1,129 @@
+<?php
+
+use App\Http\Controllers\AdmiProfileController;
+use App\Http\Controllers\EmployeeSalaryController;
+use App\Http\Controllers\UserLoanController;
+use App\Http\Controllers\LoancategoryController;
+use App\Http\Controllers\LoanCommitController;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\TotalAssetController;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+
+Auth::routes();
+// Route::get('/', function () {
+//     // return view('welcome');
+//     return Template::loadView('welcome');
+// })->name('home_2');
+
+//Interview test
+
+
+
+/* loan request form */
+Route::get('/', 'HomeController@landingPage')->name('home_2');
+/* loan Section start */
+Route::get('/loan-request', 'LoanRequestController@loanRequest')->name('loan-request');
+Route::POST('/loan/insert',[LoanController::class,'loan_store'])->name('loan');
+
+Route::get('/show-list',[LoanController::class, 'showLoan_list'])->name('showLoan');
+Route::get('/show-edit/{loan_ide?}',[LoanController::class, 'loanEdit'])->name('edit-loan');
+Route::post('/update-status', [LoanController::class, 'updateStatus'])->name('update-status');
+Route::post('/loan-commit', [LoanCommitController::class, 'insertLoanCommit']);
+
+/* Loan section end */
+
+// Route for searching users based on username
+Route::get('/search-user', 'LoanCommitController@searchUser');
+
+//Userloan Interface
+Route::get('/user-loan-list', [UserloanController::class,'index' ])->name('user-loan-list');
+//Route::get('/show',[UserloanController::class,'showProfile']);
+Route::get('/getLoanCommitments', [UserloanController::class, 'getLoanCommitments'])->name('getLoanCommitments');
+
+
+
+// Route for fetching loan details based on user id
+Route::get('/get-loans-for-user/{userId}', [LoanCommitController::class, 'getLoansForUser']);
+Route::get('/get-loan-details/{loanIde}', [LoanCommitController::class, 'getLoanDetails']);
+Route::get('/get-total-paid/{loanIde}', [LoanCommitController::class, 'getTotalPaid']);
+//Loan commit section
+Route::get('/loan-commite','LoanCommitController@index')->name('loan-commite');
+//insert LoanCommit
+Route::post('/loanCommit', [LoanCommitController::class, 'createLoanCommit'])->name('loanCommit');
+
+Route::middleware(['auth', 'user.type:admin'])->group(function () {
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/test', 'HomeController@test')->name('test');
+// Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
+Route::get('/member-register', 'HomeController@memRegistration')->name('member-register');
+Route::get('/member-register-form/{id?}', 'HomeController@memRegistrationForm')->name('member-register-form');
+//payment system
+Route::get('/installment_payment', 'HomeController@installmentPayment')->name('installment_payment');
+Route::get('/installment_payment_list', 'HomeController@paymentLIst')->name('installment_payment_list');
+Route::post('/installment_payment_store', 'HomeController@paymentStore')->name('installment_payment_store');
+Route::post('member-autocomplete-search', 'HomeController@memberAutocompleteSearch')->name('member-autocomplete-search');
+Route::get('/installment_payment_pdf', 'HomeController@paymentPdf')->name('installment_payment_pdf');
+
+//investment system
+Route::get('/investment_system', 'HomeController@investment_system')->name('investment_system');
+Route::post('/investment_store', 'HomeController@investment_store')->name('investment_store');
+Route::get('/investment-edit/{id?}', 'HomeController@investment_edit')->name('investment-edit');
+Route::get('/investment_system_list', 'HomeController@investment_system_list')->name('investment_system_list');
+
+// income-expence 
+Route::get('/income-expence', 'HomeController@incomeExpence')->name('income-expence');
+Route::get('/income-expence-edit/{id?}', 'HomeController@incomeExpenceEdit')->name('income-expence-edit');
+Route::post('/income-expence-store', 'HomeController@incomeExpence_store')->name('income-expence-store');
+Route::get('/income-expence-list', 'HomeController@incomeExpenceList')->name('income-expence-list');
+
+Route::post('/merber-save', 'MemberRegistrationController@store')->name('merber-save');
+Route::get('/member-list', 'HomeController@memberList')->name('member-list');
+Route::get('/realtime-comunication', 'comunicationController@realComunication')->name('realtime-comunication');
+// Route::get('/', 'ChatsController@index');
+Route::get('messages', 'ChatsController@fetchMessages');
+Route::post('messages', 'ChatsController@sendMessage');
+
+/* Create Categories */
+Route::get('/show-categories-insert',[LoanCategoryController::class,'index']);
+Route::post('/insert-category', [LoancategoryController::class, 'categori_store']);
+Route::get('/show_categories', [LoancategoryController::class, 'show_categories'])->name('show-categories-insert');
+Route::post('/delete/{id}',[LoancategoryController::class, 'delete'])->name('delete');
+Route::get('/edit-category/{id}', [LoancategoryController::class, 'categoriId'])->name('edit-category');
+Route::get('/loancategories',[LoancategoryController::class, 'categoriId']);
+//Route::get('/for-get',[LoancategoryController::class, 'categoriwithid'])->name('for-get');
+//assets route
+Route::get('/index',[TotalAssetController::class,'index'])->name('index');
+
+Route::post('/store-assets',[TotalAssetController::class,'store'])->name('store-assets');
+Route::get('/show-assets',[TotalAssetController::class,'show_list'])->name('show-assets');
+Route::get('/edit-assets/{id}',[TotalAssetController::class,'edit_assets'])->name('edit-assets');
+Route::post('/destroy-assets/{id}',[TotalAssetController::class,'destroyAsset'])->name('destroy-assets');
+Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
+ //Employee Salary
+ Route::get('/employee-salary',[EmployeeSalaryController::class, 'index'])->name('employee-salary');
+
+});
+Route::get('/member_profile/{id}', 'HomeController@memberProfile')->name('member_profile');
+//Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
+
+Route::get('/userDashboard',[UserLoanController::class,'userDashboard'])->name('userDashboard');
+Route::get('/for-get',[LoancategoryController::class, 'categoriwithid'])->name('for-get');
+/* Route::middleware(['auth', 'user.type:user'])->group(function () {   
+   
+  
+}); */
+
+Route::get('/admin-profile', [AdmiProfileController::class, 'index'])->name('admin-profile');
+Route::post('/reset-password', [AdmiProfileController::class, 'resetPassword'])->name('reset.password');

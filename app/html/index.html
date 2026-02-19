@@ -1,0 +1,32 @@
+public function store(Request $request)
+{
+    // Validate the incoming request data
+    $request->validate([
+        'loanrequest_id' => 'required|exists:loans,loan_ide',
+        'payable_amount' => 'required|numeric|min:0',
+    ]);
+
+    // Retrieve the loan data
+    $loan = Loan::find($request->loanrequest_id);
+    
+    // Assuming you know how many payments have been made so far
+    $paidAmount = $request->payable_amount; // In a real scenario, this would be dynamic
+    $monthlyPayment = $loan->loan_amount / $loan->loan_term; // Loan amount divided by loan term
+    
+    // Calculate remaining amount as total loan amount minus paid amount
+    $remainingAmount = $loan->loan_amount - $paidAmount;
+    
+    // You could also calculate based on the term
+    $remainingPayments = $loan->loan_term - $numberOfPaymentsMade; // E.g., number of payments made
+    $remainingAmountBasedOnPayments = $remainingPayments * $monthlyPayment;
+    
+    // Use whichever logic fits your business case
+    $loanCommit = new LoanCommit();
+    $loanCommit->loanrequest_id = $request->loanrequest_id;
+    $loanCommit->payable_amount = $request->payable_amount;
+    $loanCommit->remaining_amount = $remainingAmountBasedOnPayments;  // Or use $remainingAmount based on your logic
+    $loanCommit->save();
+
+    // Redirect or return success message
+    return redirect()->route('loan.commit.index')->with('success', 'Loan Commit has been created successfully.');
+}

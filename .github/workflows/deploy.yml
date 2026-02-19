@@ -1,0 +1,21 @@
+name: Deploy Website on Every Commit
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+     
+      - uses: actions/checkout@v2
+      
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ftp.obiram.xyz
+          username: app@loan.obiram.xyz
+          password: "VQV^)MATY@1$"
+         
+
+        
