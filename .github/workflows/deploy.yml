@@ -20,7 +20,7 @@ jobs:
           exclude: |
            public/**
            **/.git*
-           **/node_modules/**
+           
            **/tests/**
            **/storage/**
            **/stubs/**
