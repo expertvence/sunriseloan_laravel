@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdmiProfileController;
+use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\EmployeeSalaryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoancategoryController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\TotalAssetController;
 use App\Http\Controllers\UserLoanController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -129,3 +131,6 @@ Route::get('/for-get',[LoancategoryController::class, 'categoriwithid'])->name('
 
 Route::get('/admin-profile', [AdmiProfileController::class, 'index'])->name('admin-profile');
 Route::post('/reset-password', [AdmiProfileController::class, 'resetPassword'])->name('reset.password');
+
+Route::get('/employee-member-register', [EmployeeController::class, 'memRegistration'])->name('employee-member-register');
+

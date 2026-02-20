@@ -98,28 +98,24 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                 Dashboard
             </a>
-            
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#member_reg" aria-expanded="false" aria-controls="member_reg">
-                <div class="sb-nav-link-icon"><i class="fas fa-users" style=" font-size: 20px;"></i></div>
-                Member Reg
-                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-            </a>
-            <div class="collapse" id="member_reg" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link ajax_link" href="#" data-url="{{route('member-register')}}">Create Member</a>
-                    <a class="nav-link ajax_link" href="#" data-url="{{route('member-list')}}">Member list</a>
-                </nav>
-            </div>
 
             <a class="nav-link ajax_link" href="#" data-url="{{route('member_profile',Auth::user()->member_id)}}">
                 <div class="sb-nav-link-icon"><i class="fa fa-user"></i></div>
                 My Profile
             </a>
 
-            <a class="nav-link ajax_link" href="#" data-url="#">
-                <div class="sb-nav-link-icon"><i class="fa fa-user"></i></div>
-                My Profile
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#member_reg" aria-expanded="false" aria-controls="member_reg">
+                <div class="sb-nav-link-icon"><i class="fas fa-users" style=" font-size: 20px;"></i></div>
+                Member Reg
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
+            <div class="collapse" id="member_reg" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link ajax_link" href="#" data-url="{{route('employee-member-register')}}">Create Member</a>
+                    <a class="nav-link ajax_link" href="#" data-url="{{route('member-list')}}">Member list</a>
+                </nav>
+            </div>
+
 
             @else
             <div class="sb-sidenav-menu-heading">Core</div>
