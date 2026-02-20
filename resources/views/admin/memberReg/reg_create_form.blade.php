@@ -143,16 +143,16 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                 </div>
             </div>
             
-             <!-- <div class="col-md-3">
+             <div class="col-md-3">
                 <div class="form-floating mb-3 mb-md-0">
                     <select class="form-control" name="user_type" id="gender"  >
                         <option value="">User Type</option>
                         <option value="user" @if ($gender == "user") selected @endif>User</option>
-                        <option value="employee" @if ($gender == "employee") selected @endif>Employe</option>
+                        <option value="employee" @if ($gender == "employee") selected @endif>Admin</option>
                         
                     </select>
                 </div>
-            </div> -->
+            </div>
             
         </div>
        
@@ -190,13 +190,18 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-6">
-                    <div class="form-floating mb-3 mb-md-0">
-                        <input class="form-control" id="nomini_adress" name="nomini_adress" type="text"
-                            placeholder="Enter your number of share number"  value="{{$nomini_address}}" />
-                        <label for="nomini_adress">Address</label>
-                    </div>
-                </div>
+               <div class="col-md-12">
+            <div class="form-floating mb-3 mb-md-0">
+                <textarea 
+                    class="form-control" 
+                    id="nomini_adress" 
+                    name="nomini_adress"
+                    placeholder="Enter nominee address"
+                >{{ old('nomini_adress') }}</textarea>
+                <label for="nomini_adress">Nominee Address</label>
+            </div>
+</div>
+
                 <!-- <div class="col-md-3">
                     <div class="form-floating mb-3 mb-md-0">
                         <input class="form-control" id="nomini_relation" name="nomini_relation" type="text"
