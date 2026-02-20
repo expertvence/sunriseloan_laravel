@@ -10,7 +10,7 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\TotalAssetController;
 use App\Http\Controllers\UserLoanController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Employee\LoanCommitController as EmployeeLoanCommitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +63,12 @@ Route::get('/get-loan-details/{loanIde}', [LoanCommitController::class, 'getLoan
 Route::get('/get-total-paid/{loanIde}', [LoanCommitController::class, 'getTotalPaid']);
 //Loan commit section
 Route::get('/loan-commite','LoanCommitController@index')->name('loan-commite');
+Route::get('/employee-loan-commite', [EmployeeLoanCommitController::class, 'index']);
+Route::get('/employee-get-loans-for-user/{userId}', [EmployeeLoanCommitController::class, 'getLoansForUser']);
+Route::get('/employee-get-loan-details/{loanIde}', [EmployeeLoanCommitController::class, 'getLoanDetails']);
+Route::get('/employee-get-total-paid/{loanIde}', [EmployeeLoanCommitController::class, 'getTotalPaid']);
+Route::post('/employee-loan-commit', [EmployeeLoanCommitController::class, 'insertLoanCommit']);
+Route::get('/employee-loan-commite',[EmployeeLoanCommitController::class, 'index'])->name('employee-loan-commite');
 //insert LoanCommit
 Route::post('/loanCommit', [LoanCommitController::class, 'createLoanCommit'])->name('loanCommit');
 
@@ -133,4 +139,6 @@ Route::get('/admin-profile', [AdmiProfileController::class, 'index'])->name('adm
 Route::post('/reset-password', [AdmiProfileController::class, 'resetPassword'])->name('reset.password');
 
 Route::get('/employee-member-register', [EmployeeController::class, 'memRegistration'])->name('employee-member-register');
+
+Route::get('/member-list', [EmployeeController::class, 'memberList'])->name('member-list');
 

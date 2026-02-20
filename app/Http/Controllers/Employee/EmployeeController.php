@@ -21,6 +21,13 @@ class EmployeeController extends Controller
 
         return Template::loadView('employee/memberRegister/reg_create_form', ['data' => $data]);
     }
+
+        public function memberList()
+    {
+        $data = MemberRegistration::get();
+        // dd($data);
+         return Template::loadView('employee/memberRegister/member_list', ['data' => $data]);
+    }
     
 }
 

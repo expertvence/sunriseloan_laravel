@@ -141,6 +141,7 @@ class MemberRegistrationController extends Controller
             $message = ['msg' => 'An error occurred: ' . $e->getMessage(), 'title' => 'Error'];
         }
         
+        
     }
 
     /**

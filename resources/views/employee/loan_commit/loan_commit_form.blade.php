@@ -9,7 +9,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <h1 class="text-center">Loan Commit Form</h1>
- <form action="{{url('loan-commit')}}" method="POST" id="loan-commit-form">
+ <form action="{{url('employee-loan-commit')}}" method="POST" id="loan-commit-form">
     @csrf
 
     <div class="row">
@@ -160,7 +160,7 @@ function fetchLoansForUser(userId) {
 
     // AJAX request to fetch loans for the selected user
     $.ajax({
-        url: `/get-loans-for-user/${userId}`,  // Make sure this URL matches the route in your backend
+        url: `/employee-get-loans-for-user/${userId}`,  // Make sure this URL matches the route in your backend
         method: 'GET',  // Use GET to fetch data
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // CSRF token for security
@@ -204,7 +204,7 @@ $('#loan_id').on('change', function() {
     if (loanIde) {
         // Fetch loan details for the selected loan_ide
         $.ajax({
-            url: `/get-loan-details/${loanIde}`,  // The route to get loan details
+            url: `/employee-get-loan-details/${loanIde}`,  // The route to get loan details
             method: 'GET',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Ensure CSRF token is included
@@ -366,7 +366,7 @@ populateYearDropdown();
             try {
                 // Send AJAX request to check for duplicates
                 await $.ajax({
-                    url: '/loan-commit',  // Backend URL to check duplicate
+                    url: '/employee-loan-commit',  // Backend URL to check duplicate
                     method: 'POST',
                     data: formData,
                     headers: {
