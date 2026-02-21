@@ -35,6 +35,9 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
+
+     $user = Auth()->user();
+    //  dd($user);
         try {
             $id = $request->id;
             DB::beginTransaction();
@@ -60,6 +63,7 @@ class EmployeeController extends Controller
                 'nomini_barth_or_ind' => $request->nomini_birth_nid,
                 'nomini_address' => $request->nomini_adress,
                 'is_publish' => 1,
+                
             ];
 
             // Handle file upload
@@ -81,9 +85,14 @@ class EmployeeController extends Controller
                     $user_data = [
                         'name' => $request->name,  // Corrected 'namename' to 'name'
                         'email' => $request->email,
+                        'ref_id' => $user->id, // Assuming you want to reference the currently authenticated user
                         'user_type' => $request->user_type,
                         'member_id' => $member_id,
                         'password' => Hash::make('12345678'),  // Hash password securely
+                        'created_by' => $user->name,
+                        'updated_by' => $user->name,
+                        'status' => 'active',
+                        'created_at' => now(),
                     ];
 
                     $user = User::all();
@@ -111,8 +120,11 @@ class EmployeeController extends Controller
                     $user_data = [
                         'name' => $request->name,  // Corrected 'namename' to 'name'
                         'email' => $request->email,
+                        'update_ref_id' => $user->id,
+                        'updated_by' => $user->name,
                         'user_type' => 'user',
                         'member_id' => $id,
+                        'updated_at' => now(),
                         'password' => Hash::make('12345678'),  // Hash password securely
                     ];
                     User::where('member_id', $id)->update($user_data);

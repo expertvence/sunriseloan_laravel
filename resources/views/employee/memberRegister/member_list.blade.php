@@ -40,7 +40,7 @@
                             <td class="text-center">{{$value->is_publish == 1 ? 'Active' : 'Diactive'}}</td>
                             <td>
                                 <a href="{{route('member_profile',$value->id)}}" target="_blank" rel="noopener noreferrer"><i class="fas fa-user"></i></a>
-                                <span class="btn btn-sm  open-modal btnView" data-action="{{route('employee-member-register', $value->id)}}" data-modal="common-modal-md" data-title=" Member Edit" title="Edit" data-id="{{$value->id}}"><i class="fas fa-edit"></i></span>
+                                <span class="btn btn-sm  open-modal btnView" data-action="{{route('employee-mem-register-form', $value->id)}}" data-modal="common-modal-md" data-title=" Member Edit" title="Edit" data-id="{{$value->id}}"><i class="fas fa-edit"></i></span>
 
                             </td>
                         </tr>

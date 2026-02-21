@@ -48,7 +48,7 @@
                                         <a href="{{ route('member_profile', $value->id) }}" target="_blank"
                                             rel="noopener noreferrer"><i class="fas fa-user"></i></a>
                                         <span class="btn btn-sm  open-modal btnView"
-                                            data-action="{{ route('employee-member-register-form', $value->id) }}"
+                                            data-action="{{ route('member-register-form', $value->id) }}"
                                             data-modal="common-modal-md" data-title=" Member Edit" title="Edit"
                                             data-id="{{ $value->id }}"><i class="fas fa-edit"></i></span>
 
