@@ -9,6 +9,7 @@ use App\Http\Controllers\LoanCommitController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\TotalAssetController;
 use App\Http\Controllers\UserLoanController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Employee\LoanCommitController as EmployeeLoanCommitController;
 
@@ -35,9 +36,11 @@ Auth::routes();
 
 
 /* loan request form */
-Route::get('/', 'HomeController@landingPage')->name('home_2');
+// Route::get('/', 'HomeController@landingPage')->name('home_2');
+Route::get('/', [HomeController::class, 'landingPage'])->name('home_2');
 /* loan Section start */
-Route::get('/loan-request', 'LoanRequestController@loanRequest')->name('loan-request');
+// Route::get('/loan-request', 'LoanRequestController@loanRequest')->name('loan-request');
+Route::get('/loan-request', [LoanController::class, 'loanRequest'])->name('loan-request');
 Route::POST('/loan/insert',[LoanController::class,'loan_store'])->name('loan');
 
 Route::get('/show-list',[LoanController::class, 'showLoan_list'])->name('showLoan');
@@ -48,7 +51,8 @@ Route::post('/loan-commit', [LoanCommitController::class, 'insertLoanCommit']);
 /* Loan section end */
 
 // Route for searching users based on username
-Route::get('/search-user', 'LoanCommitController@searchUser');
+// Route::get('/search-user', 'LoanCommitController@searchUser');
+Route::get('/search-user', [LoanCommitController::class,'searchUser']);
 
 //Userloan Interface
 Route::get('/user-loan-list', [UserloanController::class,'index' ])->name('user-loan-list');
@@ -99,7 +103,8 @@ Route::post('/income-expence-store', 'HomeController@incomeExpence_store')->name
 Route::get('/income-expence-list', 'HomeController@incomeExpenceList')->name('income-expence-list');
 
 Route::post('/merber-save', 'MemberRegistrationController@store')->name('merber-save');
-Route::get('/member-list', 'HomeController@memberList')->name('member-list');
+// Route::get('/member-list', 'HomeController@memberList')->name('member-list');
+Route::get('/member-list', [HomeController::class, 'memberList'])->name('member-list');
 Route::get('/realtime-comunication', 'comunicationController@realComunication')->name('realtime-comunication');
 // Route::get('/', 'ChatsController@index');
 Route::get('messages', 'ChatsController@fetchMessages');
@@ -120,12 +125,14 @@ Route::post('/store-assets',[TotalAssetController::class,'store'])->name('store-
 Route::get('/show-assets',[TotalAssetController::class,'show_list'])->name('show-assets');
 Route::get('/edit-assets/{id}',[TotalAssetController::class,'edit_assets'])->name('edit-assets');
 Route::post('/destroy-assets/{id}',[TotalAssetController::class,'destroyAsset'])->name('destroy-assets');
-Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
+// Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
+Route::get('/admin-panel', [HomeController::class, 'adminPanel'])->name('admin-panel');
  //Employee Salary
  Route::get('/employee-salary',[EmployeeSalaryController::class, 'index'])->name('employee-salary');
 
 });
-Route::get('/member_profile/{id}', 'HomeController@memberProfile')->name('member_profile');
+// Route::get('/member_profile/{id}', 'HomeController@memberProfile')->name('member_profile');
+Route::get('/member_profile/{id}', [HomeController::class, 'memberProfile'])->name('member_profile');
 //Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
 
 Route::get('/userDashboard',[UserLoanController::class,'userDashboard'])->name('userDashboard');
