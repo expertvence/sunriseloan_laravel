@@ -468,8 +468,6 @@ $('#loan_id').on('change', function() {
                         $('#successfull_payment').val('0.00');  // Default to 0 if totalPaid is invalid
                     }
 
-
-
                     if (remainingAmount === 0) {
                         // Disable the "Create Loan" button
                         $('#createLoanButton').prop('disabled', true);
@@ -500,7 +498,6 @@ $('#loan_id').on('change', function() {
         console.log("No loan ID selected.");
     }
 });
-
 
 
 </script>

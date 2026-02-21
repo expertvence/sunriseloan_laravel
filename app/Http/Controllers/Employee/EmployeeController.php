@@ -39,6 +39,7 @@ class EmployeeController extends Controller
      $user = Auth()->user();
     //  dd($user);
         try {
+        // try {
             $id = $request->id;
             DB::beginTransaction();
             $data = [
@@ -65,6 +66,7 @@ class EmployeeController extends Controller
                 'is_publish' => 1,
                 
             ];
+            dd($data);
 
             // Handle file upload
             if ($request->hasFile('member_image')) {
@@ -85,7 +87,7 @@ class EmployeeController extends Controller
                     $user_data = [
                         'name' => $request->name,  // Corrected 'namename' to 'name'
                         'email' => $request->email,
-                        'ref_id' => $user->id, // Assuming you want to reference the currently authenticated user
+                        'ref_id' => $user->id, 
                         'user_type' => $request->user_type,
                         'member_id' => $member_id,
                         'password' => Hash::make('12345678'),  // Hash password securely
@@ -135,10 +137,10 @@ class EmployeeController extends Controller
                     $message = ['msg' => 'Error updating member', 'title' => 'Error'];
                 }
             }
-        } catch (\Exception $e) {
-            DB::rollback();  // Rollback the transaction on any error
-            $message = ['msg' => 'An error occurred: ' . $e->getMessage(), 'title' => 'Error'];
-        }
+        // } catch (\Exception $e) {
+        //     DB::rollback();  // Rollback the transaction on any error
+        //     $message = ['msg' => 'An error occurred: ' . $e->getMessage(), 'title' => 'Error'];
+        // }
         return response()->json($message);
     }
 }
