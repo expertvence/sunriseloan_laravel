@@ -6,7 +6,7 @@
                         <div class="card-header">
                             <h3 class="text-center font-weight-light my-4">Create Account</h3>
                         </div>
-                        @include('admin/memberReg/reg_create_form')
+                        @include('employee/memberRegister/reg_create_form')
 
                     </div>
                 </div>

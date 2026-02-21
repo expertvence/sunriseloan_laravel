@@ -28,7 +28,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
 @endphp
 
 <div class="card-body">
-    <form action="{{ route('merber-save') }}" method="POST" id="regForm" enctype="multipart/form-data">
+    <form action="{{ route('employee-member-save') }}" method="POST" id="regForm" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{$id}}">
         <div class="row mb-3">
@@ -190,11 +190,10 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-6">
+                 <div class="col-md-12">
                     <div class="form-floating mb-3 mb-md-0">
-                        <input class="form-control" id="nomini_adress" name="nomini_adress" type="text"
-                            placeholder="Enter your number of share number"  value="{{$nomini_address}}" />
-                        <label for="nomini_adress">Address</label>
+                        <textarea class="form-control" id="nomini_adress" name="nomini_adress" placeholder="Enter nominee address">{{ old('nomini_adress') }}</textarea>
+                        <label for="nomini_adress">Nominee Address</label>
                     </div>
                 </div>
                 <!-- <div class="col-md-3">
@@ -232,7 +231,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
 
         <div class="mt-4 mb-0">
             <div class="d-grid"><button type="button" onclick="saveFile(this)"
-                    class="btn btn-primary btn-block" redirect= "#">Create Account</button></div>
+                    class="btn btn-primary btn-block" redirect= "{{route('employee-member-list')}}">Create Account</button></div>
                     {{-- {{route('member-list')}} --}}
         </div>
     </form>

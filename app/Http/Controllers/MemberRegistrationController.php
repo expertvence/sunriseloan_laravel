@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Library\Template;
 use App\MemberRegistration;
 use App\User;
-use Illuminate\Http\Request;
 use Auth;
-use DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -45,12 +45,9 @@ class MemberRegistrationController extends Controller
      */
     public function store(Request $request)
     {
-        
-
-         try {
+        try {
             $id = $request->id;
-        
-            // Prepare member data
+            DB::beginTransaction();
             $data = [
                 'Uid' => $request->uid,
                 'name' => $request->name,  // Corrected 'namename' to 'name'
@@ -61,9 +58,9 @@ class MemberRegistrationController extends Controller
                 'mothers_mane' => $request->mothers_name,
                 'mobile' => $request->mobile,
                 'address' => $request->address,
-                'user_type'=> 'user',
+                'user_type' => 'user',
                 'email' => $request->email,
-                'no_of_share' => $request->number_of_share ,
+                'no_of_share' => $request->number_of_share,
                 'share_amount' => $request->share_amt,
                 'nid' => $request->nid,
                 'member_profession' => $request->profession,
@@ -74,7 +71,7 @@ class MemberRegistrationController extends Controller
                 'nomini_address' => $request->nomini_adress,
                 'is_publish' => 1,
             ];
-        
+
             // Handle file upload
             if ($request->hasFile('member_image')) {
                 $uploadedFile = $request->file('member_image');
@@ -83,30 +80,30 @@ class MemberRegistrationController extends Controller
                 $uploadedFile->move($destinationPath, $fileName);
                 $data['member_photo'] = $fileName;
             }
-        
+
             if ($id == "") {
                 // Inserting new member
                 $member_id = MemberRegistration::insertGetId($data);  // Get the new member ID
-               
+
                 if ($member_id) {
                     // Prepare user data
-                   // $type='user';
+                    // $type='user';
                     $user_data = [
                         'name' => $request->name,  // Corrected 'namename' to 'name'
                         'email' => $request->email,
-                        'user_type' =>$request->user_type,
+                        'user_type' => $request->user_type,
                         'member_id' => $member_id,
                         'password' => Hash::make('12345678'),  // Hash password securely
                     ];
-        
+
                     $user = User::all();
                     $user = User::where('email', $request->email)->first();
-                    if($user){
+                    if ($user) {
                         $message = ['msg' => 'Email already exist', 'title' => 'Error'];
                     }
                     // Insert the user data into User table
-                    User::insert($user_data);  // Prefer create() if using fillable attributes
-        
+                    User::insert($user_data); 
+
                     DB::commit();  // Commit the transaction
                     $message = ['msg' => 'Member Saved Successfully', 'title' => 'Success'];
                     // return redirect()->route('member-list')->with('success', 'Member Saved Successfully');
@@ -119,7 +116,7 @@ class MemberRegistrationController extends Controller
             } else {
                 // Updating existing member
                 $memberUpdated = MemberRegistration::where('id', $id)->update($data);
-                
+
                 if ($memberUpdated) {
                     $user_data = [
                         'name' => $request->name,  // Corrected 'namename' to 'name'
@@ -128,9 +125,9 @@ class MemberRegistrationController extends Controller
                         'member_id' => $id,
                         'password' => Hash::make('12345678'),  // Hash password securely
                     ];
-                    User::where('member_id',$id)->update($user_data);
+                    User::where('member_id', $id)->update($user_data);
                     DB::commit();  // Commit the transaction
-                       $message = ['msg' => 'Member Updated Successfully', 'title' => 'Success'];
+                    $message = ['msg' => 'Member Updated Successfully', 'title' => 'Success'];
                 } else {
                     DB::rollback();  // Rollback on error
                     $message = ['msg' => 'Error updating member', 'title' => 'Error'];
@@ -140,8 +137,7 @@ class MemberRegistrationController extends Controller
             DB::rollback();  // Rollback the transaction on any error
             $message = ['msg' => 'An error occurred: ' . $e->getMessage(), 'title' => 'Error'];
         }
-        
-        
+        return response()->json($message);
     }
 
     /**

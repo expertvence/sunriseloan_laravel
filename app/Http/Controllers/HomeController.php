@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\MemberRegistration;
-use App\Loan;
-use App\User;
-use App\InstallmentPayment;
 use App\ExtraPayment;
-use App\Investment;
 use App\IncomeExpense;
+use App\InstallmentPayment;
+use App\Investment;
 use App\Library\Template;
+use App\Loan;
 use App\LoanCommit;
+use App\MemberRegistration;
 use App\TotalAsset;
+use App\User;
 use Illuminate\Http\Request;
-use DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use PDF;
 // use Dompdf\Dompdf;
 
@@ -203,14 +203,12 @@ class HomeController extends Controller
                 $data['updated_at'] = date('Y-m-d');
                 IncomeExpense::where('id', $id)->update($data);
             }
-            // dd( $data);
             DB::commit();
             $message = ['msg' => ' Saved Successfully ', 'title' => 'Success'];
         } catch (\Throwable $th) {
             DB::rollback();
             $message = ['msg' => 'Do not save', 'title' => 'Error'];
         }
-        // dd($request->all());
         return response()->json($message);
     }
   

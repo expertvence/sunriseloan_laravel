@@ -133,7 +133,7 @@
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link ajax_link" href="#"
                             data-url="{{ route('employee-member-register') }}">Create Member</a>
-                        <a class="nav-link ajax_link" href="#" data-url="{{ route('member-list') }}">Member
+                        <a class="nav-link ajax_link" href="#" data-url="{{ route('employee-member-list') }}">Member
                             list</a>
                     </nav>
                 </div>
