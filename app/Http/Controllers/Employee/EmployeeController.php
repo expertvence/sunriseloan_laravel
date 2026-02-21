@@ -35,7 +35,7 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        try {
+        // try {
             $id = $request->id;
             DB::beginTransaction();
             $data = [
@@ -61,6 +61,7 @@ class EmployeeController extends Controller
                 'nomini_address' => $request->nomini_adress,
                 'is_publish' => 1,
             ];
+            dd($data);
 
             // Handle file upload
             if ($request->hasFile('member_image')) {
@@ -123,10 +124,10 @@ class EmployeeController extends Controller
                     $message = ['msg' => 'Error updating member', 'title' => 'Error'];
                 }
             }
-        } catch (\Exception $e) {
-            DB::rollback();  // Rollback the transaction on any error
-            $message = ['msg' => 'An error occurred: ' . $e->getMessage(), 'title' => 'Error'];
-        }
+        // } catch (\Exception $e) {
+        //     DB::rollback();  // Rollback the transaction on any error
+        //     $message = ['msg' => 'An error occurred: ' . $e->getMessage(), 'title' => 'Error'];
+        // }
         return response()->json($message);
     }
 }
