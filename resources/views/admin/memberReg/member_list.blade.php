@@ -17,14 +17,15 @@
                             <th>SL#</th>
                             <th>Code</th>
                             <th>Name</th>
-                            <th>Age</th>
-                            <th>Gender</th>
-                            <th>Religion</th>
+                            {{-- <th>Age</th>
+                             <th>Gender</th>
+                            <th>Religion</th> --}}
                             <th>Father's Name</th>
                             <th>Motherd's Name</th>
                             <th>Email</th>
-                            <th>Address</th>
+                            {{-- <th>Address</th> --}}
                             <th>Status</th>
+                            <th>Created by</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -36,14 +37,28 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $value->Uid }}</td>
                                     <td>{{ $value->name }}</td>
-                                    <td>{{ $value->age }}</td>
-                                    <td>{{ $value->gender }}</td>
-                                    <td>{{ $value->religion }}</td>
+                                    {{-- <td>{{ $value->age }}</td>
+                                     <td>{{ $value->gender }}</td>
+                                    <td>{{ $value->religion }}</td> --}}
                                     <td>{{ $value->fathers_mane }}</td>
                                     <td>{{ $value->mothers_mane }}</td>
                                     <td>{{ $value->email }}</td>
-                                    <td>{{ $value->address }}</td>
-                                    <td class="text-center">{{ $value->is_publish == 1 ? 'Active' : 'Diactive' }}</td>
+                                    {{-- <td>{{ $value->address }}</td> --}}
+                                    <td class="text-center">
+                                        @php
+                                            $statusClass = match ($value->status) {
+                                                'active' => 'bg-success',
+                                                'inactive' => 'bg-secondary',
+                                                'rejected' => 'bg-danger',
+                                                default => 'bg-dark',
+                                            };
+                                        @endphp
+
+                                        <span class="badge {{ $statusClass }}">
+                                            {{ ucfirst($value->status) }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $value->created_by }}</td>
                                     <td>
                                         <a href="{{ route('member_profile', $value->id) }}" target="_blank"
                                             rel="noopener noreferrer"><i class="fas fa-user"></i></a>
@@ -71,5 +86,25 @@
                 "ordering": false,
                 "bAutoWidth": false,
             });
+        });
+
+        $(document).on('change', '.status-change', function() {
+
+            let memberId = $(this).data('id');
+            let status = $(this).val();
+
+            $.ajax({
+                url: "{{ route('member-status-update') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: memberId,
+                    status: status
+                },
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+
         });
     </script>

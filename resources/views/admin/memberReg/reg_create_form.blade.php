@@ -222,12 +222,15 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-6">
-                <div class=" mb-3 mb-md-0">
-                    <input id="status" name="status" type="checkbox" value="1"
-                        @if ($is_publish == 1) checked @endif />
-                    <label for="status">status</label>
-                </div>
-            </div>
+    <div class="form-floating">
+        <select class="form-control" name="status" id="status">
+            <option value="active" @if($is_publish == 'active') selected @endif>Active</option>
+            <option value="inactive" @if($is_publish == 'inactive') selected @endif>Inactive</option>
+            <option value="rejected" @if($is_publish == 'rejected') selected @endif>Rejected</option>
+        </select>
+        <label for="status">Status</label>
+    </div>
+</div>
 
         </div>
 

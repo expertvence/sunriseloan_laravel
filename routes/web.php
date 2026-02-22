@@ -165,4 +165,6 @@ Route::get('/employee-member-list', [EmployeeController::class, 'EmployeememberL
 Route::post('/employee-member-save', [EmployeeController::class, 'store'])->name('employee-member-save');
 Route::get('/employee-mem-register-form/{id?}', [EmployeeController::class, 'memRegistrationForm'])->name('employee-mem-register-form');
 
-
+Route::post('/member-status-update', 
+    [MemberRegistrationController::class, 'updateStatus']
+)->name('member-status-update');
