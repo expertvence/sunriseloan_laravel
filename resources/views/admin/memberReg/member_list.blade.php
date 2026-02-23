@@ -4,6 +4,22 @@
             padding: 5px;
         }
     </style>
+    <style>
+        .status-active {
+            background-color: #198754 !important;
+            color: #fff !important;
+        }
+
+        .status-inactive {
+            background-color: #6c757d !important;
+            color: #fff !important;
+        }
+
+        .status-rejected {
+            background-color: #dc3545 !important;
+            color: #fff !important;
+        }
+    </style>
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
@@ -45,18 +61,26 @@
                                     <td>{{ $value->email }}</td>
                                     {{-- <td>{{ $value->address }}</td> --}}
                                     <td class="text-center">
-                                        @php
-                                            $statusClass = match ($value->status) {
-                                                'active' => 'bg-success',
-                                                'inactive' => 'bg-secondary',
-                                                'rejected' => 'bg-danger',
-                                                default => 'bg-dark',
-                                            };
-                                        @endphp
-
-                                        <span class="badge {{ $statusClass }}">
-                                            {{ ucfirst($value->status) }}
-                                        </span>
+                                        @if (Auth::user()->user_type == 'admin')
+                                            <select class="form-control status-change" data-id="{{ $value->id }}">
+                                                <option value="active"
+                                                    {{ $value->status == 'active' ? 'selected' : '' }}>Active</option>
+                                                <option value="inactive"
+                                                    {{ $value->status == 'inactive' ? 'selected' : '' }}>Inactive
+                                                </option>
+                                                <option value="rejected"
+                                                    {{ $value->status == 'rejected' ? 'selected' : '' }}>Rejected
+                                                </option>
+                                            </select>
+                                        @else
+                                            @if ($value->status == 'active')
+                                                <span class="badge bg-success">Active</span>
+                                            @elseif($value->status == 'inactive')
+                                                <span class="badge bg-secondary">Inactive</span>
+                                            @else
+                                                <span class="badge bg-danger">Rejected</span>
+                                            @endif
+                                        @endif
                                     </td>
                                     <td>{{ $value->created_by }}</td>
                                     <td>
@@ -106,5 +130,43 @@
                 }
             });
 
+        });
+
+        function updateStatusColor(element) {
+            element.removeClass('status-active status-inactive status-rejected');
+
+            if (element.val() === 'active') {
+                element.addClass('status-active');
+            } else if (element.val() === 'inactive') {
+                element.addClass('status-inactive');
+            } else if (element.val() === 'rejected') {
+                element.addClass('status-rejected');
+            }
+        }
+
+        // Page load e color set korar jonno
+        $('.status-change').each(function() {
+            updateStatusColor($(this));
+        });
+
+        // Status change korle color change hobe
+        $(document).on('change', '.status-change', function() {
+            updateStatusColor($(this));
+
+            let memberId = $(this).data('id');
+            let status = $(this).val();
+
+            $.ajax({
+                url: "{{ route('member-status-update') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: memberId,
+                    status: status
+                },
+                success: function(response) {
+                    console.log(response);
+                }
+            });
         });
     </script>

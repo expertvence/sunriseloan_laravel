@@ -11,40 +11,54 @@
                             <th>SL#</th>
                             <th>Code</th>
                             <th>Name</th>
-                            <th>Age</th>
+                            {{-- <th>Age</th>
                             <th>Gender</th>
-                            <th>Religion</th>
+                            <th>Religion</th> --}}
                             <th>Father's Name</th>
                             <th>Motherd's Name</th>
                             <th>Email</th>
-                            <th>Address</th>
+                            {{-- <th>Address</th> --}}
                             <th>Status</th>
+                            <th>Created by</th>
                             <th>Action</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         @if (!empty($data))
-                        @foreach ($data as $value)
-                        <tr>
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$value->Uid}}</td>
-                            <td>{{$value->name}}</td>
-                            <td>{{$value->age}}</td>
-                            <td>{{$value->gender}}</td>
-                            <td>{{$value->religion}}</td>
-                            <td>{{$value->fathers_mane}}</td>
-                            <td>{{$value->mothers_mane}}</td>
-                            <td>{{$value->email}}</td>
-                            <td>{{$value->address}}</td>
-                            <td class="text-center">{{$value->is_publish == 1 ? 'Active' : 'Diactive'}}</td>
-                            <td>
-                                <a href="{{route('member_profile',$value->id)}}" target="_blank" rel="noopener noreferrer"><i class="fas fa-user"></i></a>
-                                <span class="btn btn-sm  open-modal btnView" data-action="{{route('employee-mem-register-form', $value->id)}}" data-modal="common-modal-md" data-title=" Member Edit" title="Edit" data-id="{{$value->id}}"><i class="fas fa-edit"></i></span>
+                            @foreach ($data as $value)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $value->Uid }}</td>
+                                    <td>{{ $value->name }}</td>
+                                    {{-- <td>{{ $value->age }}</td>
+                                    <td>{{ $value->gender }}</td>
+                                    <td>{{ $value->religion }}</td> --}}
+                                    <td>{{ $value->fathers_mane }}</td>
+                                    <td>{{ $value->mothers_mane }}</td>
+                                    <td>{{ $value->email }}</td>
+                                    {{-- <td>{{ $value->address }}</td> --}}
+                                    <td class="text-center">
+                                        @if ($value->status == 'active')
+                                            <span class="badge bg-success">Active</span>
+                                        @elseif($value->status == 'inactive')
+                                            <span class="badge bg-secondary">Inactive</span>
+                                        @else
+                                            <span class="badge bg-danger">Rejected</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $value->created_by }}</td>
+                                    <td>
+                                        <a href="{{ route('member_profile', $value->id) }}" target="_blank"
+                                            rel="noopener noreferrer"><i class="fas fa-user"></i></a>
+                                        <span class="btn btn-sm  open-modal btnView"
+                                            data-action="{{ route('employee-mem-register-form', $value->id) }}"
+                                            data-modal="common-modal-md" data-title=" Member Edit" title="Edit"
+                                            data-id="{{ $value->id }}"><i class="fas fa-edit"></i></span>
 
-                            </td>
-                        </tr>
-                        @endforeach
+                                    </td>
+                                </tr>
+                            @endforeach
                         @endif
 
 
@@ -54,13 +68,13 @@
             </div>
         </div>
     </div>
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
 
-        $(".data-table").DataTable({
-            "ordering": true,
-            "bAutoWidth": true,
+            $(".data-table").DataTable({
+                "ordering": true,
+                "bAutoWidth": true,
 
+            });
         });
-    });
-</script>
+    </script>

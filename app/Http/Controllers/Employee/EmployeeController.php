@@ -33,114 +33,123 @@ class EmployeeController extends Controller
     }
     
 
-    public function store(Request $request)
-    {
+   public function store(Request $request)
+{
+    $authUser = Auth()->user();
 
-     $user = Auth()->user();
-    
-        try {
-            $id = $request->id;
-            DB::beginTransaction();
-            $data = [
-                'Uid' => $request->uid,
-                'name' => $request->name,  // Corrected 'namename' to 'name'
-                'gender' => $request->gender,
-                'age' => $request->age,
-                'religion' => $request->religion,
-                'fathers_mane' => $request->fathers_mane,
-                'mothers_mane' => $request->mothers_name,
-                'mobile' => $request->mobile,
-                'address' => $request->address,
-                'user_type' => 'user',
-                'email' => $request->email,
-                'no_of_share' => $request->number_of_share,
-                'share_amount' => $request->share_amt,
-                'nid' => $request->nid,
-                'member_profession' => $request->profession,
-                'nomini_name' => $request->nomini_name,
-                'nomini_relation' => $request->nomini_relation,
-                'nomini_age' => $request->nomini_age,
-                'nomini_barth_or_ind' => $request->nomini_birth_nid,
-                'nomini_address' => $request->nomini_adress,
-                'is_publish' => 1,
-                
-            ];
-            
+    try {
+        $id = $request->id;
+        DB::beginTransaction();
 
-            // Handle file upload
-            if ($request->hasFile('member_image')) {
-                $uploadedFile = $request->file('member_image');
-                $fileName = time() . '_' . $uploadedFile->getClientOriginalName();
-                $destinationPath = public_path('images/member_images');
-                $uploadedFile->move($destinationPath, $fileName);
-                $data['member_photo'] = $fileName;
-            }
+        $data = [
+            'Uid' => $request->uid,
+            'name' => $request->name,
+            'gender' => $request->gender,
+            'age' => $request->age,
+            'religion' => $request->religion,
+            'fathers_mane' => $request->fathers_mane,
+            'mothers_mane' => $request->mothers_name,
+            'mobile' => $request->mobile,
+            'address' => $request->address,
+            'user_type' => 'user',
+            'email' => $request->email,
+            'no_of_share' => $request->number_of_share,
+            'share_amount' => $request->share_amt,
+            'nid' => $request->nid,
+            'member_profession' => $request->profession,
+            'nomini_name' => $request->nomini_name,
+            'nomini_relation' => $request->nomini_relation,
+            'nomini_age' => $request->nomini_age,
+            'nomini_barth_or_ind' => $request->nomini_birth_nid,
+            'nomini_address' => $request->nomini_adress,
 
-            if ($id == "") {
-                // Inserting new member
-                $member_id = MemberRegistration::insertGetId($data);  // Get the new member ID
+            // ✅ FIXED PART
+            'status' => 'inactive', // default inactive
+            'created_by' => $authUser->name,
+        ];
 
-                if ($member_id) {
-                    // Prepare user data
-                    // $type='user';
-                    $user_data = [
-                        'name' => $request->name,  // Corrected 'namename' to 'name'
-                        'email' => $request->email,
-                        'ref_id' => $user->id, 
-                        'user_type' => $request->user_type,
-                        'member_id' => $member_id,
-                        'password' => Hash::make('12345678'),  // Hash password securely
-                        'created_by' => $user->name,
-                        'updated_by' => $user->name,
-                        'status' => 'active',
-                        'created_at' => now(),
-                    ];
-
-                    $user = User::all();
-                    $user = User::where('email', $request->email)->first();
-                    if ($user) {
-                        $message = ['msg' => 'Email already exist', 'title' => 'Error'];
-                    }
-                    // Insert the user data into User table
-                    User::insert($user_data); 
-
-                    DB::commit();  // Commit the transaction
-                    $message = ['msg' => 'Member Saved Successfully', 'title' => 'Success'];
-                    // return redirect()->route('member-list')->with('success', 'Member Saved Successfully');
-
-                    //  return Template::loadView('admin/memberReg/member_list', ['invenstment_data' => $user_data]);
-                } else {
-                    DB::rollback();  // Rollback on error
-                    $message = ['msg' => 'Error saving member', 'title' => 'Error'];
-                }
-            } else {
-                // Updating existing member
-                $memberUpdated = MemberRegistration::where('id', $id)->update($data);
-
-                if ($memberUpdated) {
-                    $user_data = [
-                        'name' => $request->name,  // Corrected 'namename' to 'name'
-                        'email' => $request->email,
-                        'update_ref_id' => $user->id,
-                        'updated_by' => $user->name,
-                        'user_type' => 'user',
-                        'member_id' => $id,
-                        'updated_at' => now(),
-                        'password' => Hash::make('12345678'),  // Hash password securely
-                    ];
-                    User::where('member_id', $id)->update($user_data);
-                    DB::commit();  // Commit the transaction
-                    $message = ['msg' => 'Member Updated Successfully', 'title' => 'Success'];
-                } else {
-                    DB::rollback();  // Rollback on error
-                    $message = ['msg' => 'Error updating member', 'title' => 'Error'];
-                }
-            }
-        } catch (\Exception $e) {
-            DB::rollback();  // Rollback the transaction on any error
-            $message = ['msg' => 'An error occurred: ' . $e->getMessage(), 'title' => 'Error'];
+        // File Upload
+        if ($request->hasFile('member_image')) {
+            $uploadedFile = $request->file('member_image');
+            $fileName = time() . '_' . $uploadedFile->getClientOriginalName();
+            $destinationPath = public_path('images/member_images');
+            $uploadedFile->move($destinationPath, $fileName);
+            $data['member_photo'] = $fileName;
         }
-        return response()->json($message);
+
+        if ($id == "") {
+
+            // Email duplicate check
+            $existingUser = User::where('email', $request->email)->first();
+            if ($existingUser) {
+                return response()->json([
+                    'msg' => 'Email already exists',
+                    'title' => 'Error'
+                ]);
+            }
+
+            // Insert Member
+            $member_id = MemberRegistration::insertGetId($data);
+
+            if ($member_id) {
+
+                $user_data = [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'ref_id' => $authUser->id,
+                    'user_type' => 'user',
+                    'member_id' => $member_id,
+                    'password' => Hash::make('12345678'),
+                    'created_by' => $authUser->name,
+                    'updated_by' => $authUser->name,
+                    'status' => 'active',
+                    'created_at' => now(),
+                ];
+
+                User::insert($user_data);
+
+                DB::commit();
+
+                return response()->json([
+                    'msg' => 'Member Saved Successfully',
+                    'title' => 'Success'
+                ]);
+            }
+
+            DB::rollback();
+            return response()->json([
+                'msg' => 'Error saving member',
+                'title' => 'Error'
+            ]);
+        } else {
+
+            MemberRegistration::where('id', $id)->update($data);
+
+            $user_data = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'update_ref_id' => $authUser->id,
+                'updated_by' => $authUser->name,
+                'updated_at' => now(),
+            ];
+
+            User::where('member_id', $id)->update($user_data);
+
+            DB::commit();
+
+            return response()->json([
+                'msg' => 'Member Updated Successfully',
+                'title' => 'Success'
+            ]);
+        }
+
+    } catch (\Exception $e) {
+        DB::rollback();
+        return response()->json([
+            'msg' => 'An error occurred: ' . $e->getMessage(),
+            'title' => 'Error'
+        ]);
     }
+}
 }
 

@@ -31,6 +31,7 @@
     <form action="{{ route('merber-save') }}" method="POST" id="regForm" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{ $id }}">
+        <input type="hidden" name="status" value="inactive">
         <div class="row mb-3">
             <div class="col-md-3">
                 <div class="form-floating mb-3 mb-md-0">
@@ -220,19 +221,19 @@
                 </div> -->
             </div>
         </div>
-        <div class="row mb-3">
+        {{-- <div class="row mb-3">
             <div class="col-md-6">
-    <div class="form-floating">
-        <select class="form-control" name="status" id="status">
-            <option value="active" @if($is_publish == 'active') selected @endif>Active</option>
-            <option value="inactive" @if($is_publish == 'inactive') selected @endif>Inactive</option>
-            <option value="rejected" @if($is_publish == 'rejected') selected @endif>Rejected</option>
-        </select>
-        <label for="status">Status</label>
-    </div>
-</div>
+                <div class="form-floating">
+                    <select class="form-control" name="status" id="status">
+                        <option value="active" @if ($is_publish == 'active') selected @endif>Active</option>
+                        <option value="inactive" @if ($is_publish == 'inactive') selected @endif>Inactive</option>
+                        <option value="rejected" @if ($is_publish == 'rejected') selected @endif>Rejected</option>
+                    </select>
+                    <label for="status">Status</label>
+                </div>
+            </div>
 
-        </div>
+        </div> --}}
 
         <div class="mt-4 mb-0">
             <div class="d-grid"><button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"

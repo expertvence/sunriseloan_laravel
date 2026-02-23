@@ -31,6 +31,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
     <form action="{{ route('employee-member-save') }}" method="POST" id="regForm" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{$id}}">
+        <input type="hidden" name="status" value="inactive">
         <div class="row mb-3">
             <div class="col-md-3">
                 <div class="form-floating mb-3 mb-md-0">
@@ -218,15 +219,6 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                     </div>
                 </div> -->
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <div class=" mb-3 mb-md-0">
-                    <input id="status" name="status" type="checkbox" value="1" @if ($is_publish == 1) checked @endif />
-                    <label for="status">status</label>
-                </div>
-            </div>
-
         </div>
 
         <div class="mt-4 mb-0">
