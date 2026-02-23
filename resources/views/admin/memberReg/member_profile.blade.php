@@ -1,467 +1,301 @@
 <style>
-    :root {
-        --primary: #4361ee;
-        --secondary: #3f37c9;
-        --success: #4cc9f0;
-        --danger: #f72585;
-        --warning: #f8961e;
-        --info: #4895ef;
-        --dark: #1b263b;
-        --light: #f8f9fa;
-        
-        --gradient-1: linear-gradient(145deg, #667eea, #764ba2);
-        --gradient-2: linear-gradient(145deg, #f093fb, #f5576c);
-        --gradient-3: linear-gradient(145deg, #4facfe, #00f2fe);
-        --gradient-4: linear-gradient(145deg, #43e97b, #38f9d7);
-        --gradient-5: linear-gradient(145deg, #fa709a, #fee140);
-        --gradient-6: linear-gradient(145deg, #a18cd1, #fbc2eb);
-        --gradient-7: linear-gradient(145deg, #ff9a9e, #fad0c4);
-        --gradient-8: linear-gradient(145deg, #a8edea, #fed6e3);
-        
-        --card-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
+:root {
+    --primary: #1e3a8a; /* Soft Blue */
+    --secondary: #059669; /* Soft Green */
+    --neutral-light: #f3f4f6;
+    --neutral-dark: #374151;
+    --accent: #fbbf24; /* Yellow for badges */
+}
+
+/* BODY & CONTAINER */
+body {
+    margin-top: 10px;
+    background: var(--neutral-light);
+    font-family: 'Inter', sans-serif;
+    color: var(--neutral-dark);
+}
+
+.main-body {
+    padding: 15px 10px;
+}
+
+/* MAIN CARD */
+.main-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e5e7eb;
+}
+
+/* AVATAR SECTION */
+.avatar-section {
+    background: #f9fafb;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 3px solid white;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.status-badge-custom {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-badge-custom.active {
+    background: var(--secondary);
+    color: white;
+}
+
+.status-badge-custom.inactive {
+    background: #ef4444;
+    color: white;
+}
+
+/* NAME & ID INFO */
+.name-title h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.id-badge, .mobile-badge {
+    font-size: 0.85rem;
+    padding: 5px 12px;
+    border-radius: 12px;
+    margin-right: 6px;
+    border: 1px solid #d1d5db;
+    color: var(--neutral-dark);
+    background: #f3f4f6;
+}
+
+/* ACTION BUTTONS */
+.action-buttons-custom {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-custom {
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-custom.follow {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-custom.message {
+    background: var(--secondary);
+    color: white;
+}
+
+/* SECTION HEADER */
+.section-header {
+    padding: 10px 15px;
+    margin: 15px 0 8px 0;
+    font-weight: 600;
+    font-size: 1rem;
+    border-left: 4px solid var(--primary);
+    background: #f9fafb;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--neutral-dark);
+}
+
+/* INFO GRID */
+.info-grid-custom {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    padding: 10px 15px;
+}
+
+.info-card-custom {
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.info-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.info-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neutral-dark);
+}
+
+.info-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    color: white;
+}
+
+.info-icon-1 { background: var(--primary); }
+.info-icon-2 { background: var(--secondary); }
+.info-icon-3 { background: #3b82f6; }
+.info-icon-4 { background: #10b981; }
+.info-icon-5 { background: #f59e0b; }
+.info-icon-6 { background: #8b5cf6; }
+
+/* CONTACT GRID */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    padding: 10px 15px;
+}
+
+.contact-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 10px 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.contact-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.contact-icon.address { background: #3b82f6; }
+.contact-icon.email { background: #f59e0b; }
+
+/* NOMINEE SECTION */
+.nominee-wrapper {
+    padding: 10px 15px;
+}
+
+.nominee-card {
+    background: #ffffff;
+    padding: 15px 12px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.nominee-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.nominee-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.nominee-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.relation-badge {
+    background: var(--accent);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+}
+
+/* NOMINEE DETAILS GRID */
+.nominee-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+}
+
+.detail-item {
+    background: #f9fafb;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+/* BADGES */
+.badges-container {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.badge-custom {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-custom.verified { background: #10b981; color: white; }
+.badge-custom.primary { background: #3b82f6; color: white; }
+.badge-custom.active { background: #f59e0b; color: white; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .avatar-section, .nominee-profile {
+        flex-direction: column;
+        text-align: center;
     }
-
-    body {
-        margin-top: 20px;
-        background: linear-gradient(145deg, #667eea15 0%, #764ba215 100%);
-        font-family: 'Inter', sans-serif;
+    
+    .info-grid-custom, .contact-grid, .nominee-details-grid {
+        grid-template-columns: 1fr;
     }
-
-    .main-body {
-        padding: 30px 15px;
-    }
-
-    /* Main Card */
-    .main-card {
-        background: white;
-        border-radius: 32px;
-        box-shadow: var(--card-shadow);
-        overflow: hidden;
-        border: 1px solid rgba(0,0,0,0.05);
-    }
-
-    /* Section Headers */
-    .section-header {
-        padding: 20px 25px;
-        margin: 20px 0 10px 0;
-    }
-
-    .header-personal {
-        background: linear-gradient(145deg, #667eea20, #764ba220);
-        border-left: 8px solid #667eea;
-    }
-
-    .header-contact {
-        background: linear-gradient(145deg, #4facfe20, #00f2fe20);
-        border-left: 8px solid #4facfe;
-    }
-
-    .header-nominee {
-        background: linear-gradient(145deg, #fa709a20, #fee14020);
-        border-left: 8px solid #fa709a;
-    }
-
-    .section-header h3 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .header-personal h3 { color: #667eea; }
-    .header-contact h3 { color: #4facfe; }
-    .header-nominee h3 { color: #fa709a; }
-
-    .section-header i {
-        font-size: 1.8rem;
-        opacity: 0.9;
-    }
-
-    /* Avatar Section */
-    .avatar-section {
-        background: linear-gradient(145deg, #f8fafd, #eef2f6);
-        padding: 30px;
-        border-bottom: 2px solid rgba(0,0,0,0.05);
-    }
-
-    .avatar-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-        flex-wrap: wrap;
-    }
-
-    .avatar-container {
-        position: relative;
-        display: inline-block;
-    }
-
-    .avatar-ring {
-        position: absolute;
-        top: -8px;
-        left: -8px;
-        right: -8px;
-        bottom: -8px;
-        border-radius: 50%;
-        background: linear-gradient(145deg, #667eea, #764ba2, #f093fb, #f5576c);
-        opacity: 0.7;
-    }
-
-    .profile-avatar {
-        width: 140px;
-        height: 140px;
-        border-radius: 50%;
-        border: 5px solid white;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-        position: relative;
-        z-index: 2;
-        object-fit: cover;
-    }
-
-    .status-badge-custom {
-        position: absolute;
-        bottom: 5px;
-        right: 5px;
-        padding: 10px 20px;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        z-index: 3;
-        border: 2px solid white;
-    }
-
-    .status-badge-custom.active {
-        background: linear-gradient(145deg, #43e97b, #38f9d7);
-        color: #0a5c3a;
-    }
-
-    .status-badge-custom.inactive {
-        background: linear-gradient(145deg, #f093fb, #f5576c);
-        color: #7a1f3a;
-    }
-
-    .name-title h1 {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: #1e293b;
-        margin-bottom: 10px;
-    }
-
-    .id-badge {
-        display: inline-block;
-        background: linear-gradient(145deg, #667eea20, #764ba220);
-        color: #667eea;
-        padding: 8px 20px;
-        border-radius: 50px;
-        font-weight: 600;
-        margin-right: 10px;
-        border: 1px solid #667eea40;
-    }
-
-    .mobile-badge {
-        display: inline-block;
-        background: linear-gradient(145deg, #4facfe20, #00f2fe20);
-        color: #4facfe;
-        padding: 8px 20px;
-        border-radius: 50px;
-        font-weight: 600;
-        border: 1px solid #4facfe40;
-    }
-
-    /* Action Buttons */
+    
     .action-buttons-custom {
-        display: flex;
-        gap: 15px;
-        margin-top: 20px;
-    }
-
-    .btn-custom {
-        padding: 14px 35px;
-        border: none;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 1rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: white;
-        border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .btn-custom.follow {
-        background: linear-gradient(145deg, #667eea, #764ba2);
-    }
-
-    .btn-custom.message {
-        background: linear-gradient(145deg, #4facfe, #00f2fe);
-    }
-
-    /* Info Grid */
-    .info-grid-custom {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .info-card-custom {
-        padding: 20px;
-        border-radius: 24px;
-        background: white;
-        border: 1px solid #eef2f6;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-    }
-
-    /* Different Colors for Each Info Card */
-    .info-card-custom:nth-child(1) { border-top: 4px solid #667eea; }
-    .info-card-custom:nth-child(2) { border-top: 4px solid #f5576c; }
-    .info-card-custom:nth-child(3) { border-top: 4px solid #4facfe; }
-    .info-card-custom:nth-child(4) { border-top: 4px solid #43e97b; }
-    .info-card-custom:nth-child(5) { border-top: 4px solid #fa709a; }
-    .info-card-custom:nth-child(6) { border-top: 4px solid #a18cd1; }
-
-    .info-icon {
-        width: 45px;
-        height: 45px;
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
         justify-content: center;
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-        color: white;
     }
-
-    .info-icon-1 { background: linear-gradient(145deg, #667eea, #764ba2); }
-    .info-icon-2 { background: linear-gradient(145deg, #f093fb, #f5576c); }
-    .info-icon-3 { background: linear-gradient(145deg, #4facfe, #00f2fe); }
-    .info-icon-4 { background: linear-gradient(145deg, #43e97b, #38f9d7); }
-    .info-icon-5 { background: linear-gradient(145deg, #fa709a, #fee140); }
-    .info-icon-6 { background: linear-gradient(145deg, #a18cd1, #fbc2eb); }
-
-    .info-label {
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: #64748b;
-        margin-bottom: 6px;
-    }
-
-    .info-value {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #1e293b;
-    }
-
-    /* Contact Cards */
-    .contact-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .contact-card {
-        background: white;
-        padding: 20px;
-        border-radius: 24px;
-        display: flex;
-        align-items: center;
-        gap: 18px;
-        border: 1px solid #eef2f6;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-    }
-
-    .contact-card.address { border-left: 6px solid #4facfe; }
-    .contact-card.email { border-left: 6px solid #fa709a; }
-
-    .contact-icon {
-        width: 55px;
-        height: 55px;
-        border-radius: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        color: white;
-    }
-
-    .contact-icon.address { background: linear-gradient(145deg, #4facfe, #00f2fe); }
-    .contact-icon.email { background: linear-gradient(145deg, #fa709a, #fee140); }
-
-    .contact-label {
-        font-size: 0.85rem;
-        color: #64748b;
-        margin-bottom: 5px;
-    }
-
-    .contact-value {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #1e293b;
-    }
-
-    /* Nominee Section */
-    .nominee-wrapper {
-        padding: 20px;
-    }
-
-    .nominee-card {
-        background: linear-gradient(145deg, #f8fafd, #f1f5f9);
-        border-radius: 24px;
-        padding: 30px;
-        border: 2px dashed #fa709a40;
-    }
-
-    .nominee-profile {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-        margin-bottom: 30px;
-        padding: 20px;
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    }
-
-    .nominee-avatar-wrapper {
-        position: relative;
-    }
-
-    .nominee-ring {
-        position: absolute;
-        top: -8px;
-        left: -8px;
-        right: -8px;
-        bottom: -8px;
-        border-radius: 50%;
-        background: linear-gradient(145deg, #fa709a, #fee140);
-        opacity: 0.5;
-    }
-
-    .nominee-avatar {
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        border: 4px solid white;
-        position: relative;
-        z-index: 2;
-        object-fit: cover;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .nominee-name {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #1e293b;
-        margin-bottom: 8px;
-    }
-
-    .relation-badge {
-        background: linear-gradient(145deg, #fa709a, #fee140);
-        color: white;
-        padding: 8px 20px;
-        border-radius: 50px;
-        font-weight: 600;
-        display: inline-block;
-        border: 2px solid white;
-    }
-
-    /* Nominee Details */
-    .nominee-details-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-
-    .detail-item {
-        background: white;
-        padding: 20px;
-        border-radius: 18px;
-        border: 1px solid #eef2f6;
-    }
-
-    .detail-item.age { border-bottom: 4px solid #4facfe; }
-    .detail-item.id { border-bottom: 4px solid #fa709a; }
-    .detail-item.address { 
-        grid-column: span 2; 
-        border-bottom: 4px solid #43e97b;
-    }
-
-    .detail-label {
-        font-size: 0.9rem;
-        color: #64748b;
-        margin-bottom: 8px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .detail-label i.age { color: #4facfe; }
-    .detail-label i.id { color: #fa709a; }
-    .detail-label i.address { color: #43e97b; }
-
-    .detail-value {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: #1e293b;
-    }
-
-    .detail-value.address-value {
-        font-size: 1.1rem;
-    }
-
-    /* Verification Badges */
-    .badges-container {
-        display: flex;
-        gap: 15px;
-        margin-top: 25px;
-        flex-wrap: wrap;
-    }
-
-    .badge-custom {
-        padding: 10px 20px;
-        border-radius: 50px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: white;
-        border: 1px solid rgba(255,255,255,0.3);
-    }
-
-    .badge-custom.verified { background: linear-gradient(145deg, #43e97b, #38f9d7); }
-    .badge-custom.primary { background: linear-gradient(145deg, #4facfe, #00f2fe); }
-    .badge-custom.active { background: linear-gradient(145deg, #fa709a, #fee140); }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .avatar-wrapper {
-            flex-direction: column;
-            text-align: center;
-        }
-        
-        .contact-grid,
-        .nominee-details-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .detail-item.address {
-            grid-column: span 1;
-        }
-        
-        .nominee-profile {
-            flex-direction: column;
-            text-align: center;
-        }
-        
-        .action-buttons-custom {
-            justify-content: center;
-        }
-    }
+}
 </style>
 
 <!-- Add Fonts -->
