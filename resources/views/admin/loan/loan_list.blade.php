@@ -44,14 +44,37 @@
 
                         <!-- Status Update -->
                         <td class="text-center">
-                            <!-- The current status displayed, will be replaced by dropdown on click -->
-                            <!-- The dropdown menu, hidden by default -->
-                            <select id="statusDropdown{{$value->loan_ide}}" onchange="updateStatus({{$value->loan_ide}})" class="form-control @if($value->status == 'pending') text-danger @elseif($value->status == 'complete') text-success @elseif($value->status == 'rejected') text-danger @endif">
-                                <option value="pending" {{ $value->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="complete" {{ $value->status == 'complete' ? 'selected' : '' }}>Accepted</option>
-                                <option value="rejected" {{ $value->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                            </select>
-                        </td>
+
+    @if(auth()->user()->user_type == 'admin')
+        <!-- Admin can change status -->
+        <select id="statusDropdown{{$value->loan_ide}}"
+                onchange="updateStatus({{$value->loan_ide}})"
+                class="form-control 
+                @if($value->status == 'pending') text-danger 
+                @elseif($value->status == 'complete') text-success 
+                @elseif($value->status == 'rejected') text-danger 
+                @endif">
+
+            <option value="pending" {{ $value->status == 'pending' ? 'selected' : '' }}>Pending</option>
+            <option value="complete" {{ $value->status == 'complete' ? 'selected' : '' }}>Accepted</option>
+            <option value="rejected" {{ $value->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+
+        </select>
+    @else
+        <!-- Other users can only see status -->
+        <span class="
+            @if($value->status == 'pending') text-danger 
+            @elseif($value->status == 'complete') text-success 
+            @elseif($value->status == 'rejected') text-danger 
+            @endif">
+            
+            {{ ucfirst($value->status) }}
+
+        </span>
+    @endif
+
+</td>
+
 
                         <td>
                             <a href="#" target="_blank" rel="noopener noreferrer"><i class="fas fa-user"></i></a>

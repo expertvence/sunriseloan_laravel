@@ -14,6 +14,6 @@ class Users extends Seeder
      */
     public function run()
     {
-        'name'=> 'Admin',
+        
     }
 }

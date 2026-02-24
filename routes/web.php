@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoancategoryController;
 use App\Http\Controllers\LoanCommitController;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\MemberRegistrationController;
 use App\Http\Controllers\TotalAssetController;
 use App\Http\Controllers\UserLoanController;
@@ -42,12 +43,14 @@ Route::get('/', [HomeController::class, 'landingPage'])->name('home_2');
 /* loan Section start */
 // Route::get('/loan-request', 'LoanRequestController@loanRequest')->name('loan-request');
 Route::get('/loan-request', [LoanController::class, 'loanRequest'])->name('loan-request');
+Route::post('/submit-request', [LoanController::class,'loan_store']);
+
 Route::POST('/loan/insert',[LoanController::class,'loan_store'])->name('loan');
 
 Route::get('/show-list',[LoanController::class, 'showLoan_list'])->name('showLoan');
 Route::get('/show-edit/{loan_ide?}',[LoanController::class, 'loanEdit'])->name('edit-loan');
 Route::post('/update-status', [LoanController::class, 'updateStatus'])->name('update-status');
-Route::post('/loan-commit', [LoanCommitController::class, 'insertLoanCommit']);
+
 
 /* Loan section end */
 
@@ -69,6 +72,7 @@ Route::get('/get-total-paid/{loanIde}', [LoanCommitController::class, 'getTotalP
 //Loan commit section
 // Route::get('/loan-commite','LoanCommitController@index')->name('loan-commite');
 Route::get('/loan-commite', [LoanCommitController::class, 'index'])->name('loan-commite');
+Route::post('/loan-commit', [LoanCommitController::class, 'insertLoanCommit']);
 Route::get('/employee-loan-commite', [EmployeeLoanCommitController::class, 'index']);
 Route::get('/employee-get-loans-for-user/{userId}', [EmployeeLoanCommitController::class, 'getLoansForUser']);
 Route::get('/employee-get-loan-details/{loanIde}', [EmployeeLoanCommitController::class, 'getLoanDetails']);
@@ -168,3 +172,9 @@ Route::get('/employee-mem-register-form/{id?}', [EmployeeController::class, 'mem
 Route::post('/member-status-update', 
     [MemberRegistrationController::class, 'updateStatus']
 )->name('member-status-update');
+
+
+
+// manager section
+
+Route::get('/managerDashboards',[ManagerController::class,'managerDashboard'])->name('managerDashboard');

@@ -38,6 +38,9 @@ class CheckUserType
         (Auth::user()->user_type=="employee") {
             // return redirect()->route('member_profile', ['id' => Auth::user()->member_id]);
             return redirect()->route('userDashboard');
+        }elseif(Auth::user()->user_type=="manager"){
+            
+            return redirect()->route('managerDashboard');
         }
         else{
             return redirect('/home'); // Redirect if user type does not match

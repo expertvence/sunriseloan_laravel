@@ -106,3 +106,6 @@ function openDoctorAutocomplete(element_id, hidden_id='', personnel_ind_name = '
         });
     }
 
+
+
+    

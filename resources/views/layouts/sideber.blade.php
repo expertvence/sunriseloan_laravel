@@ -147,11 +147,17 @@
                 <nav class="sb-sidenav-menu-nested nav">
 
                     <a class="nav-link ajax_link" href="#" data-url="{{url('show-list')}}">Loan Request</a>
-                    <a class="nav-link ajax_link" href="#" data-url="{{url('loan-commite')}}">Loan Commit</a>
+                    <a class="nav-link ajax_link" href="#" data-url="{{url('employee-loan-commite')}}">Loan Commit</a>
 
 
                 </nav>
             </div>
+             @elseif(Auth::user()->user_type == 'manager')
+             <div class="sb-sidenav-menu-heading">Manager</div>
+                <a class="nav-link ajax_link" href="#" data-url="{{ route('managerDashboard') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    Dashboard
+                </a>
             @else
                 <div class="sb-sidenav-menu-heading">Core</div>
                 <a class="nav-link ajax_link" href="#" data-url="{{ route('userDashboard') }}">
