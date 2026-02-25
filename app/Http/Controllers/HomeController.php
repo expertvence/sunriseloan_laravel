@@ -435,7 +435,7 @@ class HomeController extends Controller
         $query = $request->search_data;
     
         $filterResult = DB::table('members')->select('members.*','users.id as user_id')->leftJoin('users','users.member_id','=','members.id')->whereRaw(DB::raw(" upper(members.name) LIKE '%$query%'"))->get();
-        //  dd( $filterResult);
+        //   dd( $filterResult);
         $member_data = [];
         if (!empty($filterResult)) {
             foreach ($filterResult as $patient) {

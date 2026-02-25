@@ -6,8 +6,8 @@
     $gender = isset($data->gender) ? $data->gender : '';
     $age = isset($data->age) ? $data->age : '';
     $religion = isset($data->religion) ? $data->religion : '';
-    $fathers_mane = isset($data->fathers_mane) ? $data->fathers_mane : '';
-    $mothers_mane = isset($data->mothers_mane) ? $data->mothers_mane : '';
+    $fathers_name = isset($data->fathers_name) ? $data->fathers_name : '';
+    $mothers_name = isset($data->mothers_name) ? $data->mothers_name : '';
     $mobile = isset($data->mobile) ? $data->mobile : '';
     $address = isset($data->address) ? $data->address : '';
     $email = isset($data->email) ? $data->email : '';
@@ -21,7 +21,7 @@
 
 <div class="card-body">
     <div> <h1> Create Manager</h1></div>
-    <form action="" method="POST" id="regForm" enctype="multipart/form-data">
+    <form action="{{ route('manager-create') }}" method="POST" id="regForm" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{ $id }}">
         <input type="hidden" name="status" value="inactive">
@@ -62,7 +62,7 @@
             </div>
             <div class="col-md-3">
                 <div class="form-floating mb-3 mb-md-0">
-                    <input class="form-control" id="age" name="age" type="text"
+                    <input class="form-control" id="age" name="age" type="number"
                         placeholder="Enter your age" value="{{ $age }}" />
                     <label for="age">Age</label>
                 </div>
@@ -84,15 +84,15 @@
         <div class="row mb-3">
             <div class="col-md-3">
                 <div class="form-floating mb-3 mb-md-0">
-                    <input class="form-control" id="fathers_mane" name="fathers_mane" type="text"
-                        placeholder="Enter your father's name" value="{{ $fathers_mane }}" />
+                    <input class="form-control" id="fathers_mane" name="fathers_name" type="text"
+                        placeholder="Enter your father's name" value="{{ $fathers_name }}" />
                     <label for="fathers_mane">Father's Name</label>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-floating mb-3 mb-md-0">
                     <input class="form-control" id="mothers_name" name="mothers_name" type="text"
-                        placeholder="Enter your mother's name" value="{{ $mothers_mane }}" />
+                        placeholder="Enter your mother's name" value="{{ $mothers_name }}" />
                     <label for="mothers_name">Mothers Name</label>
                 </div>
             </div>
@@ -225,7 +225,7 @@
 
         <div class="mt-4 mb-0">
             <div class="d-grid"><button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"
-                    redirect="{{ route('member-list') }}">Create Account</button></div>
+                    redirect="{{ route('manager-list') }}">Create Account</button></div>
             {{-- {{route('member-list')}} --}}
         </div>
     </form>

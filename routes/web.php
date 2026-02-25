@@ -183,5 +183,8 @@ Route::post('/member-status-update',
 
 Route::get('/managerDashboards',[ManagerController::class,'managerDashboard'])->name('managerDashboard');
 Route::post('/submit-request', [LoanRequestController::class, 'store'])->name('submit-request');
+Route::get('/loan-request-list', [LoanRequestController::class, 'loanRequestList'])->name('loan-request-list');
 
-Route::get('/manager-create-form', [ManagerAddController::class, 'managerCreate'])->name('manager-create-form');
+Route::get('/manager-create-form/{id?}', [ManagerAddController::class, 'managerCreate'])->name('manager-create-form');
+Route::post('/manager-create', [ManagerAddController::class, 'store'])->name('manager-create');
+Route::get('/manager-list', [ManagerAddController::class, 'managerList'])->name('manager-list');

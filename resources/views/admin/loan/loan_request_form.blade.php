@@ -1,6 +1,5 @@
-
 @php
-    $data =DB::table('loancategories')->get();
+    $data = DB::table('loancategories')->get();
 @endphp
 <meta name="csrf-token" content="your-csrf-token-here">
 
@@ -22,7 +21,10 @@
                 <div class="form-group">
                     <label for="user_name">User Name</label>
                     <input type="text" class="form-control" id="member_name" name="member_name" required>
+                    <!-- hidden fields to send ID and duplicate ID -->
+                    <input type="hidden" id="member_id" name="member_id">
                     <input type="hidden" id="user_id" name="user_id">
+
                     <ul id="user-suggestions" class="list-group" style="display:none;"></ul>
                 </div>
             </div>
@@ -52,20 +54,22 @@
             <div class="col-md-4">
                 <label for="loanCategory" class="form-label">Loan Category</label>
                 <select id="loanCategory" class="form-select" name="loan_category_id" required>
-                    @foreach($data as $cat)
-                    <option value="$cat->id">{{ $cat->loan_category??"" }}</option>
-                @endforeach
+                    @foreach ($data as $cat)
+                        <option value="$cat->id">{{ $cat->loan_category ?? '' }}</option>
+                    @endforeach
                 </select>
             </div>
 
             <div class="col-md-4">
                 <label for="loanTerm" class="form-label">Loan Term (Months)</label>
-                <select class="form-select" id="loanTerm" name="loan_term" required>
+                {{-- <select class="form-select" id="loanTerm" name="loan_term" required>
                     <option value="">---select---</option>
                     @for ($i = 1; $i <= 60; $i++)
                         <option value="{{ $i }}">{{ $i }}</option>
                     @endfor
-                </select>
+                </select> --}}
+                <input type="text" name="weekly" class="form-control " id="loanTerm" placeholder="Weekely"
+                    readonly>
             </div>
 
             <div class="col-md-4">
@@ -98,7 +102,12 @@
 
 
         <!-- <button type="submit" onclick="save(this)" class="btn btn-primary btn-block" redirect="#">Payment</button> -->
-        <button type="submit" class="btn btn-primary" id="createLoanButton">Create Loan</button>
+        {{-- <button type="submit" class="btn btn-primary" id="createLoanButton">Create Loan</button> --}}
+        <div class="mt-4 mb-0">
+            <div class="d-grid"><button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"
+                    redirect="{{ route('manager-list') }}">Create Loan</button></div>
+            {{-- {{route('member-list')}} --}}
+        </div>
         <div id="message" style="display: none; color:red;"></div>
     </form>
 

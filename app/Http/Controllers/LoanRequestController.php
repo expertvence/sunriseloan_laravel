@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Library\Template;
 use App\Loan;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,58 +17,83 @@ class LoanRequestController extends Controller
         return Template::loadView('admin/loan/loan_request');
     }
 
-     public function store(Request $request)
+     public function loanRequestList()
     {
-        dd($request->all());    
-        // try {
-             DB::beginTransaction();
-            // Validate the request
-            $validator = Validator::make($request->all(), [
-                'user_id'           => 'required|exists:users,id',
-                'loan_amount'       => 'required|numeric|min:1',
-                'loan_purpose'      => 'required|string|max:1000',
-                'loan_category_id'  => 'required|exists:loancategories,id',
-                'loan_term'         => 'required|integer|min:1|max:60',
-                'monthly_income'    => 'required|numeric|min:0',
-                'other_documents'   => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048', // max 2MB
+        $data = Loan::all();
+        // dd($data);
+         return Template::loadView('admin/loan/loan_list', ['data' => $data]);
+    }
+
+    public function store(Request $request)
+{
+    try {
+
+        DB::beginTransaction();
+
+        // ✅ Validation
+        $request->validate([
+            'member_id'        => 'required|exists:members,id',
+            'loan_amount'      => 'required|numeric|min:1',
+            'loan_purpose'     => 'required|string|max:1000',
+            'loan_category_id' => 'required|',
+            'loan_term'        => 'required|integer|min:1|max:60',
+            'monthly_income'   => 'required|numeric|min:0',
+            'other_documents'  => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+        ]);
+
+        // ✅ Get user using member_id (same system logic)
+        $user = User::where('member_id', $request->member_id)->first();
+
+        if (!$user) {
+            DB::rollback();
+            return response()->json([
+                'msg' => 'User not found for selected member',
+                'title' => 'Error'
             ]);
+        }
 
-            if ($validator->fails()) {
-                return back()->withErrors($validator)->withInput();
-            }
+        // ✅ File Upload
+        $filePath = null;
+        if ($request->hasFile('other_documents')) {
+            $uploadedFile = $request->file('other_documents');
+            $fileName = time() . '_' . $uploadedFile->getClientOriginalName();
+            $destinationPath = public_path('images/loan_documents');
+            $uploadedFile->move($destinationPath, $fileName);
+            $filePath = $fileName;
+        }
 
-            // Handle file upload if exists
-            $filePath = null;
-            if ($request->hasFile('other_documents')) {
-                $filePath = $request->file('other_documents')->store('loan_documents', 'public');
-            }
+        // ✅ Data Array (Like your member system)
+        $data = [
+            'user_id'         => $user->id,
+            'member_id'       => $request->member_id,
+            'loan_amount'     => $request->loan_amount,
+            'loan_purpose'    => $request->loan_purpose,
+            'loan_category_id'=> $request->loan_category_id,
+            'loan_term'       => $request->loan_term,
+            'monthly_income'  => $request->monthly_income,
+            'other_documents' => $filePath,
+            'status'          => 'pending',
+            'created_by'      => Auth::user()->name,
+            'created_at'      => now(),
+        ];
 
-            // Create Loan
-            $loan = Loan::create([
-                'user_id'           => $request->user_id,
-                'loan_amount'       => $request->loan_amount,
-                'loan_purpose'      => $request->loan_purpose,
-                'loan_category_id'  => $request->loan_category_id,
-                'loan_term'         => $request->loan_term,
-                'monthly_income'    => $request->monthly_income,
-                'other_documents'   => $filePath,
-                'status'            => 'pending',
-            ]);
+        Loan::insert($data);
 
-           
-                return response()->json([
-                    'msg' => 'Loan Request Updated Successfully',
-                    'title' => 'Success'
-                ]);
-        // } catch (\Exception $e) {
+        DB::commit();
 
-        //     DB::rollback();
+        return response()->json([
+            'msg' => 'Loan Request Submitted Successfully',
+            'title' => 'Success'
+        ]);
 
-        //     return response()->json([
-        //         'msg' => 'Error: ' . $e->getMessage(),
-        //         'title' => 'Error'
-        //     ]);
-        // }
+    } catch (\Exception $e) {
+
+        DB::rollback();
+
+        return response()->json([
+            'msg' => 'Error: ' . $e->getMessage(),
+            'title' => 'Error'
+        ]);
     }
 }
-
+}

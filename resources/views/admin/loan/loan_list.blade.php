@@ -3,7 +3,7 @@
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
-   Loan Request
+        Loan Request
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -12,13 +12,15 @@
                     <tr>
                         <th>SL#</th>
                         <th>Name</th>
-                        <th>Id</th>
+                        {{-- <th>Id</th> --}}
                         <th>Loan amount</th>
                         <th>Monthly Income</th>
                         <th>Loan Purpose</th>
                         <th>Loan Terms</th>
+                        @if(auth()->user()->user_type == 'admin')
                         <th>Payment Schedule</th>
                         <th>Documents</th>
+                        @endif
                         <th>Email</th>
                         <th>Date</th>
                         <th>Status</th>
@@ -28,62 +30,72 @@
 
                 <tbody>
                     @if (!empty($data))
-                    @foreach ($data as $value)
-                    <tr>
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$value->user? $value->user->name: 'no user'}}</td>
-                        <td>{{$value->loan_ide}}</td>
-                        <td>{{$value->loan_amount}}</td>
-                        <td>{{$value->monthly_income}}</td>
-                        <td>{{$value->loan_purpose}}</td>
-                        <td>{{$value->loan_term}}</td>
-                        <td>{{$value->payment_schedule}}</td>
-                        <td><!-- {{$value->other_documents}} --></td>
-                        <td>{{$value->user?$value->user->email: 'no email'}}</td>
-                        <td>{{ $value->created_at->format('Y-m-d H:i:s') }}</td>
+                        @foreach ($data as $value)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $value->user ? $value->user->name : 'no user' }}</td>
+                                {{-- <td>{{ $value->loan_ide }}</td> --}}
+                                <td>{{ $value->loan_amount }}</td>
+                                <td>{{ $value->monthly_income }}</td>
+                                <td>{{ $value->loan_purpose }}</td>
+                                <td>{{ $value->loan_term }}</td>
+                                @if(auth()->user()->user_type == 'admin')
+                                <td>{{ $value->payment_schedule }}</td>
+                                <td><!-- {{ $value->other_documents }} --></td>
+                                @endif
+                                <td>{{ $value->user ? $value->user->email : 'no email' }}</td>
+                                <td>{{ $value->created_at->format('Y-m-d H:i:s') }}</td>
 
-                        <!-- Status Update -->
-                        <td class="text-center">
+                                <!-- Status Update -->
+                                <td class="text-center">
 
-    @if(auth()->user()->user_type == 'admin')
-        <!-- Admin can change status -->
-        <select id="statusDropdown{{$value->loan_ide}}"
-                onchange="updateStatus({{$value->loan_ide}})"
-                class="form-control 
-                @if($value->status == 'pending') text-danger 
+                                    @if (auth()->user()->user_type == 'admin')
+                                        <!-- Admin can change status -->
+                                        <select id="statusDropdown{{ $value->loan_ide }}"
+                                            onchange="updateStatus({{ $value->loan_ide }})"
+                                            class="form-control 
+                @if ($value->status == 'pending') text-danger 
                 @elseif($value->status == 'complete') text-success 
-                @elseif($value->status == 'rejected') text-danger 
-                @endif">
+                @elseif($value->status == 'rejected') text-danger @endif">
 
-            <option value="pending" {{ $value->status == 'pending' ? 'selected' : '' }}>Pending</option>
-            <option value="complete" {{ $value->status == 'complete' ? 'selected' : '' }}>Accepted</option>
-            <option value="rejected" {{ $value->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                            <option value="pending"
+                                                {{ $value->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="complete"
+                                                {{ $value->status == 'complete' ? 'selected' : '' }}>Accepted</option>
+                                            <option value="rejected"
+                                                {{ $value->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
 
-        </select>
-    @else
-        <!-- Other users can only see status -->
-        <span class="
-            @if($value->status == 'pending') text-danger 
+                                        </select>
+                                    @else
+                                        <!-- Other users can only see status -->
+                                        <span
+                                            class="
+            @if ($value->status == 'pending') text-danger 
             @elseif($value->status == 'complete') text-success 
-            @elseif($value->status == 'rejected') text-danger 
-            @endif">
-            
-            {{ ucfirst($value->status) }}
+            @elseif($value->status == 'rejected') text-danger @endif">
 
-        </span>
-    @endif
+                                            {{ ucfirst($value->status) }}
 
-</td>
+                                        </span>
+                                    @endif
+
+                                </td>
 
 
-                        <td>
-                            <a href="#" target="_blank" rel="noopener noreferrer"><i class="fas fa-user"></i></a>
-                            <span class="btn btn-sm open-modal btnView" data-action="{{url('show-edit',$value->loan_ide)}}" data-modal="common-modal-md" data-title=" Member Edit" title="Edit" data-id="{{$value->loan_ide}}">
-                                <i class="fas fa-edit"></i>
-                            </span>
-                        </td>
-                    </tr>
-                    @endforeach
+                                <td>
+                                    <a href="#" target="_blank" rel="noopener noreferrer"><i
+                                            class="fas fa-user"></i></a>
+                                            @if(auth()->user()->user_type == 'admin')
+                                    <span class="btn btn-sm open-modal btnView"
+                                        data-action="{{ url('show-edit', $value->loan_ide) }}"
+                                        data-modal="common-modal-md" data-title=" Member Edit" title="Edit"
+                                        data-id="{{ $value->loan_ide }}">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                            @endif
+                                </td>
+                            </tr>
+                        @endforeach
                     @endif
                 </tbody>
             </table>
@@ -101,39 +113,41 @@
         });
     });
 
-   
-  function updateStatus(loan_ide)
-   {
-    let statuschange=$("#statusDropdown" +loan_ide).val();
 
-    $.ajax({
-        url:"{{route('update-status')}}",
-        type: 'POST',
-        data: {
-            _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
-            loan_ide: loan_ide,         // The ID of the loan
-            status: statuschange,       // The new status selected
-        },
+    function updateStatus(loan_ide) {
+        let statuschange = $("#statusDropdown" + loan_ide).val();
 
-        success: function(response) {
-            // On success, you could show a message, update the UI, etc.
-            if(response.success)  {
-                if (statuschange === 'pending') {
-                    $("#statusDropdown" + loan_ide).removeClass('text-success text-danger').addClass('text-danger');
-                } else if (statuschange === 'complete') {
-                    $("#statusDropdown" + loan_ide).removeClass('text-danger text-success').addClass('text-success');
-                } else if (statuschange === 'rejected') {
-                    $("#statusDropdown" +loan_ide).removeClass('text-success text-danger').addClass('text-danger');
+        $.ajax({
+            url: "{{ route('update-status') }}",
+            type: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
+                loan_ide: loan_ide, // The ID of the loan
+                status: statuschange, // The new status selected
+            },
+
+            success: function(response) {
+                // On success, you could show a message, update the UI, etc.
+                if (response.success) {
+                    if (statuschange === 'pending') {
+                        $("#statusDropdown" + loan_ide).removeClass('text-success text-danger').addClass(
+                            'text-danger');
+                    } else if (statuschange === 'complete') {
+                        $("#statusDropdown" + loan_ide).removeClass('text-danger text-success').addClass(
+                            'text-success');
+                    } else if (statuschange === 'rejected') {
+                        $("#statusDropdown" + loan_ide).removeClass('text-success text-danger').addClass(
+                            'text-danger');
+                    }
+                } else {
+                    alert(response.message || 'Error updating status');
                 }
-            } else {
-                 alert(response.message || 'Error updating status');
+            },
+            error: function() {
+                // Handle any AJAX errors
+                alert('An error occurred while updating the status');
             }
-        },
-        error: function() {
-            // Handle any AJAX errors
-            alert('An error occurred while updating the status');
-        }
-    });
+        });
 
-   }
+    }
 </script>

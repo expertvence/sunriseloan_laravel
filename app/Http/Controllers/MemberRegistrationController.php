@@ -17,32 +17,7 @@ class MemberRegistrationController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
         try {
@@ -112,13 +87,30 @@ class MemberRegistrationController extends Controller
 
                 if ($member_id) {
 
+                    // ✅ Generate unique user_name
+                    $nameParts = explode(' ', $request->name); // Split name into parts
+                    $firstLetter = strtolower(substr($nameParts[0], 0, 1)); // First letter of first name
+                    $lastName = isset($nameParts[1]) ? strtolower($nameParts[1]) : ''; // Last name if exists
+                    $emailPrefix = strtolower(explode('@', $request->email)[0]); // Email before @
+                    $baseUserName = "@{$firstLetter}{$lastName}_{$emailPrefix}_sunriseloan";
+
+                    // Ensure uniqueness
+                    $userName = $baseUserName;
+                    $counter = 1;
+                    while (User::where('user_name', $userName)->exists()) {
+                        $userName = $baseUserName . $counter;
+                        $counter++;
+                    }
+
+
                     $user_data = [
                         'name' => $request->name,
+                        'user_name' => $userName,
                         'email' => $request->email,
                         'member_id' => $member_id,
                         'password' => Hash::make('12345678'),
                         'status' => 'active',
-                        'user_type' => 'user',
+                        'user_type' => 'manager',
                         'ref_id' => Auth::user()->id,
                         'created_by' => Auth::user()->name,
                         'created_at' => now(),

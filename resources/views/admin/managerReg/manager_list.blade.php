@@ -51,13 +51,13 @@
                             @foreach ($data as $value)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $value->Uid }}</td>
+                                    <td>{{ $value->Uid ?? 'N/A' }}</td>
                                     <td>{{ $value->name }}</td>
                                     {{-- <td>{{ $value->age }}</td>
                                      <td>{{ $value->gender }}</td>
                                     <td>{{ $value->religion }}</td> --}}
-                                    <td>{{ $value->fathers_mane }}</td>
-                                    <td>{{ $value->mothers_mane }}</td>
+                                    <td>{{ $value->fathers_name }}</td>
+                                    <td>{{ $value->mothers_name }}</td>
                                     <td>{{ $value->email }}</td>
                                     {{-- <td>{{ $value->address }}</td> --}}
                                     <td class="text-center">
@@ -87,8 +87,8 @@
                                         <a href="{{ route('member_profile', $value->id) }}" target="_blank"
                                             rel="noopener noreferrer"><i class="fas fa-user"></i></a>
                                         <span class="btn btn-sm  open-modal btnView"
-                                            data-action="{{ route('member-register-form', $value->id) }}"
-                                            data-modal="common-modal-md" data-title=" Member Edit" title="Edit"
+                                            data-action="{{ route('manager-create-form', $value->id) }}"
+                                            data-modal="common-modal-md" data-title=" Manager Edit" title="Edit"
                                             data-id="{{ $value->id }}"><i class="fas fa-edit"></i></span>
 
                                     </td>

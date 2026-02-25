@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('gender')->nullable()->after('name');
+
             $table->string('age')->nullable()->after('gender');
             $table->string('religion')->nullable()->after('age');
 
@@ -24,6 +25,7 @@ return new class extends Migration
 
             $table->string('nid')->nullable()->after('address');
             $table->string('profession')->nullable()->after('nid');
+            $table->string('user_name')->unique()->after('profession');
         });
     }
 

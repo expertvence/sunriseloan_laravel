@@ -18,7 +18,33 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','member_id','user_type','updated_by','created_by','status','ref_id','update_ref_id'
+        'name',
+        'email',
+        'password',
+        'member_id',
+        'user_type',
+        'updated_by',
+        'created_by',
+        'status',
+        'ref_id',
+        'update_ref_id',
+        'name',
+        'user_name',  // <--- must include this
+        'email',
+        'password',
+        'gender',
+        'age',
+        'religion',
+        'fathers_name',
+        'mothers_name',
+        'mobile',
+        'address',
+        'nid',
+        'profession',
+        'member_image',
+        'user_type',
+        'created_by',
+        'updated_by',
     ];
 
     /**
@@ -27,7 +53,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -42,18 +69,18 @@ class User extends Authenticatable
     {
         return $this->hasOne(MemberRegistration::class, 'id', 'member_id');
     }
-    public function messages(){
-    return $this->hasMany(Message::class);
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
     public function loans()
     {
-        return $this->hasMany(Loan::class,'user_id');
+        return $this->hasMany(Loan::class, 'user_id');
     }
-        
-   // In User.php model
-public function loanCommit()
-{
-    return $this->hasOne(LoanCommit::class);
-}
 
+    // In User.php model
+    public function loanCommit()
+    {
+        return $this->hasOne(LoanCommit::class);
+    }
 }
