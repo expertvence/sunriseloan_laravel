@@ -8,7 +8,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoancategoryController;
 use App\Http\Controllers\LoanCommitController;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\LoanRequestController;
 use App\Http\Controllers\Manager\ManagerController;
+use App\Http\Controllers\ManagerAddController;
 use App\Http\Controllers\MemberRegistrationController;
 use App\Http\Controllers\TotalAssetController;
 use App\Http\Controllers\UserLoanController;
@@ -43,7 +45,7 @@ Route::get('/', [HomeController::class, 'landingPage'])->name('home_2');
 /* loan Section start */
 // Route::get('/loan-request', 'LoanRequestController@loanRequest')->name('loan-request');
 Route::get('/loan-request', [LoanController::class, 'loanRequest'])->name('loan-request');
-Route::post('/submit-request', [LoanController::class,'loan_store']);
+Route::post('/submit-request', [LoanController::class,'loan_store'])->name('submit-request');
 
 Route::POST('/loan/insert',[LoanController::class,'loan_store'])->name('loan');
 
@@ -98,7 +100,7 @@ Route::get('/installment_payment', [HomeController::class, 'installmentPayment']
 // Route::get('/installment_payment_list', 'HomeController@paymentLIst')->name('installment_payment_list');
 Route::get('/installment_payment_list', [HomeController::class, 'paymentLIst'])->name('installment_payment_list');
 Route::post('/installment_payment_store', [HomeController::class, 'paymentStore'])->name('installment_payment_store');
-Route::post('member-autocomplete-search', [HomeController::class, 'memberAutocompleteSearch'])->name('member-autocomplete-search');
+
 Route::get('/installment_payment_pdf', [HomeController::class, 'paymentPdf'])->name('installment_payment_pdf');
 
 //investment system
@@ -149,6 +151,8 @@ Route::get('/admin-panel', [HomeController::class, 'adminPanel'])->name('admin-p
  Route::get('/employee-salary',[EmployeeSalaryController::class, 'index'])->name('employee-salary');
 
 });
+
+Route::post('member-autocomplete-search', [HomeController::class, 'memberAutocompleteSearch'])->name('member-autocomplete-search');
 // Route::get('/member_profile/{id}', 'HomeController@memberProfile')->name('member_profile');
 Route::get('/member_profile/{id}', [HomeController::class, 'memberProfile'])->name('member_profile');
 //Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
@@ -178,3 +182,6 @@ Route::post('/member-status-update',
 // manager section
 
 Route::get('/managerDashboards',[ManagerController::class,'managerDashboard'])->name('managerDashboard');
+Route::post('/submit-request', [LoanRequestController::class, 'store'])->name('submit-request');
+
+Route::get('/manager-create-form', [ManagerAddController::class, 'managerCreate'])->name('manager-create-form');

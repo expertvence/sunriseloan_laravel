@@ -1,7 +1,7 @@
 @php
     $data = isset($data) && !empty($data) ? $data : [];
     $id = isset($data->id) ? $data->id : '';
-    $Uid = isset($data->Uid) ? $data->Uid : '';
+   
     $name = isset($data->name) ? $data->name : '';
     $gender = isset($data->gender) ? $data->gender : '';
     $age = isset($data->age) ? $data->age : '';
@@ -11,40 +11,34 @@
     $mobile = isset($data->mobile) ? $data->mobile : '';
     $address = isset($data->address) ? $data->address : '';
     $email = isset($data->email) ? $data->email : '';
-    $number_of_share = isset($data->no_of_share) ? $data->no_of_share : '';
-    $share_amt = isset($data->share_amount) ? $data->share_amount : '';
+ 
 
     $nid = isset($data->nid) ? $data->nid : '';
     $member_photo = isset($data->member_photo) ? $data->member_photo : '';
     $member_profession = isset($data->member_profession) ? $data->member_profession : '';
-    $nomini_name = isset($data->nomini_name) ? $data->nomini_name : '';
-    $nomini_relation = isset($data->nomini_relation) ? $data->nomini_relation : '';
-    $nomini_age = isset($data->nomini_age) ? $data->nomini_age : '';
-    $nomini_barth_or_ind = isset($data->nomini_barth_or_ind) ? $data->nomini_barth_or_ind : '';
-    $nomini_address = isset($data->nomini_address) ? $data->nomini_address : '';
-    $nomini_photo = isset($data->nomini_photo) ? $data->nomini_photo : '';
-
-    $is_publish = isset($data->is_publish) ? $data->is_publish : '';
+   
 @endphp
 
 <div class="card-body">
-    <form action="{{ route('merber-save') }}" method="POST" id="regForm" enctype="multipart/form-data">
+    <div> <h1> Create Manager</h1></div>
+    <form action="" method="POST" id="regForm" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{ $id }}">
         <input type="hidden" name="status" value="inactive">
         <div class="row mb-3">
-            <div class="col-md-3">
-                <div class="form-floating mb-3 mb-md-0">
-                    <input class="form-control" style="" id="uid" name="uid" type="text"
-                        placeholder="uid" value="{{ $Uid }}" />
-                    <label for="uid"> Uid </label>
-                </div>
-            </div>
+            
             <div class="col-md-6">
                 <div class="form-floating">
                     <input class="form-control" id="name" name="name" type="text"
                         placeholder="Enter your name" value="{{ $name }}" />
                     <label for="name">Name</label>
+                </div>
+            </div>
+             <div class="col-md-3">
+                <div class="form-floating mb-3 mb-md-0">
+                    <input class="form-control" id="inputEmail" type="text" name="email"
+                        placeholder="name@example.com" value="{{ $email }}" />
+                    <label for="inputEmail">Email </label>
                 </div>
             </div>
             <div class="col-md-3">
@@ -84,13 +78,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-floating mb-3 mb-md-0">
-                    <input class="form-control" id="inputEmail" type="text" name="email"
-                        placeholder="name@example.com" value="{{ $email }}" />
-                    <label for="inputEmail">Email </label>
-                </div>
-            </div>
+           
         </div>
 
         <div class="row mb-3">
@@ -158,7 +146,7 @@
         </div>
 
 
-        <div style="border:1px dotted black; padding:5px">
+        {{-- <div style="border:1px dotted black; padding:5px">
             <div style="text-align:center"><strong> Nomini Information </strong></div>
             <div class="row mb-3">
                 <div class="col-md-3">
@@ -220,7 +208,7 @@
                     </div>
                 </div> -->
             </div>
-        </div>
+        </div> --}}
         {{-- <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating">

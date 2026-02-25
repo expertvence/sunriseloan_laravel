@@ -16,11 +16,25 @@
                     Member Reg
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse" id="member_reg" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                <div class="collapse" id="manager_reg" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link ajax_link" href="#" data-url="{{ route('member-register') }}">Create
                             Member</a>
                         <a class="nav-link ajax_link" href="#" data-url="{{ route('member-list') }}">Member
+                            list</a>
+                    </nav>
+                </div>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#member_reg"
+                    aria-expanded="false" aria-controls="member_reg">
+                    <div class="sb-nav-link-icon"><i class="fas fa-users" style=" font-size: 20px;"></i></div>
+                  Add Manager
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="member_reg" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ route('manager-create-form') }}">Create
+                            Manager</a>
+                        <a class="nav-link ajax_link" href="#" data-url="{{ route('member-list') }}">Manager
                             list</a>
                     </nav>
                 </div>
@@ -158,6 +172,24 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
+
+
+                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#manager-loan-request"
+                    aria-expanded="false" aria-controls="income-expense">
+                    <div class="sb-nav-link-icon"><i class="fas fa-hand-holding" style=" font-size: 20px;"></i></div>
+                    Loan Section
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="manager-loan-request" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('loan-request') }}">Loan Request</a>
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('loan-commite') }}">Loan
+                            Commit</a>
+
+
+                    </nav>
+                </div>
             @else
                 <div class="sb-sidenav-menu-heading">Core</div>
                 <a class="nav-link ajax_link" href="#" data-url="{{ route('userDashboard') }}">

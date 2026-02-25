@@ -1,125 +1,117 @@
+
+@php
+    $data =DB::table('loancategories')->get();
+@endphp
+<meta name="csrf-token" content="your-csrf-token-here">
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js-bootstrap-css/1.2.1/typeaheadjs.min.css"
+    integrity="sha512-jG7NmK8Pm8iKEjw8aIWc+GVFBM33O/Ow4U0Xw34D5yyST0fgmlcV6shsghOXexDsAqtE2TCM6WwNy35qX8E6ng=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <div class="card-body">
-    <h1 class="text-center">Loan Application Form</h1>
-    <form id="loan_request" enctype="multipart/form-data">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <h1 class="text-center">Loan Commit Form</h1>
+    <form action="{{ route('submit-request') }}" method="POST" id="loan-commit-form">
         @csrf
-        <!-- Loan Amount -->
-        <div class="mb-3">
-            <label for="loanAmount" class="form-label">Loan Amount Requested:</label>
-            <input type="number" name="loan_amount" class="form-control" id="loanAmount" placeholder="Enter loan amount" required>
+
+        <div class="row">
+            <!-- User Name Field -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="user_name">User Name</label>
+                    <input type="text" class="form-control" id="member_name" name="member_name" required>
+                    <input type="hidden" id="user_id" name="user_id">
+                    <ul id="user-suggestions" class="list-group" style="display:none;"></ul>
+                </div>
+            </div>
+
+
+            <!-- Loan Amount Field -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="loanAmount" class="form-label">Loan Amount Requested:</label>
+                    <input type="number" name="loan_amount" class="form-control" id="loanAmount"
+                        placeholder="Enter loan amount" required>
+                </div>
+            </div>
         </div>
 
-        <!-- Loan Purpose -->
-        <div class="mb-3">
-            <label for="loanPurpose" class="form-label">Loan Purpose:</label>
-            <textarea class="form-control" name="loan_purpose" id="loanPurpose" rows="3" placeholder="Describe the purpose of the loan" required></textarea>
-        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <td style="vertical-align: text-top">
+                    <label for="loanPurpose" class="form-label">Loan Purpose:</label>
+                    <textarea class="form-control" name="loan_purpose" id="loanPurpose" rows="3"
+                        placeholder="Describe the purpose of the loan" required></textarea>
+            </div>
 
-        <!-- Loan Categories -->
-        <div class="mb-3">
-            <label for="loanCategory" class="form-label">Loan Categories</label>
-            <select id="loanCategory" class="form-select col-md-6" name="loan_category_id" required>
-                <option value="">Loading loan categories...</option>
-            </select>
         </div>
+        <!-- Loan Category, Loan Term, Monthly Income -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="loanCategory" class="form-label">Loan Category</label>
+                <select id="loanCategory" class="form-select" name="loan_category_id" required>
+                    @foreach($data as $cat)
+                    <option value="$cat->id">{{ $cat->loan_category??"" }}</option>
+                @endforeach
+                </select>
+            </div>
 
-        <!-- Loan Term -->
-        <div class="mb-3">
-            <label for="loanTerm" class="form-label">Loan Term (Months):</label>
-            <select class="form-select" id="loanTerm" name="loan_term" required>
-                <option value="">---select---</option>
-                @for($i=1; $i<=60; $i++)
-                    <option value="{{ $i }}">{{ $i }}</option>
-                @endfor
-            </select>
-        </div>
+            <div class="col-md-4">
+                <label for="loanTerm" class="form-label">Loan Term (Months)</label>
+                <select class="form-select" id="loanTerm" name="loan_term" required>
+                    <option value="">---select---</option>
+                    @for ($i = 1; $i <= 60; $i++)
+                        <option value="{{ $i }}">{{ $i }}</option>
+                    @endfor
+                </select>
+            </div>
 
-        <!-- Payment Schedule -->
-        <div class="mb-3">
-            <label for="paymentSchedule" class="form-label">Preferred Payment Schedule:</label>
-            <input type="text" name="payment_schedule" id="paymentSchedule" value="Monthly" class="form-control" readonly>
-        </div>
-
-        <!-- Monthly Income -->
-        <div class="mb-3">
-            <label for="monthlyIncome" class="form-label">Monthly Income:</label>
-            <input type="number" name="monthly_income" class="form-control" id="monthlyIncome" placeholder="Enter monthly income" required>
+            <div class="col-md-4">
+                <label for="monthlyIncome" class="form-label">Monthly Income</label>
+                <input type="number" name="monthly_income" class="form-control" id="monthlyIncome"
+                    placeholder="Enter monthly income" required>
+            </div>
         </div>
 
         <!-- Other Documents -->
-        <div class="mb-3">
-            <label for="otherDocuments" class="form-label">Other Documents (Optional):</label>
-            <input type="file" name="other_documents" class="form-control" id="otherDocuments">
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="otherDocuments" class="form-label">Other Documents (Optional)</label>
+                <input type="file" name="other_documents" class="form-control" id="otherDocuments">
+            </div>
         </div>
 
         <!-- Terms and Conditions -->
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="infoAgreement" required>
-            <label for="infoAgreement" class="form-check-label">I agree that the information provided is true and accurate.</label>
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="infoAgreement" required>
+                    <label for="infoAgreement" class="form-check-label">
+                        I agree that the information provided is true and accurate.
+                    </label>
+                </div>
+            </div>
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary btn-block">Save</button> 
-      <!--   <button type="submit" onclick="saveFile(this)" class="btn btn-primary btn-block" redirect="#">Save</button> -->
+
+
+        <!-- <button type="submit" onclick="save(this)" class="btn btn-primary btn-block" redirect="#">Payment</button> -->
+        <button type="submit" class="btn btn-primary" id="createLoanButton">Create Loan</button>
+        <div id="message" style="display: none; color:red;"></div>
     </form>
+
 </div>
 
 <script>
-    // Fetch loan categories and populate the dropdown
-    fetch('/for-get')
-        .then(response => response.json())
-        .then(data => {
-            const loanCategorySelect = document.getElementById('loanCategory');
-            
-            if (Array.isArray(data) && data.length > 0) {
-                loanCategorySelect.innerHTML = ''; // Clear "Loading..." message
-                loanCategorySelect.appendChild(new Option('Select Loan Category', '')); // Default option
+    openDoctorAutocomplete('#member_name', 'member_id');
+    $(document).ready(function() {
 
-                data.forEach(category => {
-                    const option = document.createElement('option');
-                    option.value = category.percentage;
-                    option.textContent = category.loan_category; // Adjust based on your API response
-                    loanCategorySelect.appendChild(option);
-                });
-            } else {
-                loanCategorySelect.innerHTML = '<option value="">No categories available</option>';
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching loan categories:', error);
-            document.getElementById('loanCategory').innerHTML = '<option value="">Failed to load categories</option>';
-        });
+        $(".data-table").DataTable({
+            "ordering": false,
+            "bAutoWidth": false,
 
-    // Handle the form submission via JavaScript (AJAX)
-    document.getElementById('loan_request').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
-
-        const formData = new FormData(this); // Prepare form data
-
-        // Send form data via AJAX
-        fetch('{{ url("loan/insert") }}', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.msg) {
-                alert(data.msg); // Success message
-                document.getElementById('loan_request').reset(); // Clear the form
-            } else if (data.errors) {
-                // Handle validation errors
-                let errorMessages = '';
-                for (let field in data.errors) {
-                    errorMessages += `${field}: ${data.errors[field].join(', ')}\n`;
-                }
-                alert('Validation errors:\n' + errorMessages); // Show validation errors
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while saving your loan application.');
         });
     });
 </script>
