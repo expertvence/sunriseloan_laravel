@@ -15,7 +15,7 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ftp.project.expertvence.com
-          username: u847662062.sunriseloan
+          username: u847662062.apps
           password: "mI7^CrzLxZKvXPQ@"
           exclude: |
           
