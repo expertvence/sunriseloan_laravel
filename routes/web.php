@@ -165,7 +165,7 @@ Route::get('/for-get',[LoancategoryController::class, 'categoriwithid'])->name('
 }); */
 
 Route::get('/admin-profile', [AdmiProfileController::class, 'index'])->name('admin-profile');
-Route::post('/reset-password', [AdmiProfileController::class, 'resetPassword'])->name('reset.password');
+Route::post('/reset-password', [AdmiProfileController::class, 'resetPassword'])->name('reset-password');
 
 
 Route::get('/employee-member-register', [EmployeeController::class, 'memRegistration'])->name('employee-member-register');

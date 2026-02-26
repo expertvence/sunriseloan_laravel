@@ -21,7 +21,7 @@
                                    
                                        <!-- <a class="small text-white stretched-link" href="#">View Details</a> -->
                                        <div class="small text-white mt-3">
-                                           <h3>{{$countLoan}}</h3>
+                                           {{-- <h3>{{$countLoan}}</h3> --}}
                                        </div>
                                  
                                </div>
@@ -34,7 +34,7 @@
                                   
                                        <!-- <a class="small text-white stretched-link" href="#">View Details</a> -->
                                        <div class="small text-white mt-3">
-                                           <h3>{{$rejectedLoan}}</h3>
+                                           {{-- <h3>{{$rejectedLoan}}</h3> --}}
                                        </div>
                                   
                                </div>
@@ -47,7 +47,7 @@
                                    
                                       <!--  <a class="small text-white stretched-link" href="#">View Details</a> -->
                                        <div class="small text-white">
-                                        <h3>{{$pendingLoan}}</h3>
+                                        {{-- <h3>{{$pendingLoan}}</h3> --}}
                                     </div>
                                  
                                </div>

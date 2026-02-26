@@ -55,11 +55,11 @@ class HomeController extends Controller
          $warningMessage = $remainingAmount < 0 ? 'Total loan exceeds total assets! Remove : '.abs($remainingAmount)  : null;
          
          // Fetch completed loans and calculate total profit
-         $completedLoans = Loan::where('status', 'complete')->get();
-         $totalProfit = $completedLoans->reduce(function ($carry, $loan) {
-             $loanCategory = $loan->loan_category_id ?? 0; // Default to 0 if null
-             return $carry + ($loan->loan_amount * ($loanCategory / 100));
-         }, 0);
+        //  $completedLoans = Loan::where('status', 'complete')->get();
+        //  $totalProfit = $completedLoans->reduce(function ($carry, $loan) {
+        //      $loanCategory = $loan->loan_category_id ?? 0; // Default to 0 if null
+        //      return $carry + ($loan->loan_amount * ($loanCategory / 100));
+        //  }, 0);
      //Exact Capital
     $comitedAmount=LoanCommit::sum('payment_amount');
     $totalExpence=IncomeExpense::where('type','Expense')->sum('income_expence');
@@ -78,7 +78,7 @@ class HomeController extends Controller
             'totalAssets',
             'loan',
             'remainingAmount',
-            'totalProfit',
+            // 'totalProfit',
             'totalUser',
             'warningMessage',
             'exactAssetsWithprofitandwithoutloan',

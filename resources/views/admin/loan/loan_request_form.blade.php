@@ -62,14 +62,15 @@
 
             <div class="col-md-4">
                 <label for="loanTerm" class="form-label">Loan Term (Months)</label>
-                {{-- <select class="form-select" id="loanTerm" name="loan_term" required>
+                <select class="form-select" id="loanTerm" name="loan_term" required>
                     <option value="">---select---</option>
-                    @for ($i = 1; $i <= 60; $i++)
+                    <option value="30">Monthly </option>
+                    <option value="7">Wekly </option>
+                    {{-- @for ($i = 1; $i <= 60; $i++)
                         <option value="{{ $i }}">{{ $i }}</option>
-                    @endfor
-                </select> --}}
-                <input type="text" name="weekly" class="form-control " id="loanTerm" placeholder="Weekely"
-                    readonly>
+                    @endfor --}}
+                </select>
+                
             </div>
 
             <div class="col-md-4">
@@ -105,7 +106,7 @@
         {{-- <button type="submit" class="btn btn-primary" id="createLoanButton">Create Loan</button> --}}
         <div class="mt-4 mb-0">
             <div class="d-grid"><button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"
-                    redirect="{{ route('manager-list') }}">Create Loan</button></div>
+                    redirect="{{ route('loan-request-list') }}">Create Loan</button></div>
             {{-- {{route('member-list')}} --}}
         </div>
         <div id="message" style="display: none; color:red;"></div>

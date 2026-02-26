@@ -47,7 +47,7 @@
 
 
     <!-- FORM START -->
-    <form id="passwordForm" enctype="multipart/form-data">
+    <form id="passwordForm" action="{{ route('reset-password') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <!-- Old Password -->
@@ -82,10 +82,13 @@
         </div>
 
         <!-- BUTTON -->
-        <button type="submit"
+        {{-- <button type="submit"
                 style="width:100%; background:linear-gradient(135deg,#0a2540,#163a63); color:white; border:none; padding:16px 28px; border-radius:40px; font-weight:600; font-size:1.05rem; letter-spacing:0.3px; box-shadow:0 10px 25px rgba(10,37,64,0.3); cursor:pointer; transition:0.3s;">
             <i class="fas fa-save"></i> Update Password
-        </button>
+        </button> --}}
+        <div><button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"
+                    redirect="{{ route('home') }}"style="width:100%; background:linear-gradient(135deg,#0a2540,#163a63); color:white; border:none; padding:16px 28px; border-radius:40px; font-weight:600; font-size:1.05rem; letter-spacing:0.3px; box-shadow:0 10px 25px rgba(10,37,64,0.3); cursor:pointer; transition:0.3s;">
+            <i class="fas fa-save"></i>Create Account</button></div>
     </form>
 
     <!-- Response -->
@@ -99,7 +102,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <!-- Your original jQuery and script - unchanged -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $('#passwordForm').on('submit', function(e) {
         e.preventDefault();
@@ -133,4 +136,4 @@
             }
         });
     });
-</script>
+</script> --}}

@@ -1,37 +1,58 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Library\Template;
 use App\TotalAsset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use DB;
 
 class AdmiProfileController extends Controller
 {
     public function index()
     {
-         return Template::loadView('admin/profile/profile_request');
+        return Template::loadView('admin/profile/profile_request');
     }
 
     public function resetPassword(Request $request)
     {
 
-       $request->validate([
-        'old_password' => 'required',
-        'new_password' => 'required|confirmed|min:8',
-    ]);
+        try {
 
-    $user = auth()->user();
+            DB::beginTransaction();
+            $request->validate([
+                'old_password' => 'required',
+                'new_password' => 'required|confirmed|min:8',
+            ]);
 
-    if (!Hash::check($request->old_password, $user->password)) {
-        return response()->json(['success' => false, 'message' => 'Old password is incorrect.']);
-    }
+            $user = Auth::user();
 
-    DB::table('users')->where('id', $user->id)->update([
-        'password' => Hash::make($request->new_password),
-    ]);
+            if (!Hash::check($request->old_password, $user->password)) {
+                return response()->json(['success' => false, 'message' => 'Old password is incorrect.']);
+            }
 
-    return response()->json(['success' => true, 'message' => 'Password changed successfully.']);
+            DB::table('users')->where('id', $user->id)->update([
+                'password' => Hash::make($request->new_password),
+            ]);
+
+            DB::commit();
+
+            // return response()->json(['success' => true, 'message' => 'Password changed successfully.']);
+            return response()->json([
+                'message' => 'Password Updated Successfully',
+                'title' => 'Success'
+            ]);
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            return response()->json([
+                'msg' => 'Error: ' . $e->getMessage(),
+                'title' => 'Error'
+            ]);
+        }
+        return response()->json($message);
     }
 }

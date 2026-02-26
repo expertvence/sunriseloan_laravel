@@ -62,6 +62,11 @@ class LoanRequestController extends Controller
             $filePath = $fileName;
         }
 
+        if($request->loan_term==30){
+            $payment_schedule= 12;
+        }else{
+            $payment_schedule=52;
+        }
         // ✅ Data Array (Like your member system)
         $data = [
             'user_id'         => $user->id,
@@ -70,6 +75,7 @@ class LoanRequestController extends Controller
             'loan_purpose'    => $request->loan_purpose,
             'loan_category_id'=> $request->loan_category_id,
             'loan_term'       => $request->loan_term,
+            'payment_schedule'=> $payment_schedule,
             'monthly_income'  => $request->monthly_income,
             'other_documents' => $filePath,
             'status'          => 'pending',

@@ -15,11 +15,11 @@
                         {{-- <th>Id</th> --}}
                         <th>Loan amount</th>
                         <th>Monthly Income</th>
-                        <th>Loan Purpose</th>
+                        {{-- <th>Loan Purpose</th> --}}
                         <th>Loan Terms</th>
-                        @if(auth()->user()->user_type == 'admin')
-                        <th>Payment Schedule</th>
-                        <th>Documents</th>
+                        @if (auth()->user()->user_type == 'admin')
+                            <th>Payment Schedule</th>
+                            <th>Documents</th>
                         @endif
                         <th>Email</th>
                         <th>Date</th>
@@ -37,11 +37,25 @@
                                 {{-- <td>{{ $value->loan_ide }}</td> --}}
                                 <td>{{ $value->loan_amount }}</td>
                                 <td>{{ $value->monthly_income }}</td>
-                                <td>{{ $value->loan_purpose }}</td>
-                                <td>{{ $value->loan_term }}</td>
-                                @if(auth()->user()->user_type == 'admin')
-                                <td>{{ $value->payment_schedule }}</td>
-                                <td><!-- {{ $value->other_documents }} --></td>
+                                {{-- <td>{{ $value->loan_purpose }}</td> --}}
+
+                                <td>
+                                    @if ($value->loan_term == 30)
+                                        <span class="badge bg-success">Yearly</span>
+                                    @elseif($value->loan_term == 7)
+                                        <span class="badge bg-primary">Weekly</span>
+                                    @else
+                                        <span class="badge bg-secondary">Custom</span>
+                                    @endif
+                                </td>
+                                @if (auth()->user()->user_type == 'admin')
+                                    <td>{{ $value->payment_schedule }}</td>
+                                    <td>
+                                        <img src="{{ $value->other_documents
+                                            ? asset('images/loan_documents/' . $value->other_documents)
+                                            : asset('default/default.jpg') }}"
+                                            width="80" style="object-fit:cover; border-radius:6px;">
+                                    </td>
                                 @endif
                                 <td>{{ $value->user ? $value->user->email : 'no email' }}</td>
                                 <td>{{ $value->created_at->format('Y-m-d H:i:s') }}</td>
@@ -70,9 +84,9 @@
                                         <!-- Other users can only see status -->
                                         <span
                                             class="
-            @if ($value->status == 'pending') text-danger 
-            @elseif($value->status == 'complete') text-success 
-            @elseif($value->status == 'rejected') text-danger @endif">
+                                            @if ($value->status == 'pending') text-danger 
+                                            @elseif($value->status == 'complete') text-success 
+                                            @elseif($value->status == 'rejected') text-danger @endif">
 
                                             {{ ucfirst($value->status) }}
 
@@ -82,18 +96,61 @@
                                 </td>
 
 
-                                <td>
+                                {{-- <td>
                                     <a href="#" target="_blank" rel="noopener noreferrer"><i
                                             class="fas fa-user"></i></a>
-                                            @if(auth()->user()->user_type == 'admin')
-                                    <span class="btn btn-sm open-modal btnView"
-                                        data-action="{{ url('show-edit', $value->loan_ide) }}"
-                                        data-modal="common-modal-md" data-title=" Member Edit" title="Edit"
-                                        data-id="{{ $value->loan_ide }}">
-                                        <i class="fas fa-edit"></i>
-                                    </span>
-                                            @endif
-                                </td>
+                                    @if (auth()->user()->user_type == 'admin')
+                                        <span class="btn btn-sm open-modal btnView"
+                                            data-action="{{ url('show-edit', $value->loan_ide) }}"
+                                            data-modal="common-modal-md" data-title=" Member Edit" title="Edit"
+                                            data-id="{{ $value->loan_ide }}">
+                                            <i class="fas fa-edit"></i>
+                                        </span>
+                                    @endif
+                                </td> --}}
+
+                                <td style="position:relative;">
+
+    {{-- Main Toggle Button --}}
+    <button type="button" class="btn btn-sm btn-primary toggleAction">
+        <i class="fas fa-ellipsis-v"></i>
+    </button>
+
+    {{-- Hidden Action Buttons --}}
+    <div class="actionBox d-none mt-2">
+
+        {{-- View --}}
+        <a href="{{ url('show-view', $value->loan_ide) }}" 
+           class="btn btn-sm btn-info" 
+           title="View">
+            <i class="fas fa-eye"></i>
+        </a>
+
+        @if (auth()->user()->user_type == 'admin')
+
+            {{-- Edit --}}
+            <span class="btn btn-sm btn-warning open-modal btnView"
+                data-action="{{ url('show-edit', $value->loan_ide) }}"
+                data-modal="common-modal-md"
+                data-title="Member Edit"
+                data-id="{{ $value->loan_ide }}"
+                title="Edit">
+                <i class="fas fa-edit"></i>
+            </span>
+
+            {{-- Delete --}}
+            <button type="button"
+                class="btn btn-sm btn-danger btnDelete"
+                data-id="{{ $value->loan_ide }}"
+                title="Delete">
+                <i class="fas fa-trash"></i>
+            </button>
+
+        @endif
+    </div>
+
+</td>
+
                             </tr>
                         @endforeach
                     @endif
@@ -150,4 +207,10 @@
         });
 
     }
+</script>
+
+<script>
+$(document).on('click', '.toggleAction', function () {
+    $(this).closest('td').find('.actionBox').toggleClass('d-none');
+});
 </script>

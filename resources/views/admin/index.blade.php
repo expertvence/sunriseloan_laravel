@@ -41,7 +41,7 @@
                                    
                                        
                                        <div class="small text-white mt-3">
-                                        <h3>{{number_format($totalProfit,2)}}</h3>
+                                        {{-- <h3>{{number_format($totalProfit,2)}}</h3> --}}
                                        </div>
                                    
                                </div>
