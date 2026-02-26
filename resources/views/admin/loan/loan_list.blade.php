@@ -1,3 +1,63 @@
+
+<style>
+
+/* Wrapper */
+.action-wrapper{
+    position:relative;
+    display:inline-block;
+}
+
+/* Three Dot Button */
+.action-toggle{
+    border-radius:50%;
+    width:36px;
+    height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all .3s ease;
+}
+
+.action-toggle:hover{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:#fff;
+    transform:rotate(90deg);
+}
+
+/* Dropdown Box */
+.action-dropdown{
+    position:absolute;
+    top:45px;
+    right:0;
+    min-width:160px;
+    background:#fff;
+    border-radius:12px;
+    padding:8px 0;
+    display:none;
+    z-index:999;
+    animation:fadeIn .2s ease-in-out;
+}
+
+/* Dropdown Items */
+.action-dropdown .dropdown-item{
+    padding:8px 15px;
+    cursor:pointer;
+    transition:all .2s;
+    font-size:14px;
+}
+
+.action-dropdown .dropdown-item:hover{
+    background:#f1f3f9;
+    padding-left:20px;
+}
+
+/* Animation */
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(-5px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+</style>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <div class="card mb-4">
@@ -131,38 +191,41 @@
 
                                 <td style="position:relative;">
 
-                                    {{-- Main Toggle Button --}}
-                                    <button type="button" class="btn btn-sm btn-primary toggleAction">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
+    <!-- Modern Three Dot Button -->
+    <div class="action-wrapper">
+        <button type="button" class="btn btn-light btn-sm action-toggle">
+            <i class="fas fa-ellipsis-v"></i>
+        </button>
 
-                                    {{-- Hidden Action Buttons --}}
-                                    <div class="actionBox d-none mt-2">
+        <!-- Dropdown Action Box -->
+        <div class="action-dropdown shadow-lg">
 
-                                        {{-- View --}}
-                                        <a href="{{ url('show-view', $value->loan_ide) }}" class="btn btn-sm btn-info"
-                                            title="View">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
+            <a href="{{ url('show-view', $value->loan_ide) }}" 
+               class="dropdown-item text-info">
+                <i class="fas fa-eye me-2"></i> View
+            </a>
 
-                                        @if (auth()->user()->user_type == 'admin')
-                                            {{-- Edit --}}
-                                            <span class="btn btn-sm btn-warning open-modal btnView"
-                                                data-action="{{ url('show-edit', $value->loan_ide) }}"
-                                                data-modal="common-modal-md" data-title="Member Edit"
-                                                data-id="{{ $value->loan_ide }}" title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </span>
+            @if (auth()->user()->user_type == 'admin')
 
-                                            {{-- Delete --}}
-                                            <button type="button" class="btn btn-sm btn-danger btnDelete"
-                                                data-id="{{ $value->loan_ide }}" title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        @endif
-                                    </div>
+                <span class="dropdown-item text-warning open-modal btnView"
+                      data-action="{{ url('show-edit', $value->loan_ide) }}"
+                      data-modal="common-modal-md"
+                      data-title="Member Edit"
+                      data-id="{{ $value->loan_ide }}">
+                    <i class="fas fa-edit me-2"></i> Edit
+                </span>
 
-                                </td>
+                <button type="button"
+                        class="dropdown-item text-danger btnDelete"
+                        data-id="{{ $value->loan_ide }}">
+                    <i class="fas fa-trash me-2"></i> Delete
+                </button>
+
+            @endif
+        </div>
+    </div>
+
+</td>
 
                             </tr>
                         @endforeach
@@ -223,12 +286,15 @@
 </script>
 
 <script>
-    $(document).on('click', '.toggleAction', function() {
-        $(this).closest('td').find('.actionBox').toggleClass('d-none');
-    });
+  $(document).on('click', '.action-toggle', function(e){
+    e.stopPropagation();
 
-    $(document).on('click', '.editAmountBtn', function() {
-        $(this).hide();
-        $(this).closest('td').find('.amountEditBox').removeClass('d-none');
-    });
+    $(".action-dropdown").not($(this).next()).hide(); // close others
+    $(this).next('.action-dropdown').toggle();
+});
+
+// click outside to close
+$(document).on('click', function(){
+    $(".action-dropdown").hide();
+});
 </script>
