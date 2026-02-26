@@ -15,7 +15,7 @@
                         {{-- <th>Id</th> --}}
                         <th>Loan amount</th>
                         <th>Monthly Income</th>
-                        {{-- <th>Loan Purpose</th> --}}
+                        <th>Add Deposit</th>
                         <th>Loan Terms</th>
                         @if (auth()->user()->user_type == 'admin')
                             <th>Payment Schedule</th>
@@ -37,7 +37,27 @@
                                 {{-- <td>{{ $value->loan_ide }}</td> --}}
                                 <td>{{ $value->loan_amount }}</td>
                                 <td>{{ $value->monthly_income }}</td>
-                                {{-- <td>{{ $value->loan_purpose }}</td> --}}
+                                <td>
+
+                                    {{-- Display Button --}}
+                                    <button class="btn btn-sm btn-success editAmountBtn">
+                                        {{ number_format($value->deposit, 2) }}
+                                    </button>
+
+                                    {{-- Hidden Input Section --}}
+                                    <div class="amountEditBox d-none mt-2">
+                                        <input type="number" step="0.01"
+                                            class="form-control form-control-sm amountInput"
+                                            value="{{ $value->deposit }}">
+
+                                        <button class="btn btn-sm btn-primary mt-1 saveAmountBtn"
+                                            data-id="{{ $value->id }}">
+                                            Save
+                                        </button>
+                                    </div>
+
+                                </td>
+
 
                                 <td>
                                     @if ($value->loan_term == 30)
@@ -111,45 +131,38 @@
 
                                 <td style="position:relative;">
 
-    {{-- Main Toggle Button --}}
-    <button type="button" class="btn btn-sm btn-primary toggleAction">
-        <i class="fas fa-ellipsis-v"></i>
-    </button>
+                                    {{-- Main Toggle Button --}}
+                                    <button type="button" class="btn btn-sm btn-primary toggleAction">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
 
-    {{-- Hidden Action Buttons --}}
-    <div class="actionBox d-none mt-2">
+                                    {{-- Hidden Action Buttons --}}
+                                    <div class="actionBox d-none mt-2">
 
-        {{-- View --}}
-        <a href="{{ url('show-view', $value->loan_ide) }}" 
-           class="btn btn-sm btn-info" 
-           title="View">
-            <i class="fas fa-eye"></i>
-        </a>
+                                        {{-- View --}}
+                                        <a href="{{ url('show-view', $value->loan_ide) }}" class="btn btn-sm btn-info"
+                                            title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
 
-        @if (auth()->user()->user_type == 'admin')
+                                        @if (auth()->user()->user_type == 'admin')
+                                            {{-- Edit --}}
+                                            <span class="btn btn-sm btn-warning open-modal btnView"
+                                                data-action="{{ url('show-edit', $value->loan_ide) }}"
+                                                data-modal="common-modal-md" data-title="Member Edit"
+                                                data-id="{{ $value->loan_ide }}" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </span>
 
-            {{-- Edit --}}
-            <span class="btn btn-sm btn-warning open-modal btnView"
-                data-action="{{ url('show-edit', $value->loan_ide) }}"
-                data-modal="common-modal-md"
-                data-title="Member Edit"
-                data-id="{{ $value->loan_ide }}"
-                title="Edit">
-                <i class="fas fa-edit"></i>
-            </span>
+                                            {{-- Delete --}}
+                                            <button type="button" class="btn btn-sm btn-danger btnDelete"
+                                                data-id="{{ $value->loan_ide }}" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        @endif
+                                    </div>
 
-            {{-- Delete --}}
-            <button type="button"
-                class="btn btn-sm btn-danger btnDelete"
-                data-id="{{ $value->loan_ide }}"
-                title="Delete">
-                <i class="fas fa-trash"></i>
-            </button>
-
-        @endif
-    </div>
-
-</td>
+                                </td>
 
                             </tr>
                         @endforeach
@@ -210,7 +223,12 @@
 </script>
 
 <script>
-$(document).on('click', '.toggleAction', function () {
-    $(this).closest('td').find('.actionBox').toggleClass('d-none');
-});
+    $(document).on('click', '.toggleAction', function() {
+        $(this).closest('td').find('.actionBox').toggleClass('d-none');
+    });
+
+    $(document).on('click', '.editAmountBtn', function() {
+        $(this).hide();
+        $(this).closest('td').find('.amountEditBox').removeClass('d-none');
+    });
 </script>
