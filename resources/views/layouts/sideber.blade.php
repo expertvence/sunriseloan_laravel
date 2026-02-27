@@ -1,4 +1,7 @@
+
+
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background: linear-gradient(165deg, #0a0c15 0%, #0f1220 50%, #1a1f2f 100%); color: #F8F8FF; margin-top: 0rem; margin-right: auto; border-right: 1px solid rgba(147, 112, 219, 0.15); box-shadow: 10px 0 30px -10px rgba(0, 0, 0, 0.5), inset -1px 0 0 rgba(255, 255, 255, 0.03); height: 100vh; position: sticky; top: 0;">
+    
     <style>
         /* Ultra Premium Sidebar Styling - Fixed Scrolling Issue */
         .sb-sidenav {
