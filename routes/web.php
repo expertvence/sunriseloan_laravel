@@ -185,7 +185,7 @@ Route::post('/member-status-update',
 
 // manager section
 
-Route::get('/managerDashboards',[ManagerController::class,'managerDashboard'])->name('managerDashboards');
+Route::get('/managerDashboard',[ManagerController::class,'managerDashboard'])->name('managerDashboard');
 Route::post('/submit-request', [LoanRequestController::class, 'store'])->name('submit-request');
 Route::get('/loan-request-list', [LoanRequestController::class, 'loanRequestList'])->name('loan-request-list');
 
