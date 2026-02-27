@@ -16,6 +16,7 @@ class CreateLoansTable extends Migration
         Schema::create('loans', function (Blueprint $table) {
             $table->id('loan_ide');  
             $table->unsignedBigInteger('user_id');
+            $table->string('l_uId')->unique();
             $table->enum('status',['pending','complete','rejected'])->default('pending') ;
             $table->decimal('loan_amount', 15, 2); 
             $table->string('loan_category_id');

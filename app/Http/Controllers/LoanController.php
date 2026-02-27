@@ -74,94 +74,94 @@ class LoanController extends Controller
     //     }
     // }
 
-public function loan_store(Request $request)
-{
-    // Validate the incoming request data
-    $validated = $request->validate([
-        'loan_payment_id' => 'required|exists:loans,loan_ide',
-        'payment_amount' => 'required|numeric',
-        'loan_year' => 'required|integer',
-        'from_month' => 'required|array',
-    ]);
+    public function loan_store(Request $request)
+    {
+        // Validate the incoming request data
+        $validated = $request->validate([
+            'loan_payment_id' => 'required|exists:loans,loan_ide',
+            'payment_amount' => 'required|numeric',
+            'loan_year' => 'required|integer',
+            'from_month' => 'required|array',
+        ]);
 
-    try {
-        $loan = Loan::where('loan_ide', $validated['loan_payment_id'])->first();
-         // If the loan does not exist, return an error
-         if (!$loan) {
-            return response()->json([
-                'message' => 'Loan not found.',
-                'error' => 'Loan ID does not exist in the system.',
-            ], 404);  // Return 404 if loan is not found
-        }
-
-        // Payment amount * number of months
-        $totalPaid = LoanCommit::where('loan_payment_id', $validated['loan_payment_id'])
-        ->sum('payment_amount');
-        //calculate total amount with intetest
-        $interest=$loan->loan_amount*$loan->loan_category_id;
-        //calculate total amount with intrest
-        $totalAmount=$loan->loan_amount+$interest;
-        // Check if the total payment matches the loan amount
-       if ($totalPaid >= $totalAmount) {
-            return response()->json([
-                'message' => 'Total payments have already reached or exceeded the loan amount.',
-                'total_paid' => $totalPaid,
-                'loan_amount' => $loan->loan_amount,
-            ], 400);  // Return 400 if the total payments exceed or match the loan amount
-        }
-
-        // Loop through the selected months and check if there is any duplicate month-year combination
-        foreach ($validated['from_month'] as $month) {
-            // Check if this combination already exists
-            $existingCommit = LoanCommit::where('loan_payment_id', $validated['loan_payment_id'])
-                ->where('loan_year', $validated['loan_year'])
-                ->where('payment_month', $month)
-                ->exists();
-
-            if ($existingCommit) {
-                // If duplicate found, return a response indicating the duplicate month
+        try {
+            $loan = Loan::where('loan_ide', $validated['loan_payment_id'])->first();
+            // If the loan does not exist, return an error
+            if (!$loan) {
                 return response()->json([
-                    'message' => 'Duplicate entry for this loan ID, year, and month.',
-                    'duplicate_month' => $month,  // Return the duplicate month
-                ], 400);  // 400 Bad Request
+                    'message' => 'Loan not found.',
+                    'error' => 'Loan ID does not exist in the system.',
+                ], 404);  // Return 404 if loan is not found
             }
-        }
 
-        // Generate a unique loan_commit_id (e.g., LCN001, LCN002)
-        $lastCommit = LoanCommit::orderBy('created_at', 'desc')->first();
-        $newCommitNumber = $lastCommit ? (int) substr($lastCommit->loan_commit_id, 3) + 1 : 1;
-        $loanCommitId = 'LCN' . str_pad($newCommitNumber, 3, '0', STR_PAD_LEFT);
+            // Payment amount * number of months
+            $totalPaid = LoanCommit::where('loan_payment_id', $validated['loan_payment_id'])
+                ->sum('payment_amount');
+            //calculate total amount with intetest
+            $interest = $loan->loan_amount * $loan->loan_category_id;
+            //calculate total amount with intrest
+            $totalAmount = $loan->loan_amount + $interest;
+            // Check if the total payment matches the loan amount
+            if ($totalPaid >= $totalAmount) {
+                return response()->json([
+                    'message' => 'Total payments have already reached or exceeded the loan amount.',
+                    'total_paid' => $totalPaid,
+                    'loan_amount' => $loan->loan_amount,
+                ], 400);  // Return 400 if the total payments exceed or match the loan amount
+            }
 
-        // Ensure the loan_commit_id is unique
-        while (LoanCommit::where('loan_commit_id', $loanCommitId)->exists()) {
-            $newCommitNumber++;  // Increment the commit number
-            $loanCommitId = 'LCN' . str_pad($newCommitNumber, 3, '0', STR_PAD_LEFT);  // Rebuild the loan_commit_id
-        }
+            // Loop through the selected months and check if there is any duplicate month-year combination
+            foreach ($validated['from_month'] as $month) {
+                // Check if this combination already exists
+                $existingCommit = LoanCommit::where('loan_payment_id', $validated['loan_payment_id'])
+                    ->where('loan_year', $validated['loan_year'])
+                    ->where('payment_month', $month)
+                    ->exists();
 
-        // Insert data into LoanCommit table for each selected month
-        foreach ($validated['from_month'] as $month) {
-            LoanCommit::create([
-                'loan_payment_id' => $validated['loan_payment_id'],
-                'loan_commit_id' => $loanCommitId,
-                'payment_amount' => $validated['payment_amount'],
-                'loan_year' => $validated['loan_year'],
-                'payment_month' => $month,  // Store each month individually
-            ]);
-        }
+                if ($existingCommit) {
+                    // If duplicate found, return a response indicating the duplicate month
+                    return response()->json([
+                        'message' => 'Duplicate entry for this loan ID, year, and month.',
+                        'duplicate_month' => $month,  // Return the duplicate month
+                    ], 400);  // 400 Bad Request
+                }
+            }
 
-       /*  DB::commit();  // Commit the transaction
+            // Generate a unique loan_commit_id (e.g., LCN001, LCN002)
+            $lastCommit = LoanCommit::orderBy('created_at', 'desc')->first();
+            $newCommitNumber = $lastCommit ? (int) substr($lastCommit->loan_commit_id, 3) + 1 : 1;
+            $loanCommitId = 'LCN' . str_pad($newCommitNumber, 3, '0', STR_PAD_LEFT);
+
+            // Ensure the loan_commit_id is unique
+            while (LoanCommit::where('loan_commit_id', $loanCommitId)->exists()) {
+                $newCommitNumber++;  // Increment the commit number
+                $loanCommitId = 'LCN' . str_pad($newCommitNumber, 3, '0', STR_PAD_LEFT);  // Rebuild the loan_commit_id
+            }
+
+            // Insert data into LoanCommit table for each selected month
+            foreach ($validated['from_month'] as $month) {
+                LoanCommit::create([
+                    'loan_payment_id' => $validated['loan_payment_id'],
+                    'loan_commit_id' => $loanCommitId,
+                    'payment_amount' => $validated['payment_amount'],
+                    'loan_year' => $validated['loan_year'],
+                    'payment_month' => $month,  // Store each month individually
+                ]);
+            }
+
+            /*  DB::commit();  // Commit the transaction
         $message = ['msg' => ' Saved Successfully', 'title' => 'Success']; */
-        return response()->json([
-            'message' => 'Loan Commit(s) created successfully',
-        ], 201);  // HTTP Status 201 for successful creation
+            return response()->json([
+                'message' => 'Loan Commit(s) created successfully',
+            ], 201);  // HTTP Status 201 for successful creation
 
-    } catch (\Exception $e) {
-        // Catch any error and return it as a response
-        /* DB::rollback();  // Rollback on error
+        } catch (\Exception $e) {
+            // Catch any error and return it as a response
+            /* DB::rollback();  // Rollback on error
         $message = ['msg' => 'Error saving ', 'title' => 'Error']; */
+        }
+        /*   return response()->json($message); */
     }
-  /*   return response()->json($message); */
-}
 
 
     public function showLoan_list()

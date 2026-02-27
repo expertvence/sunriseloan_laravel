@@ -21,7 +21,7 @@
                         {{-- <li><a class="dropdown-item" href="#!">Logout</a></li> --}}
                         <li class="dropdown-item">
 
-                                {{ Auth::user()->name }}
+                                {{ Auth::user()->name ?? 'na'}}
 
 
                                 <a class="dropdown-item" href="{{ route('logout') }}"
