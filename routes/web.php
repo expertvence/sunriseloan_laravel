@@ -68,23 +68,27 @@ Route::get('/getLoanCommitments', [UserloanController::class, 'getLoanCommitment
 
 
 // Route for fetching loan details based on user id
-Route::get('/get-loans-for-user/{userId}', [LoanCommitController::class, 'getLoansForUser']);
+Route::get('/get-loans-for-user/{userId}', [LoanCommitController::class, 'getLoansForUser'])->name('get-loans-for-user');
 Route::get('/get-loan-details/{loanIde}', [LoanCommitController::class, 'getLoanDetails']);
 Route::get('/get-total-paid/{loanIde}', [LoanCommitController::class, 'getTotalPaid']);
 //Loan commit section
 // Route::get('/loan-commite','LoanCommitController@index')->name('loan-commite');
 Route::get('/loan-commite', [LoanCommitController::class, 'index'])->name('loan-commite');
-Route::post('/loan-commit', [LoanCommitController::class, 'insertLoanCommit']);
+Route::post('/loan-commit-submit', [LoanCommitController::class, 'insertLoanCommit'])->name('loan-commit-submit');
 Route::get('/employee-loan-commite', [EmployeeLoanCommitController::class, 'index']);
-Route::get('/employee-get-loans-for-user/{userId}', [EmployeeLoanCommitController::class, 'getLoansForUser']);
+// Route::get('/employee-get-loans-for-user/{userId}', [EmployeeLoanCommitController::class, 'getLoansForUser']);
 Route::get('/employee-get-loan-details/{loanIde}', [EmployeeLoanCommitController::class, 'getLoanDetails']);
 Route::get('/employee-get-total-paid/{loanIde}', [EmployeeLoanCommitController::class, 'getTotalPaid']);
 Route::post('/employee-loan-commit', [EmployeeLoanCommitController::class, 'insertLoanCommit']);
 Route::get('/employee-loan-commite',[EmployeeLoanCommitController::class, 'index'])->name('employee-loan-commite');
 //insert LoanCommit
 Route::post('/loanCommit', [LoanCommitController::class, 'createLoanCommit'])->name('loanCommit');
-
+// Route::get('/employee-get-loans-for-user/{userId}', [EmployeeLoanCommitController::class, 'getLoansForUser']);
 Route::middleware(['auth', 'user.type:admin'])->group(function () {
+
+
+
+
 // Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 // Route::get('/test', 'HomeController@test')->name('test');

@@ -76,7 +76,7 @@ function openDoctorAutocomplete(element_id, hidden_id='', personnel_ind_name = '
 
                 suggestion: function(item) {
 
-                    // $("#" + hidden_id).val('');
+                    $("#" + hidden_id).val('');
                     // var img_path = "{{ asset('images/doctor.png') }}";
                     // var spec = item.specialization != null ? item.specialization + "," : "";
                     // var ghender = item.gender_txt != null ? item.gender_txt + "," : "";
@@ -98,19 +98,11 @@ function openDoctorAutocomplete(element_id, hidden_id='', personnel_ind_name = '
             }
 
         }).bind("typeahead:selected", function(obj, item, name) {
-
-    console.log("Selected Item:", item);   // ✅ ADD THIS
-
-    if (hidden_id) {
-        $("#" + hidden_id).val(item.id);   // member_id
+            if (onclickCallback != '') {
+                onclickCallback(item, obj)
+            }
+            $("#" + hidden_id).val(item.id);
+            obj.stopImmediatePropagation();
+        });
     }
 
-    $("#user_id").val(item.user_id);       // user_id
-
-});
-
-    }
-
-
-
-    

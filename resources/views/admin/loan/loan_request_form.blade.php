@@ -55,7 +55,7 @@
                 <label for="loanCategory" class="form-label">Loan Category</label>
                 <select id="loanCategory" class="form-select" name="loan_category_id" required>
                     @foreach ($data as $cat)
-                        <option value="$cat->id">{{ $cat->loan_category ?? '' }}</option>
+                        <option value="{{ $cat->id }}">{{ $cat->loan_category ?? '' }}</option>
                     @endforeach
                 </select>
             </div>
