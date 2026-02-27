@@ -511,6 +511,7 @@
         </div>
     </div>
 </nav>
+
 <!-- আপনার sidebar code এর শেষে এই JavaScript টা যোগ করুন -->
 
 <script>

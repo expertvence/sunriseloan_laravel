@@ -1,6 +1,6 @@
 <main>
     <style>
-        /* Simplified Premium Dashboard */
+        /* Simplified Premium Dashboard - Theme Aware */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
         * {
@@ -9,21 +9,16 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --success: #059669;
-            --danger: #dc2626;
-            --warning: #d97706;
-        }
-
+        /* Theme variables already defined in theme-manager */
+        
         body {
             font-family: 'Inter', sans-serif;
-            background: #0b1120;
+            background: var(--bg-primary, #0b1120);
             min-height: 100vh;
+            transition: background 0.3s ease;
         }
 
-        /* Simple topography background */
+        /* Simple topography background - Theme aware */
         body::before {
             content: '';
             position: fixed;
@@ -33,17 +28,25 @@
             bottom: 0;
             background: 
                 repeating-linear-gradient(45deg, 
-                    rgba(99, 102, 241, 0.03) 0px, 
-                    rgba(99, 102, 241, 0.03) 2px,
+                    var(--primary-alpha, rgba(99, 102, 241, 0.03)) 0px, 
+                    var(--primary-alpha, rgba(99, 102, 241, 0.03)) 2px,
                     transparent 2px, 
                     transparent 20px),
                 repeating-linear-gradient(135deg, 
-                    rgba(99, 102, 241, 0.03) 0px, 
-                    rgba(99, 102, 241, 0.03) 2px,
+                    var(--primary-alpha, rgba(99, 102, 241, 0.03)) 0px, 
+                    var(--primary-alpha, rgba(99, 102, 241, 0.03)) 2px,
                     transparent 2px, 
                     transparent 20px);
             pointer-events: none;
             z-index: 0;
+        }
+
+        body.light-mode::before {
+            --primary-alpha: rgba(99, 102, 241, 0.05);
+        }
+
+        body.dark-mode::before {
+            --primary-alpha: rgba(129, 140, 248, 0.03);
         }
 
         /* Main Layout */
@@ -55,26 +58,28 @@
             z-index: 1;
         }
 
-        /* Simple Header */
+        /* Simple Header - Theme aware */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--card-bg, rgba(255, 255, 255, 0.03));
             border-radius: 50px;
             padding: 0.75rem 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
         }
 
         .header h1 {
             font-size: 1.5rem;
             font-weight: 600;
-            color: white;
+            color: var(--text-primary, white);
         }
 
         .header h1 span {
-            color: var(--primary);
+            color: var(--primary, #6366f1);
             font-weight: 700;
         }
 
@@ -88,20 +93,20 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-secondary, rgba(255, 255, 255, 0.8));
             font-size: 0.9rem;
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--card-bg, rgba(255, 255, 255, 0.03));
             padding: 0.4rem 1rem;
             border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
         }
 
         .date-box i, .time-box i {
-            color: var(--primary);
+            color: var(--primary, #6366f1);
         }
 
         .live-badge {
-            background: var(--primary);
+            background: var(--primary, #6366f1);
             color: white;
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
@@ -123,11 +128,11 @@
             margin-bottom: 2rem;
         }
 
-        /* Simple Cards */
+        /* Cards - Theme aware */
         .card {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--card-bg, rgba(255, 255, 255, 0.02));
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
             border-radius: 20px;
             padding: 1.2rem;
             transition: all 0.3s ease;
@@ -135,8 +140,8 @@
 
         .card:hover {
             transform: translateY(-3px);
-            border-color: rgba(99, 102, 241, 0.3);
-            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--primary, rgba(99, 102, 241, 0.3));
+            background: var(--card-hover-bg, rgba(255, 255, 255, 0.03));
         }
 
         .card-header {
@@ -151,7 +156,7 @@
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--text-secondary, rgba(255, 255, 255, 0.5));
         }
 
         .card-icon {
@@ -162,13 +167,13 @@
             align-items: center;
             justify-content: center;
             background: rgba(99, 102, 241, 0.1);
-            color: var(--primary);
+            color: var(--primary, #6366f1);
         }
 
         .card-value {
             font-size: 1.8rem;
             font-weight: 700;
-            color: white;
+            color: var(--text-primary, white);
             margin-bottom: 0.3rem;
         }
 
@@ -180,34 +185,34 @@
         }
 
         .trend-up {
-            color: var(--success);
+            color: var(--success, #059669);
             background: rgba(5, 150, 105, 0.1);
             padding: 0.2rem 0.6rem;
             border-radius: 30px;
         }
 
         .trend-down {
-            color: var(--danger);
+            color: var(--danger, #dc2626);
             background: rgba(220, 38, 38, 0.1);
             padding: 0.2rem 0.6rem;
             border-radius: 30px;
         }
 
         .trend-neutral {
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-secondary, rgba(255, 255, 255, 0.6));
             background: rgba(255, 255, 255, 0.05);
             padding: 0.2rem 0.6rem;
             border-radius: 30px;
         }
 
         .trend-text {
-            color: rgba(255, 255, 255, 0.3);
+            color: var(--text-muted, rgba(255, 255, 255, 0.3));
         }
 
-        /* Alert */
+        /* Alert - Theme aware */
         .alert {
             background: rgba(217, 119, 6, 0.1);
-            border-left: 3px solid var(--warning);
+            border-left: 3px solid var(--warning, #d97706);
             border-radius: 10px;
             padding: 0.8rem;
             display: flex;
@@ -217,19 +222,19 @@
         }
 
         .alert i {
-            color: var(--warning);
+            color: var(--warning, #d97706);
         }
 
         .alert span {
-            color: #fbbf24;
+            color: var(--warning, #fbbf24);
             font-size: 0.9rem;
         }
 
-        /* Analytics Section */
+        /* Analytics Section - Theme aware */
         .analytics {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--card-bg, rgba(255, 255, 255, 0.02));
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
             border-radius: 20px;
             padding: 1.5rem;
             margin-top: 1.5rem;
@@ -243,7 +248,7 @@
         }
 
         .analytics-header h3 {
-            color: white;
+            color: var(--text-primary, white);
             font-size: 1.1rem;
             font-weight: 600;
             display: flex;
@@ -252,7 +257,7 @@
         }
 
         .analytics-header h3 i {
-            color: var(--primary);
+            color: var(--primary, #6366f1);
         }
 
         .analytics-grid {
@@ -263,14 +268,14 @@
 
         .metric {
             background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
             border-radius: 15px;
             padding: 1rem;
         }
 
         .metric-label {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--text-secondary, rgba(255, 255, 255, 0.4));
             text-transform: uppercase;
             margin-bottom: 0.3rem;
         }
@@ -278,7 +283,7 @@
         .metric-value {
             font-size: 1.3rem;
             font-weight: 600;
-            color: white;
+            color: var(--text-primary, white);
             margin-bottom: 0.2rem;
         }
 
@@ -292,38 +297,39 @@
         }
 
         .metric-change.positive {
-            color: var(--success);
+            color: var(--success, #059669);
             background: rgba(5, 150, 105, 0.1);
         }
 
         .metric-change.negative {
-            color: var(--danger);
+            color: var(--danger, #dc2626);
             background: rgba(220, 38, 38, 0.1);
         }
 
-        /* Table Section */
+        /* Table Section - Theme aware */
         .table-section {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--card-bg, rgba(255, 255, 255, 0.02));
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
             border-radius: 20px;
             padding: 1.5rem;
             margin-top: 1.5rem;
         }
 
         .table-section h5 {
-            color: white;
+            color: var(--text-primary, white);
             font-weight: 500;
         }
 
         .export-btn {
             background: rgba(99, 102, 241, 0.1);
-            color: var(--primary);
+            color: var(--primary, #6366f1);
             border: 1px solid rgba(99, 102, 241, 0.2);
             padding: 0.4rem 1rem;
             border-radius: 30px;
             font-size: 0.8rem;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .export-btn:hover {
@@ -344,19 +350,56 @@
             .stats-grid, .analytics-grid { grid-template-columns: 1fr; }
         }
 
-        /* DataTable */
-        .dataTables_wrapper { color: rgba(255, 255, 255, 0.8); }
+        /* DataTable - Theme aware */
+        .dataTables_wrapper { 
+            color: var(--text-primary, rgba(255, 255, 255, 0.8)); 
+        }
+        
         .dataTables_filter input {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg, rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
             border-radius: 30px;
             padding: 0.4rem 1rem 0.4rem 2.2rem;
-            color: white;
+            color: var(--text-primary, white);
         }
+        
+        .dataTables_filter input::placeholder {
+            color: var(--text-muted, rgba(255, 255, 255, 0.5));
+        }
+        
         .dataTables_length select {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
+            background: var(--card-bg, rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+            color: var(--text-primary, white);
+        }
+
+        /* Light mode specific adjustments */
+        body:not(.dark-mode) {
+            --bg-primary: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --primary: #6366f1;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        body:not(.dark-mode) .card {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        body:not(.dark-mode) .header h1 {
+            color: #0f172a;
+        }
+
+        body:not(.dark-mode) .date-box,
+        body:not(.dark-mode) .time-box {
+            background: #f1f5f9;
+            border-color: #e2e8f0;
+            color: #334155;
         }
     </style>
 
@@ -379,7 +422,7 @@
             </div>
         </div>
 
-        <!-- Stats Grid -->
+        <!-- Stats Grid (your existing PHP code remains exactly the same) -->
         <div class="stats-grid">
             <!-- Total Assets -->
             <div class="card">
@@ -493,7 +536,7 @@
             </div>
         </div>
 
-        <!-- Analytics -->
+        <!-- Analytics (your existing PHP code remains exactly the same) -->
         <div class="analytics">
             <div class="analytics-header">
                 <h3><i class="fas fa-chart-line"></i> Key Metrics</h3>
@@ -530,7 +573,7 @@
             </div>
         </div>
 
-        <!-- Data Table -->
+        <!-- Data Table (your existing code remains exactly the same) -->
         @if(isset($dataTable))
         <div class="table-section">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -549,7 +592,7 @@
     <script>
         // Simple function to update time - this WILL work
         function startLiveClock() {
-            console.log("Clock started"); // Debug: Check if script runs
+            console.log("Clock started");
             
             const dateElement = document.getElementById('currentDate');
             const timeElement = document.getElementById('currentTime');
@@ -580,19 +623,15 @@
                 const ampm = hours >= 12 ? 'PM' : 'AM';
                 
                 hours = hours % 12;
-                hours = hours ? hours : 12; // 0 becomes 12
+                hours = hours ? hours : 12;
                 
-                // Add leading zeros
                 minutes = minutes < 10 ? '0' + minutes : minutes;
                 seconds = seconds < 10 ? '0' + seconds : seconds;
                 
                 timeElement.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
             }
             
-            // Update immediately
             update();
-            
-            // Update every second (1000 milliseconds)
             setInterval(update, 1000);
         }
 
@@ -600,7 +639,6 @@
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', startLiveClock);
         } else {
-            // DOM already loaded
             startLiveClock();
         }
 
@@ -618,6 +656,12 @@
                     }
                 });
             }
+        });
+
+        // Theme change listener for this page
+        window.addEventListener('themeChanged', function(e) {
+            console.log('Theme changed to:', e.detail.theme);
+            // Page will auto-update via CSS variables
         });
     </script>
 </main>

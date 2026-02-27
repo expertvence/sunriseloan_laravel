@@ -29,201 +29,21 @@
 
 <style>
 :root {
+    /* Light mode variables - now using theme-manager variables */
     --primary-color: #4361ee;
     --primary-hover: #3730a3;
     --secondary-color: #64748b;
     --success-color: #10b981;
     --danger-color: #ef4444;
     --warning-color: #f59e0b;
-    --dark-bg: #1e293b;
-    --light-bg: #f8fafc;
-    --border-color: #e2e8f0;
-    --text-primary: #0f172a;
-    --text-secondary: #1e293b;
-    --input-text: #0f172a; /* Input text color */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Dark mode variables */
-    --dark-bg-primary: #0f172a;
-    --dark-bg-secondary: #1e293b;
-    --dark-bg-tertiary: #334155;
-    --dark-text-primary: #f1f5f9;
-    --dark-text-secondary: #e2e8f0;
-    --dark-border: #334155;
-    --dark-card-bg: #1e293b;
-    --dark-input-bg: #0f172a;
-    --dark-input-text: #f1f5f9; /* Dark mode input text color */
-    --dark-hover: #2d3a4f;
 }
 
-/* Dark mode styles */
-body.dark-mode {
-    background-color: var(--dark-bg-primary);
-    color: var(--dark-text-primary);
-}
-
-body.dark-mode .premium-card .card-inner {
-    background: var(--dark-card-bg);
-}
-
-body.dark-mode .form-section-title {
-    color: var(--dark-text-primary);
-    border-bottom-color: var(--dark-border);
-}
-
-/* Input text color for dark mode */
-body.dark-mode .premium-input-group .form-control,
-body.dark-mode .premium-input-group .form-select {
-    background-color: var(--dark-input-bg);
-    border-color: var(--dark-border);
-    color: var(--dark-input-text); /* Light text for dark mode */
-}
-
-body.dark-mode .premium-input-group .form-control:focus,
-body.dark-mode .premium-input-group .form-select:focus {
-    border-color: var(--primary-color);
-    background-color: var(--dark-input-bg);
-    color: var(--dark-input-text);
-}
-
-/* Input text color for light mode */
-.premium-input-group .form-control,
-.premium-input-group .form-select {
-    color: var(--input-text); /* Dark text for light mode */
-}
-
-/* Label styles - adjusted to not interfere with input text */
-.premium-input-group .form-floating > label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding: 1rem 1rem;
-    color: #64748b;
-    font-weight: 500;
-    font-size: 1rem;
-    pointer-events: none;
-    border: 1px solid transparent;
-    transform-origin: 0 0;
-    transition: all 0.2s ease-in-out;
-    z-index: 1;
-    background: transparent;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-/* When input is focused or has content - label moves up */
-.premium-input-group .form-floating > .form-control:focus ~ label,
-.premium-input-group .form-floating > .form-control:not(:placeholder-shown) ~ label,
-.premium-input-group .form-floating > .form-select ~ label {
-    transform: scale(0.85) translateY(-0.75rem) translateX(0.15rem);
-    color: var(--primary-color);
-    background: transparent;
-    font-weight: 600;
-    z-index: 2;
-    height: auto;
-    width: auto;
-    padding: 0 0.5rem;
-    left: 0.5rem;
-    top: -0.5rem;
-    background-color: inherit; /* Inherit background from parent */
-}
-
-/* Light mode label when input has content */
-.premium-input-group .form-floating > .form-control:focus ~ label,
-.premium-input-group .form-floating > .form-control:not(:placeholder-shown) ~ label,
-.premium-input-group .form-floating > .form-select ~ label {
-    background-color: white;
-    color: var(--primary-color);
-}
-
-/* Dark mode label when input has content */
-body.dark-mode .premium-input-group .form-floating > .form-control:focus ~ label,
-body.dark-mode .premium-input-group .form-floating > .form-control:not(:placeholder-shown) ~ label,
-body.dark-mode .premium-input-group .form-floating > .form-select ~ label {
-    background-color: var(--dark-card-bg);
-    color: #a5b4fc;
-}
-
-/* Ensure placeholder is transparent (for floating label effect) */
-.premium-input-group .form-floating > .form-control::placeholder,
-.premium-input-group .form-floating > .textarea::placeholder {
-    color: transparent;
-}
-
-/* Input padding to make room for text */
-.premium-input-group .form-floating > .form-control,
-.premium-input-group .form-floating > .form-select {
-    padding-top: 1.625rem;
-    padding-bottom: 0.625rem;
-    height: calc(3.75rem + 2px);
-    line-height: 1.5;
-    z-index: 0;
-    position: relative;
-    background-color: transparent;
-}
-
-/* Icons positioning */
-.premium-input-group i {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--secondary-color);
-    z-index: 3;
-    pointer-events: none;
-    font-size: 1.2rem;
-}
-
-/* Dark mode icon colors */
-body.dark-mode .premium-input-group i {
-    color: var(--dark-text-secondary);
-}
-
-/* Rest of your existing styles remain the same */
-.theme-toggle-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-}
-
-.theme-toggle {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    border-radius: 40px;
-    padding: 12px 24px;
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: var(--shadow-lg);
-    transition: var(--transition);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.theme-toggle:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-xl);
-}
-
-.theme-toggle i {
-    font-size: 1.2rem;
-}
-
-body.dark-mode .theme-toggle {
-    background: linear-gradient(135deg, #4361ee 0%, #6b4ba2 100%);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
+/* Light mode styles (default) - using theme variables */
 .premium-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: 2px;
@@ -233,23 +53,19 @@ body.dark-mode .theme-toggle {
 }
 
 .card-inner {
-    background: white;
+    background: var(--card-bg, #ffffff);
     border-radius: 22px;
     padding: 2rem;
     transition: var(--transition);
 }
 
-body.dark-mode .card-inner {
-    background: var(--dark-card-bg);
-}
-
 .form-section-title {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--text-primary, #0f172a);
     margin-bottom: 2rem;
     padding-bottom: 0.75rem;
-    border-bottom: 3px solid var(--border-color);
+    border-bottom: 3px solid var(--border-color, #e2e8f0);
     position: relative;
     letter-spacing: 0.5px;
 }
@@ -278,6 +94,94 @@ body.dark-mode .card-inner {
     transform: translateY(-2px);
 }
 
+/* Input field styles - using theme variables */
+.premium-input-group .form-control,
+.premium-input-group .form-select {
+    border: 2px solid var(--border-color, #e2e8f0);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    height: auto;
+    min-height: 58px;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    background: var(--input-bg, #ffffff);
+    color: var(--text-primary, #0f172a);
+}
+
+.premium-input-group .form-control:focus,
+.premium-input-group .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+    outline: none;
+    background: var(--input-bg, #ffffff);
+    color: var(--text-primary, #0f172a);
+}
+
+/* Label styles */
+.premium-input-group .form-floating > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 1rem;
+    color: var(--text-secondary, #64748b);
+    font-weight: 500;
+    font-size: 1rem;
+    pointer-events: none;
+    border: 1px solid transparent;
+    transform-origin: 0 0;
+    transition: all 0.2s ease-in-out;
+    z-index: 1;
+    background: transparent;
+}
+
+/* When input is focused or has content - label moves up */
+.premium-input-group .form-floating > .form-control:focus ~ label,
+.premium-input-group .form-floating > .form-control:not(:placeholder-shown) ~ label,
+.premium-input-group .form-floating > .form-select ~ label {
+    transform: scale(0.85) translateY(-0.75rem) translateX(0.15rem);
+    color: var(--primary-color);
+    font-weight: 600;
+    z-index: 2;
+    height: auto;
+    width: auto;
+    padding: 0 0.5rem;
+    left: 0.5rem;
+    top: -0.5rem;
+    background: var(--card-bg, #ffffff);
+}
+
+/* Icons positioning */
+.premium-input-group i {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary, #64748b);
+    z-index: 3;
+    pointer-events: none;
+    font-size: 1.2rem;
+}
+
+/* Placeholder style */
+.premium-input-group .form-control::placeholder,
+.premium-input-group .textarea::placeholder {
+    color: transparent;
+}
+
+/* Input padding */
+.premium-input-group .form-floating > .form-control,
+.premium-input-group .form-floating > .form-select {
+    padding-top: 1.625rem;
+    padding-bottom: 0.625rem;
+    height: calc(3.75rem + 2px);
+    line-height: 1.5;
+    z-index: 0;
+    position: relative;
+}
+
+/* File input wrapper */
 .file-input-wrapper {
     position: relative;
     overflow: hidden;
@@ -318,21 +222,17 @@ body.dark-mode .card-inner {
     box-shadow: var(--shadow-md);
 }
 
+/* Nominee section */
 .nominee-section {
-    background: linear-gradient(135deg, #f5f7fa 0%, #f8fafc 100%);
+    background: var(--bg-secondary, #f8fafc);
     border-radius: 20px;
     padding: 2rem;
     margin: 2rem 0;
-    border: 1px solid rgba(255,255,255,0.3);
+    border: 1px solid var(--border-color, #e2e8f0);
     box-shadow: var(--shadow-md);
     position: relative;
     overflow: hidden;
     transition: var(--transition);
-}
-
-body.dark-mode .nominee-section {
-    background: linear-gradient(135deg, var(--dark-bg-secondary) 0%, var(--dark-bg-tertiary) 100%);
-    border-color: var(--dark-border);
 }
 
 .nominee-section::before {
@@ -352,11 +252,7 @@ body.dark-mode .nominee-section {
     margin-bottom: 2rem;
     font-size: 1.75rem;
     font-weight: 700;
-    color: var(--text-primary);
-}
-
-body.dark-mode .nominee-title {
-    color: var(--dark-text-primary);
+    color: var(--text-primary, #0f172a);
 }
 
 .nominee-title i {
@@ -366,6 +262,7 @@ body.dark-mode .nominee-title {
     font-size: 2.25rem;
 }
 
+/* Button */
 .btn-premium {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none;
@@ -405,8 +302,57 @@ body.dark-mode .nominee-title {
     box-shadow: var(--shadow-xl);
 }
 
-.btn-premium:active {
-    transform: translateY(0);
+/* Dark mode styles - automatically handled by theme-manager variables */
+body.dark-mode .card-inner {
+    background: var(--card-bg, #1e293b);
+}
+
+body.dark-mode .form-section-title {
+    color: var(--text-primary, #f1f5f9);
+    border-bottom-color: var(--border-color, #334155);
+}
+
+body.dark-mode .premium-input-group .form-control,
+body.dark-mode .premium-input-group .form-select {
+    background: var(--input-bg, #0f172a);
+    border-color: var(--border-color, #334155);
+    color: var(--text-primary, #f1f5f9);
+}
+
+body.dark-mode .premium-input-group .form-control:focus,
+body.dark-mode .premium-input-group .form-select:focus {
+    border-color: var(--primary-color);
+    background: var(--input-bg, #0f172a);
+    color: var(--text-primary, #f1f5f9);
+}
+
+body.dark-mode .premium-input-group .form-floating > label {
+    color: var(--text-secondary, #cbd5e1);
+}
+
+body.dark-mode .premium-input-group .form-floating > .form-control:focus ~ label,
+body.dark-mode .premium-input-group .form-floating > .form-control:not(:placeholder-shown) ~ label,
+body.dark-mode .premium-input-group .form-floating > .form-select ~ label {
+    background: var(--card-bg, #1e293b);
+    color: #a5b4fc;
+}
+
+body.dark-mode .premium-input-group i {
+    color: var(--text-secondary, #cbd5e1);
+}
+
+body.dark-mode .nominee-section {
+    background: var(--bg-secondary, #1e293b);
+    border-color: var(--border-color, #334155);
+}
+
+body.dark-mode .nominee-title {
+    color: var(--text-primary, #f1f5f9);
+}
+
+body.dark-mode select option {
+    background-color: var(--bg-secondary, #1e293b);
+    color: var(--text-primary, #f1f5f9);
 }
 
 /* Responsive adjustments */
@@ -439,11 +385,6 @@ body.dark-mode .nominee-title {
     .form-section-title {
         font-size: 1.3rem;
     }
-    
-    .theme-toggle {
-        padding: 10px 20px;
-        font-size: 0.95rem;
-    }
 }
 
 @media (max-width: 576px) {
@@ -464,14 +405,9 @@ body.dark-mode .nominee-title {
     .premium-input-group .form-floating > label {
         font-size: 0.95rem;
     }
-    
-    .theme-toggle {
-        padding: 8px 16px;
-        font-size: 0.9rem;
-    }
 }
 
-/* Animation for form appearance */
+/* Animation */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -494,7 +430,7 @@ body.dark-mode .nominee-title {
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--light-bg);
+    background: var(--bg-secondary, #f8fafc);
     border-radius: 10px;
 }
 
@@ -503,45 +439,18 @@ body.dark-mode .nominee-title {
     border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-}
-
-/* Dark mode scrollbar */
 body.dark-mode ::-webkit-scrollbar-track {
-    background: var(--dark-bg-secondary);
+    background: var(--bg-secondary, #1e293b);
 }
 
-body.dark-mode ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #4361ee 0%, #6b4ba2 100%);
-}
-
-/* Smooth theme transition */
+/* Smooth transitions */
 body, 
 .card-inner,
 .premium-input-group .form-control,
 .premium-input-group .form-select,
 .premium-input-group .form-floating > label,
-.nominee-section,
-.theme-toggle {
+.nominee-section {
     transition: all 0.3s ease;
-}
-
-/* Fix for dark mode select options */
-body.dark-mode select option {
-    background-color: var(--dark-bg-secondary);
-    color: var(--dark-text-primary);
-}
-
-/* Ensure text is visible when typing */
-.premium-input-group .form-control:focus,
-.premium-input-group .form-control:active {
-    color: inherit;
-}
-
-/* Placeholder style */
-.premium-input-group .form-control::placeholder {
-    color: transparent;
 }
 </style>
 
@@ -638,7 +547,7 @@ body.dark-mode select option {
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="premium-input-group">
                         <div class="form-floating">
-                            <input class="form-control" id="fathers_mane" name="fathers_name" type="text" placeholder="Enter father's name" value="{{ $fathers_name }}" />
+                            <input class="form-control" id="fathers_name" name="fathers_name" type="text" placeholder="Enter father's name" value="{{ $fathers_name }}" />
                             <label for="fathers_name"><i class="fas fa-male me-2"></i>Father's Name</label>
                         </div>
                     </div>
@@ -647,7 +556,7 @@ body.dark-mode select option {
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="premium-input-group">
                         <div class="form-floating">
-                            <input class="form-control" id="mothers_name" name="mothers_name" type="text" placeholder="Enter mother's name" value="{{ $mothers_name }}" /><input class="form-control" id="mothers_name" name="mothers_name" type="text" placeholder="Enter mother's name" value="{{ $mothers_name }}" />
+                            <input class="form-control" id="mothers_name" name="mothers_name" type="text" placeholder="Enter mother's name" value="{{ $mothers_name }}" />
                             <label for="mothers_name"><i class="fas fa-female me-2"></i>Mother's Name</label>
                         </div>
                     </div>
@@ -757,8 +666,6 @@ body.dark-mode select option {
         </form>
     </div>
 </div>
-
-
 
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

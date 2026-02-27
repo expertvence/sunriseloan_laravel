@@ -39,8 +39,8 @@
 
 /* Premium Card Styles */
 .premium-table-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 3px;
+    background: transparent;
+    padding: 25px;
     border-radius: 24px;
     box-shadow: var(--shadow-xl);
     margin-bottom: 2rem;
