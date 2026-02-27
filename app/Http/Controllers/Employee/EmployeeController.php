@@ -7,6 +7,7 @@ use App\Library\Template;
 use App\MemberRegistration;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -47,10 +48,10 @@ class EmployeeController extends Controller
             'gender' => $request->gender,
             'age' => $request->age,
             'religion' => $request->religion,
-            'fathers_mane' => $request->fathers_mane,
-            'mothers_mane' => $request->mothers_name,
-            'mobile' => $request->mobile,
+            'fathers_name' => $request->fathers_name,
+            'mothers_name' => $request->mothers_name,
             'address' => $request->address,
+            'mobile' => $request->mobile,
             'user_type' => 'user',
             'email' => $request->email,
             'no_of_share' => $request->number_of_share,
@@ -88,6 +89,20 @@ class EmployeeController extends Controller
                 ]);
             }
 
+             // ✅ Generate unique user_name
+                    $nameParts = explode(' ', $request->name); // Split name into parts
+                    $firstLetter = strtolower(substr($nameParts[0], 0, 1)); // First letter of first name
+                    $lastName = isset($nameParts[1]) ? strtolower($nameParts[1]) : ''; // Last name if exists
+                    $emailPrefix = strtolower(explode('@', $request->email)[0]); // Email before @
+                    $baseUserName = "@{$firstLetter}{$lastName}_{$emailPrefix}_sunriseloan";
+
+                    // Ensure uniqueness
+                    $userName = $baseUserName;
+                    $counter = 1;
+                    while (User::where('user_name', $userName)->exists()) {
+                        $userName = $baseUserName . $counter;
+                        $counter++;
+                    }
             // Insert Member
             $member_id = MemberRegistration::insertGetId($data);
 
@@ -97,6 +112,7 @@ class EmployeeController extends Controller
                     'name' => $request->name,
                     'email' => $request->email,
                     'ref_id' => $authUser->id,
+                   'user_name' => $userName,
                     'user_type' => 'user',
                     'member_id' => $member_id,
                     'password' => Hash::make('12345678'),

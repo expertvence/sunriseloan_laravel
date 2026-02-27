@@ -6,8 +6,8 @@ $name=isset($data->name ) ? $data->name : "";
 $gender=isset($data->gender)  ? $data->gender : "";
 $age=isset($data->age)  ? $data->age : "";
 $religion=isset($data->religion)  ? $data->religion : "";
-$fathers_mane=isset($data->fathers_mane)  ? $data->fathers_mane : "";
-$mothers_mane=isset($data->mothers_mane)  ? $data->mothers_mane : "";
+ $fathers_name = isset($data->fathers_name) ? $data->fathers_name : '';
+$mothers_name = isset($data->mothers_name) ? $data->mothers_name : '';
 $mobile=isset($data->mobile)  ? $data->mobile : "";
 $address=isset($data->address)  ? $data->address : "";
 $email=isset($data->email)  ? $data->email : "";
@@ -94,20 +94,23 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
         </div>
 
         <div class="row mb-3">
-            <div class="col-md-3">
-                <div class="form-floating mb-3 mb-md-0">
-                    <input class="form-control" id="fathers_mane" name="fathers_mane" type="text"
-                        placeholder="Enter your father's name"  value="{{$fathers_mane}}" />
-                    <label for="fathers_mane">Father's Name</label>
+           <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="premium-input-group">
+                        <div class="form-floating">
+                            <input class="form-control" id="fathers_mane" name="fathers_name" type="text" placeholder="Enter father's name" value="{{ $fathers_name }}" />
+                            <label for="fathers_name"><i class="fas fa-male me-2"></i>Father's Name</label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-floating mb-3 mb-md-0">
-                    <input class="form-control" id="mothers_name" name="mothers_name" type="text"
-                        placeholder="Enter your mother's name"  value="{{$mothers_mane}}" />
-                    <label for="mothers_name">Mothers Name</label>
+                
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="premium-input-group">
+                        <div class="form-floating">
+                            <input class="form-control" id="mothers_name" name="mothers_name" type="text" placeholder="Enter mother's name" value="{{ $mothers_name }}" /><input class="form-control" id="mothers_name" name="mothers_name" type="text" placeholder="Enter mother's name" value="{{ $mothers_name }}" />
+                            <label for="mothers_name"><i class="fas fa-female me-2"></i>Mother's Name</label>
+                        </div>
+                    </div>
                 </div>
-            </div>
             <div class="col-md-3">
                 <div class="form-floating mb-3 mb-md-0">
                     <input class="form-control" id="mobile" name="mobile" type="text"
