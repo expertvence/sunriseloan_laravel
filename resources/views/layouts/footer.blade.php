@@ -93,3 +93,30 @@
 
      });
  </script>
+
+ <!-- footer.blade.php এর শেষে -->
+<script>
+// Update footer when theme changes
+window.addEventListener('themeChanged', function(e) {
+    const footer = document.querySelector('.app-footer');
+    if (footer) {
+        if (document.body.classList.contains('dark-mode')) {
+            footer.style.background = '#1a1f2e';
+        } else {
+            footer.style.background = '#0a0c10';
+        }
+    }
+});
+
+// Initialize footer on load
+document.addEventListener('DOMContentLoaded', function() {
+    const footer = document.querySelector('.app-footer');
+    if (footer) {
+        if (document.body.classList.contains('dark-mode')) {
+            footer.style.background = '#1a1f2e';
+        } else {
+            footer.style.background = '#0a0c10';
+        }
+    }
+});
+</script>

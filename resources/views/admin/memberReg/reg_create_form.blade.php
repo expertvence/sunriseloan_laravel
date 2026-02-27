@@ -545,14 +545,6 @@ body.dark-mode select option {
 }
 </style>
 
-<!-- Theme Toggle Button -->
-<div class="theme-toggle-container">
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-        <i class="fas fa-moon" id="themeIcon"></i>
-        <span id="themeText">Dark Mode</span>
-    </button>
-</div>
-
 <div class="premium-card">
     <div class="card-inner">
         <form action="{{ route('merber-save') }}" method="POST" id="regForm" enctype="multipart/form-data">
@@ -766,56 +758,7 @@ body.dark-mode select option {
     </div>
 </div>
 
-<!-- Dark Mode Script -->
-<script>
-// Check for saved theme preference
-if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    updateThemeButton(true);
-}
 
-function toggleTheme() {
-    if (document.body.classList.contains('dark-mode')) {
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
-        updateThemeButton(false);
-    } else {
-        document.body.classList.add('dark-mode');
-        localStorage.setItem('theme', 'dark');
-        updateThemeButton(true);
-    }
-}
-
-function updateThemeButton(isDark) {
-    const icon = document.getElementById('themeIcon');
-    const text = document.getElementById('themeText');
-    
-    if (isDark) {
-        icon.className = 'fas fa-sun';
-        text.textContent = 'Light Mode';
-    } else {
-        icon.className = 'fas fa-moon';
-        text.textContent = 'Dark Mode';
-    }
-}
-
-// Listen for system theme changes
-if (window.matchMedia) {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    mediaQuery.addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-            if (e.matches) {
-                document.body.classList.add('dark-mode');
-                updateThemeButton(true);
-            } else {
-                document.body.classList.remove('dark-mode');
-                updateThemeButton(false);
-            }
-        }
-    });
-}
-</script>
 
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
