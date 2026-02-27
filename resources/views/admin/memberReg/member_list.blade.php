@@ -14,22 +14,22 @@
     --dark-bg: #1e293b;
     --light-bg: #f8fafc;
     --border-color: #e2e8f0;
-    --text-primary: #0f172a;      /* Dark text for light mode */
-    --text-secondary: #334155;     /* Slightly lighter for secondary text */
-    --text-muted: #475569;         /* Muted text */
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #475569;
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     
-    /* Dark mode variables - high contrast */
+    /* Dark mode variables */
     --dark-bg-primary: #0f172a;
     --dark-bg-secondary: #1e293b;
     --dark-bg-tertiary: #2d3a4f;
-    --dark-text-primary: #ffffff;     /* Pure white for primary text */
-    --dark-text-secondary: #e2e8f0;   /* Very light gray for secondary */
-    --dark-text-muted: #cbd5e1;       /* Light gray for muted text */
+    --dark-text-primary: #ffffff;
+    --dark-text-secondary: #e2e8f0;
+    --dark-text-muted: #cbd5e1;
     --dark-border: #334155;
     --dark-card-bg: #1e293b;
     --dark-hover: #2d3a4f;
@@ -59,7 +59,7 @@
     transition: var(--transition);
 }
 
-/* Dark Mode Styles - High Contrast */
+/* Dark Mode Styles */
 body.dark-mode {
     background-color: var(--dark-bg-primary);
 }
@@ -86,132 +86,15 @@ body.dark-mode .table {
 body.dark-mode .table thead th {
     background: linear-gradient(135deg, #2d3a4f 0%, #1e293b 100%);
     color: var(--dark-text-primary);
-    font-weight: 600;
-    border-bottom: 2px solid var(--dark-border);
 }
 
 body.dark-mode .table tbody td {
     border-color: var(--dark-border);
-    background-color: transparent;
     color: var(--dark-text-primary);
-}
-
-body.dark-mode .table tbody tr:nth-of-type(odd) {
-    background-color: rgba(255, 255, 255, 0.02);
 }
 
 body.dark-mode .table tbody tr:hover td {
     background-color: var(--dark-table-hover);
-}
-
-body.dark-mode .table tbody tr:hover {
-    background-color: var(--dark-table-hover);
-}
-
-/* Dark mode text colors for specific elements */
-body.dark-mode .badge.bg-secondary {
-    color: var(--dark-text-primary) !important;
-}
-
-body.dark-mode .fw-bold,
-body.dark-mode .fw-500 {
-    color: var(--dark-text-primary);
-}
-
-body.dark-mode a {
-    color: #a5b4fc;
-}
-
-body.dark-mode a:hover {
-    color: #c7d2fe;
-}
-
-body.dark-mode .text-secondary {
-    color: var(--dark-text-secondary) !important;
-}
-
-body.dark-mode .text-primary {
-    color: #a5b4fc !important;
-}
-
-body.dark-mode .text-dark {
-    color: var(--dark-text-primary) !important;
-}
-
-/* DataTables dark mode */
-body.dark-mode .dataTables_wrapper .dataTables_length,
-body.dark-mode .dataTables_wrapper .dataTables_filter,
-body.dark-mode .dataTables_wrapper .dataTables_info,
-body.dark-mode .dataTables_wrapper .dataTables_paginate {
-    color: var(--dark-text-primary);
-}
-
-body.dark-mode .dataTables_wrapper .dataTables_length label,
-body.dark-mode .dataTables_wrapper .dataTables_filter label {
-    color: var(--dark-text-primary);
-}
-
-body.dark-mode .dataTables_wrapper .dataTables_length select {
-    background-color: var(--dark-bg-tertiary);
-    border-color: var(--dark-border);
-    color: var(--dark-text-primary);
-}
-
-body.dark-mode .dataTables_wrapper .dataTables_filter input {
-    background-color: var(--dark-bg-tertiary);
-    border-color: var(--dark-border);
-    color: var(--dark-text-primary);
-}
-
-body.dark-mode .dataTables_wrapper .dataTables_filter input::placeholder {
-    color: var(--dark-text-muted);
-}
-
-body.dark-mode .dataTables_wrapper .dataTables_filter input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
-}
-
-body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button {
-    color: var(--dark-text-primary) !important;
-    background: var(--dark-bg-tertiary);
-    border-color: var(--dark-border);
-}
-
-body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.current,
-body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white !important;
-    border-color: transparent;
-}
-
-body.dark-mode .dataTables_wrapper .dataTables_info {
-    color: var(--dark-text-secondary);
-}
-
-/* Light mode text colors - high contrast */
-.table tbody td {
-    padding: 1rem 0.75rem;
-    vertical-align: middle;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-primary);
-    font-size: 0.95rem;
-    transition: var(--transition);
-}
-
-.fw-bold {
-    color: var(--text-primary);
-    font-weight: 700;
-}
-
-.fw-500 {
-    color: var(--text-primary);
-    font-weight: 500;
-}
-
-.badge.bg-secondary.bg-opacity-25 {
-    background-color: #e2e8f0 !important;
-    color: var(--text-primary) !important;
 }
 
 /* Card Header */
@@ -223,7 +106,6 @@ body.dark-mode .dataTables_wrapper .dataTables_info {
     color: white;
     font-weight: 600;
     font-size: 1.25rem;
-    letter-spacing: 0.5px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -242,13 +124,12 @@ body.dark-mode .dataTables_wrapper .dataTables_info {
     font-weight: 600;
     font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
     padding: 1rem 0.75rem;
     border: none;
     white-space: nowrap;
 }
 
-/* Status Badge Styles - with proper contrast */
+/* Status Badge Styles */
 .status-badge {
     padding: 6px 12px;
     border-radius: 30px;
@@ -258,8 +139,7 @@ body.dark-mode .dataTables_wrapper .dataTables_info {
     display: inline-block;
     min-width: 80px;
     text-align: center;
-    box-shadow: var(--shadow-sm);
-    color: white !important; /* Always white text on colored backgrounds */
+    color: white !important;
 }
 
 .status-badge.active {
@@ -286,8 +166,7 @@ body.dark-mode .dataTables_wrapper .dataTables_info {
     transition: var(--transition);
     min-width: 120px;
     text-transform: capitalize;
-    box-shadow: var(--shadow-sm);
-    color: white !important; /* White text for all status selects */
+    color: white !important;
 }
 
 .status-select.status-active {
@@ -305,13 +184,6 @@ body.dark-mode .dataTables_wrapper .dataTables_info {
 .status-select option {
     background: white;
     color: var(--text-primary);
-    padding: 10px;
-}
-
-/* Dark mode select options */
-body.dark-mode .status-select option {
-    background: var(--dark-bg-tertiary);
-    color: var(--dark-text-primary);
 }
 
 /* Action Buttons */
@@ -331,16 +203,7 @@ body.dark-mode .status-select option {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     transition: var(--transition);
-    border: none;
     cursor: pointer;
-    box-shadow: var(--shadow-sm);
-    text-decoration: none;
-}
-
-.action-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: var(--shadow-lg);
-    color: white;
 }
 
 .action-btn.view-btn {
@@ -349,11 +212,6 @@ body.dark-mode .status-select option {
 
 .action-btn.edit-btn {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-}
-
-.action-btn i {
-    font-size: 1rem;
-    color: white;
 }
 
 /* Avatar Circle */
@@ -367,140 +225,248 @@ body.dark-mode .status-select option {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     font-weight: 600;
-    font-size: 1rem;
-    box-shadow: var(--shadow-sm);
 }
 
-/* Email links */
-a.text-decoration-none {
-    color: var(--primary-color);
-    transition: var(--transition);
-}
-
-a.text-decoration-none:hover {
-    color: var(--primary-hover);
-}
-
-/* Dark mode email links */
-body.dark-mode a.text-decoration-none {
-    color: #a5b4fc;
-}
-
-body.dark-mode a.text-decoration-none:hover {
-    color: #c7d2fe;
-}
-
-/* Empty State */
-.empty-state {
-    text-align: center;
-    padding: 3rem;
-    color: var(--text-secondary);
-}
-
-.empty-state i {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    opacity: 0.5;
-    color: var(--text-muted);
-}
-
-.empty-state p {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-}
-
-body.dark-mode .empty-state,
-body.dark-mode .empty-state p {
-    color: var(--dark-text-secondary);
-}
-
-body.dark-mode .empty-state i {
-    color: var(--dark-text-muted);
-}
-
-/* Scrollbar Styling */
-.table-responsive::-webkit-scrollbar {
-    height: 8px;
-}
-
-.table-responsive::-webkit-scrollbar-track {
-    background: var(--light-bg);
-    border-radius: 10px;
-}
-
-.table-responsive::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 10px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .table-inner {
+/* ========== MOBILE RESPONSIVE STYLES ========== */
+@media screen and (max-width: 767px) {
+    /* Force table to not be like a table */
+    .table-responsive table,
+    .table-responsive thead,
+    .table-responsive tbody,
+    .table-responsive th,
+    .table-responsive td,
+    .table-responsive tr {
+        display: block;
+    }
+    
+    /* Hide table headers */
+    .table-responsive thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    /* Make each row a card */
+    .table-responsive tbody tr {
+        margin-bottom: 1.5rem;
+        border: 2px solid var(--border-color);
+        border-radius: 16px;
+        padding: 1rem;
+        background: white;
+        box-shadow: var(--shadow-md);
+        transition: var(--transition);
+    }
+    
+    body.dark-mode .table-responsive tbody tr {
+        background: var(--dark-bg-secondary);
+        border-color: var(--dark-border);
+    }
+    
+    /* Style each cell as a row in the card */
+    .table-responsive tbody td {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem !important;
+        border: none !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        text-align: left !important;
+        font-size: 0.95rem;
+    }
+    
+    .table-responsive tbody td:last-child {
+        border-bottom: none !important;
+    }
+    
+    body.dark-mode .table-responsive tbody td {
+        border-bottom-color: var(--dark-border) !important;
+    }
+    
+    /* Add labels before each cell */
+    .table-responsive tbody td:before {
+        content: attr(data-label);
+        font-weight: 700;
+        width: 110px;
+        min-width: 110px;
+        color: var(--primary-color);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    body.dark-mode .table-responsive tbody td:before {
+        color: #a5b4fc;
+    }
+    
+    /* Special styling for specific columns */
+    .table-responsive tbody td:first-child:before {
+        content: "SL#";
+    }
+    
+    .table-responsive tbody td:nth-child(2):before {
+        content: "Code";
+    }
+    
+    .table-responsive tbody td:nth-child(3):before {
+        content: "Name";
+    }
+    
+    .table-responsive tbody td:nth-child(4):before {
+        content: "Father";
+    }
+    
+    .table-responsive tbody td:nth-child(5):before {
+        content: "Mother";
+    }
+    
+    .table-responsive tbody td:nth-child(6):before {
+        content: "Email";
+    }
+    
+    .table-responsive tbody td:nth-child(7):before {
+        content: "Status";
+    }
+    
+    .table-responsive tbody td:nth-child(8):before {
+        content: "Created By";
+    }
+    
+    .table-responsive tbody td:nth-child(9):before {
+        content: "Actions";
+    }
+    
+    /* Adjust content alignment */
+    .table-responsive tbody td > * {
+        margin-left: auto;
+    }
+    
+    /* Status badge and select in mobile */
+    .table-responsive tbody td .status-badge,
+    .table-responsive tbody td .status-select {
+        margin-left: auto;
+        min-width: 100px;
+    }
+    
+    /* Action buttons in mobile */
+    .table-responsive tbody td .action-buttons {
+        margin-left: auto;
+        justify-content: flex-end;
+    }
+    
+    /* Avatar in mobile */
+    .table-responsive tbody td .d-flex {
+        margin-left: auto;
+    }
+    
+    /* Email link in mobile */
+    .table-responsive tbody td a.text-decoration-none {
+        margin-left: auto;
+        text-align: right;
+        word-break: break-all;
+    }
+    
+    /* Badge in mobile */
+    .table-responsive tbody td .badge {
+        margin-left: auto;
+    }
+    
+    /* Card header adjustments */
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
         padding: 1rem;
     }
     
-    .card-header {
-        padding: 1rem;
-        font-size: 1.1rem;
+    .card-header .badge {
+        margin-left: 0 !important;
+        align-self: flex-start;
+    }
+    
+    /* DataTables controls mobile */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+        text-align: left;
+        margin-bottom: 1rem;
     }
     
     .dataTables_wrapper .dataTables_filter input {
-        width: 180px;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+    
+    .dataTables_wrapper .dataTables_info {
+        text-align: center;
+        padding: 1rem 0;
+    }
+    
+    .dataTables_wrapper .dataTables_paginate {
+        text-align: center;
+        padding: 1rem 0;
     }
     
     .dataTables_wrapper .dataTables_paginate .paginate_button {
-        padding: 6px 12px;
+        padding: 6px 10px;
         margin: 0 2px;
     }
+}
+
+/* Small phones */
+@media screen and (max-width: 480px) {
+    .table-responsive tbody td:before {
+        width: 90px;
+        min-width: 90px;
+        font-size: 0.85rem;
+    }
     
-    .action-buttons {
-        gap: 5px;
+    .table-responsive tbody td {
+        font-size: 0.9rem;
+        padding: 0.6rem !important;
+    }
+    
+    .status-badge,
+    .status-select {
+        min-width: 90px;
+        padding: 4px 8px;
+        font-size: 0.8rem;
     }
     
     .action-btn {
         width: 32px;
         height: 32px;
     }
+    
+    .action-btn i {
+        font-size: 0.9rem;
+    }
+    
+    .avatar-circle {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+    
+    .card-header {
+        font-size: 1.1rem;
+    }
 }
 
-@media (max-width: 576px) {
+/* Tablet adjustments */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
     .table thead th {
         font-size: 0.8rem;
         padding: 0.75rem 0.5rem;
     }
     
     .table tbody td {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         padding: 0.75rem 0.5rem;
     }
     
-    .status-badge,
     .status-select {
-        padding: 4px 8px;
-        font-size: 0.75rem;
-        min-width: 70px;
+        min-width: 100px;
+        padding: 6px 12px;
     }
-    
-    .dataTables_wrapper .dataTables_filter input {
-        width: 100%;
-    }
-}
-
-/* Animations */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.premium-table-card {
-    animation: slideIn 0.5s ease-out;
 }
 </style>
 
@@ -515,7 +481,7 @@ body.dark-mode .empty-state i {
         </div>
         <div class="card-body p-0 mt-4">
             <div class="table-responsive">
-                <table id="datatablesSimple" class="table table-hover table-striped w-100">
+                <table id="datatablesSimple" class="table table-hover w-100">
                     <thead>
                         <tr>
                             <th>SL#</th>
@@ -533,9 +499,9 @@ body.dark-mode .empty-state i {
                         @if (!empty($data) && count($data) > 0)
                             @foreach ($data as $value)
                                 <tr>
-                                    <td><span class="fw-bold">#{{ $loop->iteration }}</span></td>
-                                    <td><span class="badge bg-secondary bg-opacity-25 py-2 px-3">{{ $value->Uid }}</span></td>
-                                    <td>
+                                    <td data-label="SL#"><span class="fw-bold">#{{ $loop->iteration }}</span></td>
+                                    <td data-label="Code"><span class="badge bg-secondary bg-opacity-25 py-2 px-3">{{ $value->Uid }}</span></td>
+                                    <td data-label="Name">
                                         <div class="d-flex align-items-center">
                                             <div class="avatar-circle me-2">
                                                 <span class="initials">{{ substr($value->name, 0, 1) }}</span>
@@ -543,15 +509,15 @@ body.dark-mode .empty-state i {
                                             <span class="fw-500">{{ $value->name }}</span>
                                         </div>
                                     </td>
-                                    <td>{{ $value->fathers_mane ?? 'N/A' }}</td>
-                                    <td>{{ $value->mothers_mane ?? 'N/A' }}</td>
-                                    <td>
+                                    <td data-label="Father">{{ $value->fathers_mane ?? 'N/A' }}</td>
+                                    <td data-label="Mother">{{ $value->mothers_mane ?? 'N/A' }}</td>
+                                    <td data-label="Email">
                                         <a href="mailto:{{ $value->email }}" class="text-decoration-none">
                                             <i class="fas fa-envelope me-1"></i>
-                                            {{ $value->email }}
+                                            <span class="email-text">{{ $value->email }}</span>
                                         </a>
                                     </td>
-                                    <td class="text-center">
+                                    <td data-label="Status" class="text-center">
                                         @if (Auth::user()->user_type == 'admin')
                                             <select class="status-select status-{{ $value->status }}" data-id="{{ $value->id }}" data-tooltip="Change Status">
                                                 <option value="active" {{ $value->status == 'active' ? 'selected' : '' }}>Active</option>
@@ -564,13 +530,13 @@ body.dark-mode .empty-state i {
                                             </span>
                                         @endif
                                     </td>
-                                    <td>
+                                    <td data-label="Created By">
                                         <span class="d-flex align-items-center">
                                             <i class="fas fa-user-circle me-1 text-secondary"></i>
                                             <span class="text-secondary">{{ $value->created_by ?? 'System' }}</span>
                                         </span>
                                     </td>
-                                    <td>
+                                    <td data-label="Actions">
                                         <div class="action-buttons">
                                             <a href="{{ route('member_profile', $value->id) }}" target="_blank" 
                                                class="action-btn view-btn" data-tooltip="View Profile">
@@ -607,15 +573,29 @@ body.dark-mode .empty-state i {
 
 <script>
 $(document).ready(function() {
-    // Initialize DataTable with responsive option
-    $(".data-table").DataTable({
+    // Initialize DataTable with responsive options
+    var table = $(".data-table").DataTable({
         "ordering": true,
         "bAutoWidth": false,
-        "responsive": true,
+        "responsive": {
+            details: {
+                display: $.fn.dataTable.Responsive.display.modal({
+                    header: function(row) {
+                        var data = row.data();
+                        return 'Details for ' + data[2]; // Shows name in modal header
+                    }
+                }),
+                renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+                    tableClass: 'table'
+                })
+            }
+        },
         "language": {
             "search": "🔍 Search:",
             "lengthMenu": "Show _MENU_ entries",
             "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+            "infoEmpty": "Showing 0 to 0 of 0 entries",
+            "infoFiltered": "(filtered from _MAX_ total entries)",
             "paginate": {
                 "first": "«",
                 "last": "»",
@@ -625,12 +605,19 @@ $(document).ready(function() {
         },
         "columnDefs": [
             { "orderable": false, "targets": [7, 8] }
-        ]
+        ],
+        "pageLength": 10,
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
     });
 
     // Initialize status colors
     $('.status-select').each(function() {
         updateStatusColor($(this));
+    });
+
+    // Handle responsive redraw
+    $(window).on('resize', function() {
+        table.columns.adjust().draw();
     });
 });
 
@@ -654,10 +641,7 @@ $(document).on('change', '.status-select', function() {
     let status = $this.val();
     let originalValue = $this.data('original-value') || $this.val();
     
-    // Optimistic UI update
     updateStatusColor($this);
-    
-    // Show loading state
     $this.prop('disabled', true);
     $this.css('opacity', '0.7');
     
@@ -685,23 +669,15 @@ $(document).on('change', '.status-select', function() {
     });
 });
 
-// Notification function
+// Simple notification function (replace with your preferred notification system)
 function showNotification(message, type) {
-    // You can implement your own notification system
-    console.log(message);
     if (type === 'success') {
-        alert(message); // Replace with your notification system
+        // You can replace this with toastr, sweetalert, or your preferred notification
+        console.log('Success:', message);
+    } else {
+        console.error('Error:', message);
     }
 }
-
-// Responsive table adjustment
-$(window).on('resize', function() {
-    if ($(window).width() <= 768) {
-        $('.table-responsive').addClass('mobile-view');
-    } else {
-        $('.table-responsive').removeClass('mobile-view');
-    }
-}).trigger('resize');
 
 // Dark mode detection
 function checkDarkMode() {
