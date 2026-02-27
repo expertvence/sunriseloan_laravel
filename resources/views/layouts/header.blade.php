@@ -1,4 +1,4 @@
-<nav class="sb-topnav navbar navbar-expand navbar-dark" style="background: linear-gradient(90deg, #0a0c10 0%, #0f1217 100%); border-bottom: 1px solid rgba(99, 102, 241, 0.1); height: 70px; position: fixed; top: 0; left: 0; right: 0; z-index: 1020; transition: all 0.3s ease;">
+<nav class="sb-topnav navbar navbar-expand navbar-dark" style="background: linear-gradient(90deg, #0a0c10 0%, #0f1217 100%); border-bottom: 1px solid rgba(99, 102, 241, 0.1); height: 70px; position: fixed; top: 0; left: 0; right: 0; z-index: 2020; transition: all 0.3s ease;">
     <style>
         /* Premium Header Styling */
         .sb-topnav {
@@ -24,7 +24,7 @@
             transition: all 0.3s ease;
             margin: 0;
             position: absolute;
-            left: 290px; /* Position inside the padded area */
+            left: 230px; /* Position inside the padded area */
             top: 15px;
             z-index: 1030;
         }
@@ -188,7 +188,36 @@
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @me@media (max-width: 768px) {
+
+    /* Remove left padding */
+    .sb-topnav {
+        padding-left: 0 !important;
+        justify-content: space-between;
+    }
+
+    /* Hide brand on mobile */
+    .navbar-brand {
+        display: none !important;
+    }
+
+    /* Toggle button left side */
+    #sidebarToggle {
+        position: relative;
+        left: 10px !important;
+        top: 0;
+    }
+
+    /* User dropdown right side */
+    .user-dropdown {
+        margin-right: 10px;
+    }
+
+    /* Hide search */
+    .search-form {
+        display: none !important;
+    }
+}dia (max-width: 768px) {
             .sb-topnav {
                 padding-left: 0 !important;
             }
@@ -199,7 +228,7 @@
             }
             
             #sidebarToggle {
-                left: 120px !important;
+                right: 20px !important;
             }
             
             .search-form {
@@ -209,7 +238,7 @@
     </style>
 
     <!-- Brand - Fixed on the extreme left -->
-    <a class="navbar-brand" href="{{route('home_2')}}">
+    <a class="navbar-brand" href="#">
         Sunriseloan
     </a>
 
