@@ -34,8 +34,8 @@
                                     {{-- <td>{{ $value->age }}</td>
                                     <td>{{ $value->gender }}</td>
                                     <td>{{ $value->religion }}</td> --}}
-                                    <td>{{ $value->fathers_mane }}</td>
-                                    <td>{{ $value->mothers_mane }}</td>
+                                    <td>{{ $value->fathers_name }}</td>
+                                    <td>{{ $value->mothers_name }}</td>
                                     <td>{{ $value->email }}</td>
                                     {{-- <td>{{ $value->address }}</td> --}}
                                     <td class="text-center">
@@ -49,8 +49,10 @@
                                     </td>
                                     <td>{{ $value->created_by }}</td>
                                     <td>
-                                        <a href="{{ route('member_profile', $value->id) }}" target="_blank"
-                                            rel="noopener noreferrer"><i class="fas fa-user"></i></a>
+                                        <a href="{{ route('show-employee', $value->id) }}" target="_blank" 
+                                               class="action-btn view-btn" data-tooltip="View Profile">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
                                         <span class="btn btn-sm  open-modal btnView"
                                             data-action="{{ route('employee-mem-register-form', $value->id) }}"
                                             data-modal="common-modal-md" data-title=" Member Edit" title="Edit"

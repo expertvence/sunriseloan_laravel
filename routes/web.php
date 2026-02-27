@@ -96,7 +96,8 @@ Route::get('/test', [HomeController::class, 'test'])->name('test');
 // Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
 // Route::get('/member-register', 'HomeController@memRegistration')->name('member-register');
 Route::get('/member-register',[HomeController::class, 'memRegistration'])->name('member-register');
-// Route::get('/member-register-form/{id?}', 'HomeController@memRegistrationForm')->name('member-register-form');
+Route::get('/show/{id}',[MemberRegistrationController::class, 'show'])->name('show');
+
 Route::get('/member-register-form/{id?}', [HomeController::class, 'memRegistrationForm'])->name('member-register-form');
 //payment system
 // Route::get('/installment_payment', 'HomeController@installmentPayment')->name('installment_payment');
@@ -173,8 +174,9 @@ Route::post('/reset-password', [AdmiProfileController::class, 'resetPassword'])-
 
 
 Route::get('/employee-member-register', [EmployeeController::class, 'memRegistration'])->name('employee-member-register');
-Route::get('/employee-member-list', [EmployeeController::class, 'EmployeememberList'])->name('employee-member-list');
 Route::post('/employee-member-save', [EmployeeController::class, 'store'])->name('employee-member-save');
+Route::get('/employee-member-list', [EmployeeController::class, 'show'])->name('employee-member-list');
+Route::get('/show-employee/{id}', [EmployeeController::class, 'show'])->name('show-employee');
 Route::get('/employee-mem-register-form/{id?}', [EmployeeController::class, 'memRegistrationForm'])->name('employee-mem-register-form');
 
 Route::post('/member-status-update', 

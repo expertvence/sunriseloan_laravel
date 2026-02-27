@@ -167,5 +167,19 @@ class EmployeeController extends Controller
         ]);
     }
 }
+
+public function show($id)
+{
+    $user = DB::table('members')
+        ->leftJoin('users', 'users.member_id', '=', 'members.id')
+        ->where('members.id', $id)
+        ->where('users.member_id', $id)
+        ->first();
+
+    // dd($user);
+
+    return Template::loadView('employee/member_show', compact('user'));
+}
+
 }
 

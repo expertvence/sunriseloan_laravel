@@ -18,8 +18,8 @@ class MemberRegistration extends Migration
             $table->bigIncrements('id');
             $table->string('Uid');
             $table->string('name');
-            $table->text('fathers_mane');
-            $table->text('mothers_mane');
+            $table->text('fathers_name');
+            $table->text('mothers_name');
             $table->text('mobile');
             $table->text('age');
             $table->text('address');

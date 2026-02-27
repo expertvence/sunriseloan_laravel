@@ -693,7 +693,7 @@ body.dark-mode select option {
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="premium-input-group">
                         <div class="form-floating">
-                            <input class="form-control" id="profession" name="profession" type="text" placeholder="Enter profession" value="{{ $member_profession }}" />
+                            <input class="form-control" id="profession" name="member_profession" type="text" placeholder="Enter profession" value="{{ $member_profession }}" />
                             <label for="profession"><i class="fas fa-briefcase me-2"></i>Profession</label>
                         </div>
                     </div>

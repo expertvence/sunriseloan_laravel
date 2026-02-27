@@ -15,7 +15,7 @@
 
     $nid = isset($data->nid) ? $data->nid : '';
     $member_photo = isset($data->member_photo) ? $data->member_photo : '';
-    $member_profession = isset($data->member_profession) ? $data->member_profession : '';
+    $profession = isset($data->profession) ? $data->profession : '';
    
 @endphp
 
@@ -127,7 +127,7 @@
             <div class="col-md-3">
                 <div class="form-floating mb-3 mb-md-0">
                     <input class="form-control" id="profession" name="profession" type="text"
-                        placeholder="Enter your Share Amount" value="{{ $member_profession }}" />
+                        placeholder="Enter your Share Amount" value="{{ $profession }}" />
                     <label for="profession">Profession</label>
                 </div>
             </div>
