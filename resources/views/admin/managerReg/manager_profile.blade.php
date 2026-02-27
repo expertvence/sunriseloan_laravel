@@ -371,13 +371,13 @@ body {
                 <div class="info-card-custom">
                     <div class="info-icon info-icon-1"><i class="fas fa-user-tie"></i></div>
                     <div class="info-label">Father's Name</div>
-                    <div class="info-value">{{$data['fathers_mane']}}</div>
+                    <div class="info-value">{{$data['fathers_name']}}</div>
                 </div>
 
                 <div class="info-card-custom">
                     <div class="info-icon info-icon-2"><i class="fas fa-user"></i></div>
                     <div class="info-label">Mother's Name</div>
-                    <div class="info-value">{{$data['mothers_mane']}}</div>
+                    <div class="info-value">{{$data['mothers_name']}}</div>
                 </div>
 
                 <div class="info-card-custom">

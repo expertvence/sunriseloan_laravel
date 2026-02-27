@@ -509,8 +509,8 @@ body.dark-mode .table tbody tr:hover td {
                                             <span class="fw-500">{{ $value->name }}</span>
                                         </div>
                                     </td>
-                                    <td data-label="Father">{{ $value->fathers_mane ?? 'N/A' }}</td>
-                                    <td data-label="Mother">{{ $value->mothers_mane ?? 'N/A' }}</td>
+                                    <td data-label="Father">{{ $value->fathers_name ?? 'N/A' }}</td>
+                                    <td data-label="Mother">{{ $value->mothers_name ?? 'N/A' }}</td>
                                     <td data-label="Email">
                                         <a href="mailto:{{ $value->email }}" class="text-decoration-none">
                                             <i class="fas fa-envelope me-1"></i>
@@ -538,7 +538,7 @@ body.dark-mode .table tbody tr:hover td {
                                     </td>
                                     <td data-label="Actions">
                                         <div class="action-buttons">
-                                            <a href="{{ route('member_profile', $value->id) }}" target="_blank" 
+                                            <a href="{{ route('show', $value->id) }}" target="_blank" 
                                                class="action-btn view-btn" data-tooltip="View Profile">
                                                 <i class="fas fa-eye"></i>
                                             </a>

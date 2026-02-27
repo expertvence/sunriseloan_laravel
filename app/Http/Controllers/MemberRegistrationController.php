@@ -180,10 +180,19 @@ class MemberRegistrationController extends Controller
      * @param  \App\MemberRegistration  $memberRegistration
      * @return \Illuminate\Http\Response
      */
-    public function show(MemberRegistration $memberRegistration)
-    {
-        //
-    }
+public function show($id)
+{
+    $user = DB::table('members')
+        ->leftJoin('users', 'users.member_id', '=', 'members.id')
+        ->where('members.id', $id)
+        ->where('users.member_id', $id)
+        ->first();
+
+    // dd($user);
+
+    return Template::loadView('admin/memberReg/member_show', compact('user'));
+}
+
 
     /**
      * Show the form for editing the specified resource.
