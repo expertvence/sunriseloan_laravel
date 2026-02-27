@@ -460,7 +460,7 @@
             @elseif(Auth::user()->user_type == 'manager')
                 <!-- Manager menu items -->
                 <div class="sb-sidenav-menu-heading">CORE</div>
-                <a class="nav-link ajax_link" href="#" data-url="{{ route('admin-panel') }}">
+                <a class="nav-link ajax_link" href="#" data-url="{{ route('managerDashboards') }}">
                     <span class="accent-bar"></span>
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     <span>Dashboard</span>
@@ -476,7 +476,7 @@
                 </a>
                 <div class="collapse" id="member_reg" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link ajax_link" href="#" data-url="{{ route('member-register') }}">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ route('mployee-member-register') }}">
                             <i class="fas fa-user-plus me-2" style="font-size: 0.8rem;"></i>
                             <span>Create Member</span>
                         </a>

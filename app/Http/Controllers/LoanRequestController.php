@@ -95,6 +95,7 @@ class LoanRequestController extends Controller
                 'status'          => 'pending',
                 'created_by'      => Auth::user()->name,
                 'created_at'      => now(),
+                'creator_id'      => Auth::user()->id
             ];
 
             Loan::insert($data);

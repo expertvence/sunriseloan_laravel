@@ -21,6 +21,7 @@ class CreateLoansTable extends Migration
             $table->decimal('loan_amount', 15, 2); 
             $table->string('loan_category_id');
             $table->text('loan_purpose');  
+            $table->integer('creator_id');  
             $table->string('loan_term');  
             $table->integer('payment_schedule');  
             $table->float('deposit')->nullable();  
