@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Deposit;
 use App\Library\Template;
 use App\Loan;
 use App\LoanCommit;
@@ -83,6 +84,7 @@ class LoanCommitController extends Controller
             'payment_amount' => 'required|numeric',
             'loan_year' => 'required|integer',
             'from_month' => 'required|array',
+            'deposit' => 'required',
         ]);
 
         try {
@@ -112,6 +114,7 @@ class LoanCommitController extends Controller
             }
 
             // Loop through the selected months and check if there is any duplicate month-year combination
+            $totalDepositForLoan = 0;
             foreach ($validated['from_month'] as $month) {
                 // Check if this combination already exists
                 $existingCommit = LoanCommit::where('loan_payment_id', $validated['loan_payment_id'])
@@ -140,18 +143,40 @@ class LoanCommitController extends Controller
             }
 
             $user = Auth::user();
+            $withoutDeposit = (float) $validated['payment_amount'] - (float) $validated['deposit'];
+
             // Insert data into LoanCommit table for each selected month
             foreach ($validated['from_month'] as $month) {
-                LoanCommit::create([
+                $commit = LoanCommit::create([
                     'loan_payment_id' => $validated['loan_payment_id'],
                     'loan_commit_id' => $loanCommitId,
                     'payment_amount' => $validated['payment_amount'],
                     'loan_year' => $validated['loan_year'],
-                    'payment_month' => $month,  
-                     'total_savings' => 0,
-                     'committed_user_id' => $user->id,
-                     'committed_user_name' => $user->name,
+                    'payment_month' => $month,
+                    'total_savings' => 0,
+                    'committed_user_id' => $user->id,
+                    'committed_user_name' => $user->name,
+                    'savings' => $validated['deposit'],
+                    'without_deposit' => $withoutDeposit,
+                    'emp_name' => $user->name,
+                    'manager_id' => $user->id,
+                    'committed_user_name' => $user->name,
+                    'committed_user_id' => $user->id
                 ]);
+
+                $loanOwnerId = $loan->user_id; // use loan's user_id
+
+                Deposit::updateOrCreate(
+                    [
+                        'loan_commit_id' => $commit->id, // link to this commit
+                        'user_id' => $loanOwnerId
+                    ],
+                    [
+                        'total_deposit' => $validated['deposit']
+                    ]
+                );
+
+                $totalDepositForLoan += $validated['deposit'];
             }
             return response()->json([
                 'msg' => 'Loan Commit(s) created successfully',
@@ -167,7 +192,6 @@ class LoanCommitController extends Controller
                 'title' => 'Error'
             ]);
         }
-            
     }
 
 

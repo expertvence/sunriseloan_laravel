@@ -75,7 +75,9 @@
                         {{-- <th>Id</th> --}}
                         <th>Loan amount</th>
                         <th>Monthly Income</th>
+                        @if(auth()->user()->user_type == 'admin')
                         <th>Add Deposit</th>
+                        @endif
                         <th>Loan Terms</th>
                         @if (auth()->user()->user_type == 'admin')
                             <th>Payment Schedule</th>
@@ -97,6 +99,7 @@
                                 {{-- <td>{{ $value->loan_ide }}</td> --}}
                                 <td>{{ $value->loan_amount }}</td>
                                 <td>{{ $value->monthly_income }}</td>
+                                @if(auth()->user()->user_type == 'admin')
                                <td>
     <div class="deposit-wrapper" data-id="{{ $value->loan_ide }}">
 
@@ -122,6 +125,7 @@
                 </button>
             </div>
 
+        @endif
         @endif
 
         <!-- Hidden Input Box -->

@@ -414,7 +414,7 @@
                             <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
                             <span>Approvals</span>
                         </a>
-                        <a class="nav-link ajax_link" href="#" data-url="{{ url('comitted-list') }}">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('loan-request-list') }}">
                             <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
                             <span>Loan Approval List</span>
                         </a>
@@ -507,7 +507,7 @@
                             <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
                             <span>Loan Commits</span>
                         </a>
-                        <a class="nav-link ajax_link" href="#" data-url="{{ url('loan-commite') }}">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('loan-request-list') }}">
                             <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
                             <span>Approval List</span>
                         </a>

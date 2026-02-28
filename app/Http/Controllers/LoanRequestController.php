@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Library\Template;
 use App\Loan;
+use App\MemberRegistration;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +40,7 @@ class LoanRequestController extends Controller
 
     public function store(Request $request)
     {
+
         try {
 
             DB::beginTransaction();
@@ -54,6 +56,15 @@ class LoanRequestController extends Controller
                 'other_documents'  => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
             ]);
 
+            $memberRegistration = MemberRegistration::where('id', $request->member_id)->first();
+
+            if (!$memberRegistration || $memberRegistration->status !== 'active') {
+                DB::rollback();
+                return response()->json([
+                    'msg' => 'Loan request denied: Member registration is not active.',
+                    'title' => 'Error'
+                ], 400);
+            }
             // ✅ Get user using member_id (same system logic)
             $user = User::where('member_id', $request->member_id)->first();
 
@@ -80,7 +91,7 @@ class LoanRequestController extends Controller
             } else {
                 $payment_schedule = 52;
             }
-            $loan_uId= $this->generateUniqueUid();
+            $loan_uId = $this->generateUniqueUid();
             $data = [
                 'user_id'         => $user->id,
                 'l_uId'           => $loan_uId,

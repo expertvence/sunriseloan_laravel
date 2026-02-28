@@ -49,7 +49,7 @@ Route::post('/submit-request', [LoanController::class,'loan_store'])->name('subm
 
 Route::POST('/loan/insert',[LoanController::class,'loan_store'])->name('loan');
 
-Route::get('/show-list',[LoanController::class, 'showLoan_list'])->name('showLoan');
+Route::get('/show-list',[LoanController::class, 'showLoan_list'])->name('show-list');
 Route::get('/show-edit/{loan_ide?}',[LoanController::class, 'loanEdit'])->name('edit-loan');
 Route::post('/update-status', [LoanController::class, 'updateStatus'])->name('update-status');
 Route::get('/comitted-list', [LoanController::class, 'ApplovalLoanList'])->name('comitted-list');
@@ -146,6 +146,8 @@ Route::get('/show_categories', [LoancategoryController::class, 'show_categories'
 Route::post('/delete/{id}',[LoancategoryController::class, 'delete'])->name('delete');
 Route::get('/edit-category/{id}', [LoancategoryController::class, 'categoriId'])->name('edit-category');
 Route::get('/loancategories',[LoancategoryController::class, 'categoriId']);
+
+
 //Route::get('/for-get',[LoancategoryController::class, 'categoriwithid'])->name('for-get');
 //assets route
 Route::get('/index',[TotalAssetController::class,'index'])->name('index');

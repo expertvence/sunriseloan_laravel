@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Deposit extends Model
 {
     protected $table = 'deposits';
+    protected $guarded =['id'];
     
 }
