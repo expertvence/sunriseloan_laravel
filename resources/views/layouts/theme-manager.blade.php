@@ -180,13 +180,19 @@ body.dark-mode .theme-toggle-btn {
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     // Set initial theme
-    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
-        document.body.classList.add('dark-mode');
-        updateGlobalThemeButton(true);
-    } else {
-        document.body.classList.remove('dark-mode');
-        updateGlobalThemeButton(false);
-    }
+    // Set initial theme (Default Dark Mode)
+if (!savedTheme) {
+    // If no saved preference → force dark
+    document.body.classList.add('dark-mode');
+    localStorage.setItem('global_theme', 'dark');
+    updateGlobalThemeButton(true);
+} else if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    updateGlobalThemeButton(true);
+} else {
+    document.body.classList.remove('dark-mode');
+    updateGlobalThemeButton(false);
+}
     
     // Listen for system theme changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {

@@ -1,138 +1,659 @@
 <meta name="csrf-token" content="your-csrf-token-here">
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<!-- Premium Styles -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js-bootstrap-css/1.2.1/typeaheadjs.min.css"
     integrity="sha512-jG7NmK8Pm8iKEjw8aIWc+GVFBM33O/Ow4U0Xw34D5yyST0fgmlcV6shsghOXexDsAqtE2TCM6WwNy35qX8E6ng=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<div class="card-body">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+<style>
+/* Premium Form Styling - Theme Aware */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --card-bg: #ffffff;
+    --input-bg: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+    --transition: all 0.3s ease;
+}
 
-    <h1 class="text-center">Loan Commit Form</h1>
-    <form action="{{ route('loan-commit-submit') }}" method="POST" id="loan-commit-form">
-        @csrf
+/* Dark Mode Variables */
+body.dark-mode {
+    --card-bg: #1e293b;
+    --input-bg: #0f172a;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --border-color: #334155;
+    background-color: #0f172a !important;
+}
 
-        <div class="row">
-            <!-- User Name Field -->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="user_name">User Name</label>
-                    <input type="text" class="form-control" id="member_name" name="member_name" required>
-                    <input type="hidden" id="member_id" name="member_id">
-                    <ul id="user-suggestions" class="list-group" style="display:none;"></ul>
-                </div>
-            </div>
+/* Full Page Dark Mode */
+body.dark-mode,
+body.dark-mode #app,
+body.dark-mode .mainContant,
+body.dark-mode #layoutSidenav,
+body.dark-mode #layoutSidenav_content,
+body.dark-mode .content-wrapper {
+    background-color: #0f172a !important;
+}
 
+/* Premium Card Container */
+.premium-loan-card {
+    background: var(--primary-gradient);
+    padding: 3px;
+    border-radius: 30px;
+    box-shadow: var(--shadow-xl);
+    margin: 2rem auto;
+    max-width: 1200px;
+}
 
-            <!-- Loan Amount Field -->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="loan_id">Loan Code</label>
-                    <select class="form-select" name="loan_payment_id" id="loan_id">
-                        <option value="">Select Loan</option>
-                    </select>
-                </div>
-            </div>
+.loan-form-inner {
+    background: var(--card-bg);
+    border-radius: 28px;
+    padding: 2rem;
+    transition: var(--transition);
+}
+
+/* Page Header */
+.page-header-premium {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    padding-bottom: 1.5rem;
+}
+
+.page-header-premium::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--primary-gradient);
+    border-radius: 3px;
+}
+
+.page-header-premium h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.page-header-premium h1 i {
+    font-size: 2.5rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Form Sections */
+.form-section {
+    background: rgba(102, 126, 234, 0.03);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.section-title i {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 8px;
+    border-radius: 10px;
+}
+
+/* Premium Form Groups */
+.premium-form-group {
+    margin-bottom: 1.2rem;
+    position: relative;
+}
+
+.premium-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.premium-form-group label i {
+    color: var(--primary-color);
+    margin-right: 5px;
+}
+
+/* Premium Inputs */
+.premium-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.premium-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+.premium-input[readonly] {
+    background: rgba(102, 126, 234, 0.05);
+    border-color: rgba(102, 126, 234, 0.2);
+    cursor: not-allowed;
+    color: var(--text-secondary);
+}
+
+/* Premium Select */
+.premium-select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: var(--transition);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.premium-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    outline: none;
+}
+
+.premium-select option {
+    background: var(--card-bg);
+    color: var(--text-primary);
+    padding: 10px;
+}
+
+/* Suggestions Dropdown */
+.suggestions-list {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    margin-top: 5px;
+    box-shadow: var(--shadow-lg);
+    display: none;
+}
+
+.suggestions-list .list-group-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    color: var(--text-primary);
+    background: var(--card-bg);
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.suggestions-list .list-group-item:last-child {
+    border-bottom: none;
+}
+
+.suggestions-list .list-group-item:hover {
+    background: rgba(102, 126, 234, 0.1);
+    padding-left: 20px;
+}
+
+.suggestions-list .list-group-item i {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+
+/* Multiple Select Styling */
+select[multiple] {
+    height: auto;
+    min-height: 150px;
+    padding: 0.5rem;
+}
+
+select[multiple] option {
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin: 2px 0;
+    background: var(--input-bg);
+    color: var(--text-primary);
+}
+
+select[multiple] option:checked {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+/* Premium Button */
+.btn-premium {
+    background: var(--primary-gradient);
+    border: none;
+    border-radius: 40px;
+    padding: 1rem 2rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: white;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    margin-top: 2rem;
+}
+
+.btn-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+    z-index: 1;
+}
+
+.btn-premium:hover::before {
+    left: 100%;
+}
+
+.btn-premium:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
+}
+
+.btn-premium i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+    z-index: 2;
+}
+
+.btn-premium:hover i {
+    transform: translateX(5px);
+}
+
+/* Message Box */
+.message-box {
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 4px solid #ef4444;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1rem;
+    display: none;
+}
+
+.message-box i {
+    color: #ef4444;
+    margin-right: 10px;
+}
+
+.message-box span {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Stats Cards */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.stat-card {
+    background: rgba(102, 126, 234, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 1.2rem;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--primary-gradient);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: white;
+    font-size: 1.3rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    margin-bottom: 0.3rem;
+}
+
+.stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Dark Mode Specific */
+body.dark-mode .premium-input,
+body.dark-mode .premium-select {
+    background: var(--input-bg);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+body.dark-mode .form-section {
+    background: rgba(129, 140, 248, 0.03);
+}
+
+body.dark-mode .stat-card {
+    background: rgba(129, 140, 248, 0.05);
+}
+
+body.dark-mode select[multiple] option {
+    background: var(--input-bg);
+    color: var(--text-primary);
+}
+
+body.dark-mode select[multiple] option:checked {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .loan-form-inner {
+        padding: 1.5rem;
+    }
+    
+    .page-header-premium h1 {
+        font-size: 1.8rem;
+    }
+    
+    .page-header-premium h1 i {
+        font-size: 2rem;
+    }
+    
+    .form-section {
+        padding: 1rem;
+    }
+    
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .loan-form-inner {
+        padding: 1rem;
+    }
+    
+    .page-header-premium h1 {
+        font-size: 1.5rem;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .page-header-premium h1 i {
+        font-size: 1.8rem;
+    }
+    
+    .btn-premium {
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.premium-loan-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+</style>
+
+<div class="premium-loan-card">
+    <div class="loan-form-inner">
+        <!-- Page Header -->
+        <div class="page-header-premium">
+            <h1>
+                <i class="fas fa-hand-holding-usd"></i>
+                Loan Commit Form
+            </h1>
         </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <td style="vertical-align: text-top">
-                    <label for="from_month"><strong>Month</strong></label>
-                </td>
-                <td>
-                    <select name="from_month[]" id="from_month" class="form-control" onclick="monthSelect(this)"
-                        multiple required="required">
-                        <!-- Months will be populated here dynamically -->
-                    </select>
-                </td>
+        <form action="{{ route('loan-commit-submit') }}" method="POST" id="loan-commit-form">
+            @csrf
 
-            </div>
-            <!-- Payment Schedule Field -->
-
-            <!-- Year Dropdown -->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="loan_year">Year</label>
-                    <select class="form-control" id="loan_year" name="loan_year" required>
-                        <option value="">Select Year</option>
-                        <!-- Year options will be added dynamically here -->
-                    </select>
+            <!-- User Information Section -->
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-user-circle"></i>
+                    <span>User Information</span>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="premium-form-group">
+                            <label><i class="fas fa-user"></i> Member Name</label>
+                            <input type="text" class="premium-input" id="member_name" name="member_name" placeholder="Type member name..." required>
+                            <input type="hidden" id="member_id" name="member_id">
+                            <div class="suggestions-list" id="user-suggestions"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <td style="vertical-align: text-top"> <label for="no_of_month"> <strong> No Of Month</strong></label>
-                </td>
-                <td><input type="text" class="form-control" name="no_of_month" id="no_of_month" value=""
-                        readonly></td>
-            </div>
-            <div class="col-md-4">
-                <td style="vertical-align: text-top"> <label for="payable_amt"> <strong> Payable
-                            Amount</strong></label></td>
-                <td><input type="text" class="form-control" name="payable_amt" id="payable_amt" value=""
-                        readonly></td>
-            </div>
-            <div class="col-md-4">
-                <td style="vertical-align: text-top"> <label for="deposit"> <strong>Deposit</strong></label></td>
-                <td><input type="text" class="form-control" name="deposit" id="deposit" value=""
-                        readonly></td>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Payment Amount Field -->
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="payment_amount">Payment Amount With Deposit</label>
-                    <input type="number" class="form-control" id="payment_amount" name="payment_amount" required
-                        min="1" step="0.01" readonly>
-                </div>
-            </div>
-            <!-- Payment Amount Field -->
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="successfull_payment">Successfully Paid</label>
-                    <input type="number" class="form-control" id="successfull_payment" name="successfull_payment"
-                        readonly>
 
+            <!-- Loan Selection Section -->
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>Loan Details</span>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="premium-form-group">
+                            <label><i class="fas fa-barcode"></i> Loan Code</label>
+                            <select class="premium-select" name="loan_payment_id" id="loan_id">
+                                <option value="">Select Loan</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Payment Stats -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-label">Successfully Paid</div>
+                        <div class="stat-value" id="successfull_payment">0.00</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-label">Last Payment</div>
+                        <div class="stat-value" id="last_payment_month">-</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-label">Remaining</div>
+                        <div class="stat-value" id="remaining_amount">0.00</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="successfull_payment">Last Payment Month</label>
-                    <input type="date" class="form-control" id="last_payment_month" name="last_payment_month"
-                        readonly>
+            <!-- Payment Schedule Section -->
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Payment Schedule</span>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="premium-form-group">
+                            <label><i class="fas fa-calendar"></i> Select Months</label>
+                            <select name="from_month[]" id="from_month" class="premium-select" onclick="monthSelect(this)" multiple required></select>
+                            <small style="color: var(--text-secondary); display: block; margin-top: 5px;">Hold Ctrl/Cmd to select multiple months</small>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="premium-form-group">
+                            <label><i class="fas fa-calendar-alt"></i> Year</label>
+                            <select class="premium-select" id="loan_year" name="loan_year" required>
+                                <option value="">Select Year</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Calculation Section -->
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-calculator"></i>
+                    <span>Payment Calculation</span>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="premium-form-group">
+                            <label><i class="fas fa-sort-numeric-up"></i> No. of Months</label>
+                            <input type="text" class="premium-input" name="no_of_month" id="no_of_month" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="premium-form-group">
+                            <label><i class="fas fa-money-bill-wave"></i> Payable Amount</label>
+                            <input type="text" class="premium-input" name="payable_amt" id="payable_amt" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="premium-form-group">
+                            <label><i class="fas fa-piggy-bank"></i> Deposit</label>
+                            <input type="text" class="premium-input" name="deposit" id="deposit" readonly>
+                        </div>
+                    </div>
                 </div>
 
-            </div>
-
-
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="remaining_amount">Remaining Amount</label>
-                    <input type="number" class="form-control" id="remaining_amount" name="remaining_amount" readonly>
-
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="premium-form-group">
+                            <label><i class="fas fa-hand-holding-usd"></i> Payment Amount with Deposit</label>
+                            <input type="number" class="premium-input" id="payment_amount" name="payment_amount" required min="1" step="0.01" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="premium-form-group">
+                            <label><i class="fas fa-calendar-check"></i> Last Payment Month</label>
+                            <input type="date" class="premium-input" id="last_payment_month_input" name="last_payment_month" readonly>
+                        </div>
+                    </div>
                 </div>
-
             </div>
 
-        </div>
+            <!-- Message Box -->
+            <div class="message-box" id="message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span></span>
+            </div>
 
-
-
-
-        <!-- <button type="submit" onclick="save(this)" class="btn btn-primary btn-block" redirect="#">Payment</button> -->
-        {{-- <button type="submit" class="btn btn-primary" id="createLoanButton">Create Loan</button> --}}
-
-        <div class="d-grid"><button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"
-                    redirect="{{ route('loan-request-list') }}">Create Loan</button></div>
-        <div id="message" style="display: none; color:red;"></div>
-    </form>
-
+            <!-- Submit Button -->
+            <button type="button" onclick="saveFile(this)" class="btn-premium" redirect="{{ route('loan-request-list') }}">
+                <i class="fas fa-save"></i>
+                Create Loan Commitment
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+    </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.3.1/typeahead.bundle.min.js"
     integrity="sha512-lEb9Vp/rkl9g2E/LdHIMFTqz21+LA79f84gqP75fbimHqVTu6483JG1AwJlWLLQ8ezTehty78fObKupq3HSHPQ=="

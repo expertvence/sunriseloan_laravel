@@ -58,15 +58,6 @@
 <body>
     <div id="app">
         <main class="py-4">
-            <!-- Page Header - এই অংশ যোগ করুন -->
-            <div class="container">
-                <div class="page-header">
-                    <h2>
-                        <i class="fas fa-user-plus"></i>
-                        Create Account
-                    </h2>
-                </div>
-            </div>
             
             <!-- Content -->
             @yield('content')
@@ -80,6 +71,6 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     
     <!-- Theme Manager -->
-    @include('layouts.theme-manager')
+    {{-- @include('layouts.theme-manager') --}}
 </body>
 </html>
