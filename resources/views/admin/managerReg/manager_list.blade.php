@@ -1,172 +1,752 @@
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <style>
-        td {
-            padding: 5px;
-        }
-    </style>
-    <style>
-        .status-active {
-            background-color: #198754 !important;
-            color: #fff !important;
-        }
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet">
 
-        .status-inactive {
-            background-color: #6c757d !important;
-            color: #fff !important;
-        }
+<style>
+/* Premium Table Styling - Full Dark Mode Support */
+:root {
+    --table-header-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --table-row-hover: rgba(99, 102, 241, 0.05);
+    --table-border: #e2e8f0;
+    --table-stripe: #f8fafc;
+    --card-bg: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --input-bg: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
 
-        .status-rejected {
-            background-color: #dc3545 !important;
-            color: #fff !important;
-        }
-    </style>
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-table me-1"></i>
-            Member List
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="datatablesSimple" class="data-table table table-bordered " width="100%">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>SL#</th>
-                            <th>Code</th>
-                            <th>Name</th>
-                            {{-- <th>Age</th>
-                             <th>Gender</th>
-                            <th>Religion</th> --}}
-                            <th>Father's Name</th>
-                            <th>Motherd's Name</th>
-                            <th>Email</th>
-                            {{-- <th>Address</th> --}}
-                            <th>Status</th>
-                            <th>Created by</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+/* Dark Mode Variables - Full Dark */
+body.dark-mode {
+    --table-header-bg: linear-gradient(135deg, #1e293b 0%, #2d3a4f 100%);
+    --table-row-hover: rgba(129, 140, 248, 0.15);
+    --table-border: #334155;
+    --table-stripe: #1e293b;
+    --card-bg: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --border-color: #334155;
+    --input-bg: #0f172a;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    
+    /* Background colors for full page dark */
+    background-color: #0f172a !important;
+}
 
-                    <tbody>
-                        @if (!empty($data))
-                            @foreach ($data as $value)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $value->Uid ?? 'N/A' }}</td>
-                                    <td>{{ $value->name }}</td>
-                                    {{-- <td>{{ $value->age }}</td>
-                                     <td>{{ $value->gender }}</td>
-                                    <td>{{ $value->religion }}</td> --}}
-                                    <td>{{ $value->fathers_name }}</td>
-                                    <td>{{ $value->mothers_name }}</td>
-                                    <td>{{ $value->email }}</td>
-                                    {{-- <td>{{ $value->address }}</td> --}}
-                                    <td class="text-center">
-                                        @if (Auth::user()->user_type == 'admin')
-                                            <select class="form-control status-change" data-id="{{ $value->id }}">
-                                                <option value="active"
-                                                    {{ $value->status == 'active' ? 'selected' : '' }}>Active</option>
-                                                <option value="inactive"
-                                                    {{ $value->status == 'inactive' ? 'selected' : '' }}>Inactive
-                                                </option>
-                                                <option value="rejected"
-                                                    {{ $value->status == 'rejected' ? 'selected' : '' }}>Rejected
-                                                </option>
-                                            </select>
-                                        @else
-                                            @if ($value->status == 'active')
-                                                <span class="badge bg-success">Active</span>
-                                            @elseif($value->status == 'inactive')
-                                                <span class="badge bg-secondary">Inactive</span>
-                                            @else
-                                                <span class="badge bg-danger">Rejected</span>
-                                            @endif
-                                        @endif
-                                    </td>
-                                    <td>{{ $value->created_by }}</td>
-                                    <td>
-                                        <a href="{{ route('member_profile', $value->id) }}" target="_blank"
-                                            rel="noopener noreferrer"><i class="fas fa-user"></i></a>
-                                        <span class="btn btn-sm  open-modal btnView"
-                                            data-action="{{ route('manager-create-form', $value->id) }}"
-                                            data-modal="common-modal-md" data-title=" Manager Edit" title="Edit"
-                                            data-id="{{ $value->id }}"><i class="fas fa-edit"></i></span>
+/* Ensure full page dark */
+body.dark-mode,
+body.dark-mode #app,
+body.dark-mode .mainContant,
+body.dark-mode #layoutSidenav,
+body.dark-mode #layoutSidenav_content,
+body.dark-mode .content-wrapper {
+    background-color: #0f172a !important;
+}
 
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
+/* Premium Card */
+.premium-table-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 3px;
+    border-radius: 24px;
+    box-shadow: 0 20px 25px -5px var(--shadow-color);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
 
+.table-inner {
+    background: var(--card-bg);
+    border-radius: 22px;
+    padding: 1.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
 
-                    </tbody>
+/* Card Header */
+.card-header-premium {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
 
-                </table>
+.card-header-premium .header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-header-premium .header-title i {
+    font-size: 1.8rem;
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.card-header-premium .header-title h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.card-header-premium .badge-count {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 6px -1px var(--shadow-color);
+}
+
+/* Table Styles */
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0;
+}
+
+.table thead th {
+    background: var(--table-header-bg);
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem 0.75rem;
+    border: none;
+    white-space: nowrap;
+}
+
+.table thead th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.table thead th:last-child {
+    border-top-right-radius: 12px;
+}
+
+.table tbody td {
+    padding: 1rem 0.75rem;
+    vertical-align: middle;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+    background-color: transparent;
+}
+
+.table tbody tr:hover td {
+    background: var(--table-row-hover);
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Status Badge Styles */
+.status-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+    display: inline-block;
+    min-width: 90px;
+    text-align: center;
+    color: white !important;
+    box-shadow: 0 1px 2px 0 var(--shadow-color);
+}
+
+.status-badge.active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.status-badge.inactive {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+}
+
+.status-badge.rejected {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* Status Select Dropdown */
+.status-select {
+    padding: 0.4rem 1rem;
+    border-radius: 30px;
+    border: 2px solid transparent;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    text-transform: capitalize;
+    color: white !important;
+    box-shadow: 0 1px 2px 0 var(--shadow-color);
+}
+
+.status-select.status-active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.status-select.status-inactive {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+}
+
+.status-select.status-rejected {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.status-select option {
+    background: var(--card-bg);
+    color: var(--text-primary);
+    padding: 8px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    box-shadow: 0 1px 2px 0 var(--shadow-color);
+}
+
+.action-btn.view-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.action-btn.edit-btn {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.action-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 15px -3px var(--shadow-color);
+}
+
+.action-btn i {
+    font-size: 1rem;
+    color: white;
+}
+
+/* Code Badge */
+.code-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-block;
+    box-shadow: 0 1px 2px 0 var(--shadow-color);
+}
+
+/* Created by badge */
+.created-by {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+
+.created-by i {
+    color: #667eea;
+}
+
+/* Avatar Circle */
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-right: 8px;
+}
+
+.name-with-avatar {
+    display: flex;
+    align-items: center;
+}
+
+/* Email Link */
+.email-link {
+    color: #667eea;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.email-link:hover {
+    color: #764ba2;
+    transform: translateX(2px);
+}
+
+.email-link i {
+    font-size: 0.9rem;
+}
+
+/* DataTables Customization */
+.dataTables_wrapper {
+    padding: 1rem 0;
+    color: var(--text-primary);
+}
+
+.dataTables_wrapper .dataTables_length {
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.dataTables_wrapper .dataTables_length select {
+    background: var(--input-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 30px;
+    padding: 0.4rem 2rem 0.4rem 1rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    outline: none;
+    margin: 0 5px;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 1.5rem;
+}
+
+.dataTables_wrapper .dataTables_filter label {
+    color: var(--text-secondary);
+    position: relative;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    background: var(--input-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 30px;
+    padding: 0.4rem 1rem 0.4rem 2.5rem;
+    color: var(--text-primary);
+    width: 250px;
+    outline: none;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.dataTables_wrapper .dataTables_filter label::before {
+    content: '\f002';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.dataTables_wrapper .dataTables_info {
+    color: var(--text-secondary);
+    padding: 1rem 0;
+    font-size: 0.9rem;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    padding: 1rem 0;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.5rem 1rem;
+    margin: 0 3px;
+    border-radius: 30px;
+    border: 2px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-primary) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white !important;
+    border-color: transparent;
+    transform: translateY(-2px);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Dark Mode Specific Overrides - Full Dark */
+body.dark-mode .table-inner {
+    background: #1e293b;
+}
+
+body.dark-mode .card-header-premium {
+    border-bottom-color: #334155;
+}
+
+body.dark-mode .card-header-premium .header-title i {
+    background: rgba(129, 140, 248, 0.15);
+    color: #a5b4fc;
+}
+
+body.dark-mode .card-header-premium .header-title h3 {
+    color: #f1f5f9;
+}
+
+body.dark-mode .table thead th {
+    background: linear-gradient(135deg, #1e293b 0%, #2d3a4f 100%);
+}
+
+body.dark-mode .table tbody td {
+    color: #f1f5f9;
+    border-bottom-color: #334155;
+}
+
+body.dark-mode .table tbody tr:hover td {
+    background: rgba(129, 140, 248, 0.15);
+}
+
+body.dark-mode .created-by {
+    background: rgba(129, 140, 248, 0.15);
+    color: #f1f5f9;
+}
+
+body.dark-mode .created-by i {
+    color: #a5b4fc;
+}
+
+body.dark-mode .code-badge {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+}
+
+body.dark-mode .email-link {
+    color: #a5b4fc;
+}
+
+body.dark-mode .email-link:hover {
+    color: #c7d2fe;
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_length,
+body.dark-mode .dataTables_wrapper .dataTables_filter,
+body.dark-mode .dataTables_wrapper .dataTables_info {
+    color: #cbd5e1;
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_length select,
+body.dark-mode .dataTables_wrapper .dataTables_filter input {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9 !important;
+}
+
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .table-inner {
+        padding: 1rem;
+    }
+    
+    .card-header-premium {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: start;
+    }
+    
+    .dataTables_wrapper .dataTables_filter input {
+        width: 200px;
+    }
+    
+    .action-buttons {
+        gap: 5px;
+    }
+    
+    .action-btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 576px) {
+    .table thead th {
+        font-size: 0.8rem;
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .table tbody td {
+        font-size: 0.85rem;
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .status-badge,
+    .status-select {
+        min-width: 80px;
+        font-size: 0.8rem;
+        padding: 0.3rem 0.5rem;
+    }
+    
+    .dataTables_wrapper .dataTables_filter input {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    
+    .dataTables_wrapper .dataTables_filter label::before {
+        top: 60%;
+    }
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.premium-table-card {
+    animation: slideIn 0.5s ease-out;
+}
+</style>
+
+<div class="premium-table-card">
+    <div class="table-inner">
+        <!-- Premium Card Header -->
+        <div class="card-header-premium">
+            <div class="header-title">
+                <i class="fas fa-users"></i>
+                <h3>Member List</h3>
+            </div>
+            <div class="badge-count">
+                <i class="fas fa-database me-2"></i>Total: {{ count($data) }} Members
             </div>
         </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table id="datatablesSimple" class="table" width="100%">
+                <thead>
+                    <tr>
+                        <th>SL#</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Father's Name</th>
+                        <th>Mother's Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Created By</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!empty($data) && count($data) > 0)
+                        @foreach ($data as $value)
+                            <tr>
+                                <td>
+                                    <span class="fw-bold">#{{ $loop->iteration }}</span>
+                                </td>
+                                <td>
+                                    <span class="code-badge">{{ $value->Uid ?? 'N/A' }}</span>
+                                </td>
+                                <td>
+                                    <div class="name-with-avatar">
+                                        <div class="avatar-circle">
+                                            {{ substr($value->name, 0, 1) }}
+                                        </div>
+                                        <span>{{ $value->name }}</span>
+                                    </div>
+                                </td>
+                                <td>{{ $value->fathers_name ?? 'N/A' }}</td>
+                                <td>{{ $value->mothers_name ?? 'N/A' }}</td>
+                                <td>
+                                    <a href="mailto:{{ $value->email }}" class="email-link">
+                                        <i class="fas fa-envelope"></i>
+                                        {{ $value->email }}
+                                    </a>
+                                </td>
+                                <td>
+                                    @if (Auth::user()->user_type == 'admin')
+                                        <select class="status-select status-{{ $value->status }}" data-id="{{ $value->id }}">
+                                            <option value="active" {{ $value->status == 'active' ? 'selected' : '' }}>Active</option>
+                                            <option value="inactive" {{ $value->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                            <option value="rejected" {{ $value->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                        </select>
+                                    @else
+                                        <span class="status-badge {{ $value->status }}">
+                                            {{ ucfirst($value->status) }}
+                                        </span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <span class="created-by">
+                                        <i class="fas fa-user-circle"></i>
+                                        {{ $value->created_by ?? 'System' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="{{ route('member_profile', $value->id) }}" target="_blank" class="action-btn view-btn" title="View Profile">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <span class="action-btn edit-btn open-modal" 
+                                              data-action="{{ route('manager-create-form', $value->id) }}"
+                                              data-modal="common-modal-md" 
+                                              data-title="Edit Manager" 
+                                              data-id="{{ $value->id }}" 
+                                              title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="9" class="text-center py-5">
+                                <div style="text-align: center; padding: 3rem;">
+                                    <i class="fas fa-users-slash" style="font-size: 4rem; color: var(--text-secondary); opacity: 0.5; margin-bottom: 1rem;"></i>
+                                    <p style="color: var(--text-secondary); font-size: 1.1rem;">No members found</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
     </div>
-    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-    <script>
-        $(document).ready(function() {
-            $(".data-table").DataTable({
-                "ordering": false,
-                "bAutoWidth": false,
-            });
-        });
+</div>
 
-        $(document).on('change', '.status-change', function() {
-
-            let memberId = $(this).data('id');
-            let status = $(this).val();
-
-            $.ajax({
-                url: "{{ route('member-status-update') }}",
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    id: memberId,
-                    status: status
-                },
-                success: function(response) {
-                    console.log(response);
-                }
-            });
-
-        });
-
-        function updateStatusColor(element) {
-            element.removeClass('status-active status-inactive status-rejected');
-
-            if (element.val() === 'active') {
-                element.addClass('status-active');
-            } else if (element.val() === 'inactive') {
-                element.addClass('status-inactive');
-            } else if (element.val() === 'rejected') {
-                element.addClass('status-rejected');
+<script>
+$(document).ready(function() {
+    // Initialize DataTable with responsive option
+    $(".data-table").DataTable({
+        "ordering": false,
+        "bAutoWidth": false,
+        "responsive": true,
+        "language": {
+            "search": "",
+            "searchPlaceholder": "Search members...",
+            "lengthMenu": "Show _MENU_ entries",
+            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+            "infoEmpty": "Showing 0 to 0 of 0 entries",
+            "infoFiltered": "(filtered from _MAX_ total entries)",
+            "paginate": {
+                "first": "«",
+                "last": "»",
+                "next": "›",
+                "previous": "‹"
             }
         }
+    });
 
-        // Page load e color set korar jonno
-        $('.status-change').each(function() {
-            updateStatusColor($(this));
-        });
+    // Initialize status colors
+    $('.status-select').each(function() {
+        updateStatusColor($(this));
+    });
+});
 
-        // Status change korle color change hobe
-        $(document).on('change', '.status-change', function() {
-            updateStatusColor($(this));
+// Function to update status select color
+function updateStatusColor(element) {
+    element.removeClass('status-active status-inactive status-rejected');
+    
+    if (element.val() === 'active') {
+        element.addClass('status-active');
+    } else if (element.val() === 'inactive') {
+        element.addClass('status-inactive');
+    } else if (element.val() === 'rejected') {
+        element.addClass('status-rejected');
+    }
+}
 
-            let memberId = $(this).data('id');
-            let status = $(this).val();
-
-            $.ajax({
-                url: "{{ route('member-status-update') }}",
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    id: memberId,
-                    status: status
-                },
-                success: function(response) {
-                    console.log(response);
-                }
-            });
-        });
-    </script>
+// Status change handler
+$(document).on('change', '.status-select', function() {
+    let $this = $(this);
+    let memberId = $this.data('id');
+    let status = $this.val();
+    let originalValue = $this.data('original-value') || $this.val();
+    
+    // Optimistic UI update
+    updateStatusColor($this);
+    
+    // Show loading state
+    $this.prop('disabled', true);
+    $this.css('opacity', '0.7');
+    
+    $.ajax({
+        url: "{{ route('member-status-update') }}",
+        type: "POST",
+        data: {
+            _token: "{{ csrf_token() }}",
+            id: memberId,
+            status: status
+        },
+        success: function(response) {
+            console.log('Status updated successfully');
+            $this.data('original-value', status);
+        },
+        error: function(xhr) {
+            // Revert on error
+            $this.val(originalValue);
+            updateStatusColor($this);
+            alert('Error updating status. Please try again.');
+        },
+        complete: function() {
+            // Remove loading state
+            $this.prop('disabled', false);
+            $this.css('opacity', '1');
+        }
+    });
+});
+</script>

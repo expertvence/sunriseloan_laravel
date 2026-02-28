@@ -519,3 +519,31 @@
         </div>
     </div>
 </nav>
+
+<!-- আপনার sidebar code এর শেষে এই JavaScript টা যোগ করুন -->
+
+<script>
+// Update sidebar when theme changes
+window.addEventListener('themeChanged', function(e) {
+    const sidebar = document.querySelector('.sb-sidenav');
+    if (sidebar) {
+        if (document.body.classList.contains('dark-mode')) {
+            sidebar.style.background = 'linear-gradient(165deg, #1a1f2e 0%, #232837 50%, #2d3447 100%)';
+        } else {
+            sidebar.style.background = 'linear-gradient(165deg, #0a0c15 0%, #0f1220 50%, #1a1f2f 100%)';
+        }
+    }
+});
+
+// Initialize sidebar on load
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.querySelector('.sb-sidenav');
+    if (sidebar) {
+        if (document.body.classList.contains('dark-mode')) {
+            sidebar.style.background = 'linear-gradient(165deg, #1a1f2e 0%, #232837 50%, #2d3447 100%)';
+        } else {
+            sidebar.style.background = 'linear-gradient(165deg, #0a0c15 0%, #0f1220 50%, #1a1f2f 100%)';
+        }
+    }
+});
+</script>

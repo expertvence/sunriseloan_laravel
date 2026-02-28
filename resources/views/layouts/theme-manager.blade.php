@@ -262,4 +262,5 @@ document.addEventListener('DOMContentLoaded', function() {
     const isDark = document.body.classList.contains('dark-mode');
     updateGlobalThemeButton(isDark);
 });
+
 </script>
