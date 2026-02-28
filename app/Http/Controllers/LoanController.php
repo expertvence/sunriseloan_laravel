@@ -203,4 +203,9 @@ class LoanController extends Controller
         $loan->save();
         return response()->json(['success' => true]);
     }
+
+    public function ApplovalLoanList(){
+        $data = Loancommit::all();
+        return Template::loadView('admin/loan_commit/approval_loan_list', compact('data'));
+    }
 }

@@ -102,8 +102,7 @@
 
 
 
-        <!-- <button type="submit" onclick="save(this)" class="btn btn-primary btn-block" redirect="#">Payment</button> -->
-        {{-- <button type="submit" class="btn btn-primary" id="createLoanButton">Create Loan</button> --}}
+        
         <div class="mt-4 mb-0">
             <div class="d-grid"><button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"
                     redirect="{{ route('loan-request-list') }}">Create Loan</button></div>

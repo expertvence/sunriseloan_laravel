@@ -178,7 +178,7 @@ public function show($id)
 
     // dd($user);
 
-    return Template::loadView('employee/member_show', compact('user'));
+    return Template::loadView('employee/memberRegister/member_show', compact('user'));
 }
 
 }

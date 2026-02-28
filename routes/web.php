@@ -52,6 +52,7 @@ Route::POST('/loan/insert',[LoanController::class,'loan_store'])->name('loan');
 Route::get('/show-list',[LoanController::class, 'showLoan_list'])->name('showLoan');
 Route::get('/show-edit/{loan_ide?}',[LoanController::class, 'loanEdit'])->name('edit-loan');
 Route::post('/update-status', [LoanController::class, 'updateStatus'])->name('update-status');
+Route::get('/comitted-list', [LoanController::class, 'ApplovalLoanList'])->name('comitted-list');
 
 
 /* Loan section end */
@@ -175,7 +176,7 @@ Route::post('/reset-password', [AdmiProfileController::class, 'resetPassword'])-
 
 Route::get('/employee-member-register', [EmployeeController::class, 'memRegistration'])->name('employee-member-register');
 Route::post('/employee-member-save', [EmployeeController::class, 'store'])->name('employee-member-save');
-Route::get('/employee-member-list', [EmployeeController::class, 'show'])->name('employee-member-list');
+Route::get('/employee-member-list', [EmployeeController::class, 'EmployeememberList'])->name('employee-member-list');
 Route::get('/show-employee/{id}', [EmployeeController::class, 'show'])->name('show-employee');
 Route::get('/employee-mem-register-form/{id?}', [EmployeeController::class, 'memRegistrationForm'])->name('employee-mem-register-form');
 
