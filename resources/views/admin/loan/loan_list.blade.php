@@ -97,26 +97,47 @@
                                 {{-- <td>{{ $value->loan_ide }}</td> --}}
                                 <td>{{ $value->loan_amount }}</td>
                                 <td>{{ $value->monthly_income }}</td>
-                                <td>
+                               <td>
+    <div class="deposit-wrapper" data-id="{{ $value->loan_ide }}">
 
-                                    {{-- Display Button --}}
-                                    <button class="btn btn-sm btn-success editAmountBtn">
-                                        {{ number_format($value->deposit, 2) }}
-                                    </button>
+        @if($value->deposit == 0)
 
-                                    {{-- Hidden Input Section --}}
-                                    <div class="amountEditBox d-none mt-2">
-                                        <input type="number" step="0.01"
-                                            class="form-control form-control-sm amountInput"
-                                            value="{{ $value->deposit }}">
+            <!-- Add Icon -->
+            <div class="deposit-display add-mode">
+                <button type="button" class="btn btn-sm btn-light addDepositBtn">
+                    <i class="fas fa-plus text-success"></i>
+                    <span class="add-text">Add Deposit</span>
+                </button>
+            </div>
 
-                                        <button class="btn btn-sm btn-primary mt-1 saveAmountBtn"
-                                            data-id="{{ $value->id }}">
-                                            Save
-                                        </button>
-                                    </div>
+        @else
 
-                                </td>
+            <!-- Show Amount + Edit Icon -->
+            <div class="deposit-display">
+                <span class="deposit-amount">
+                    {{ number_format($value->deposit,2) }}
+                </span>
+                <button type="button" class="btn btn-sm btn-light editDepositBtn">
+                    <i class="fas fa-pen text-primary"></i>
+                </button>
+            </div>
+
+        @endif
+
+        <!-- Hidden Input Box -->
+        <div class="deposit-edit-box d-none mt-2">
+            <input type="number" step="0.01"
+                class="form-control form-control-sm depositInput"
+                value="{{ $value->deposit }}">
+
+            <button class="btn btn-sm btn-success mt-1 saveDepositBtn">
+                Submit
+            </button>
+        </div>
+
+    </div>
+</td>
+
 
 
                                 <td>
@@ -297,4 +318,51 @@
 $(document).on('click', function(){
     $(".action-dropdown").hide();
 });
+
+
+// deposti
+
+// Show input when Add or Edit clicked
+$(document).on('click', '.addDepositBtn, .editDepositBtn', function(){
+    let wrapper = $(this).closest('.deposit-wrapper');
+    wrapper.find('.deposit-display').hide();
+    wrapper.find('.deposit-edit-box').removeClass('d-none');
+});
+
+// Save Deposit
+$(document).on('click', '.saveDepositBtn', function(){
+
+    let wrapper = $(this).closest('.deposit-wrapper');
+    let id = wrapper.data('id');
+    let amount = wrapper.find('.depositInput').val();
+
+    $.ajax({
+        url: "{{ route('update-deposit') }}",
+        type: "POST",
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            id: id,
+            deposit: amount
+        },
+        success: function(response){
+
+            console.log(response);
+            if(response.success){
+
+                wrapper.find('.deposit-edit-box').addClass('d-none');
+
+                wrapper.find('.deposit-display').html(`
+                    <span class="deposit-amount">${parseFloat(amount).toFixed(2)}</span>
+                    <button type="button" class="btn btn-sm btn-light editDepositBtn">
+                        <i class="fas fa-pen text-primary"></i>
+                    </button>
+                `).show();
+
+            } else {
+                alert("Error saving deposit");
+            }
+        }
+    });
+});
+
 </script>

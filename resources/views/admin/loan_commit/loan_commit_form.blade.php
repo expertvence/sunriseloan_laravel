@@ -62,16 +62,21 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <td style="vertical-align: text-top"> <label for="no_of_month"> <strong> No Of Month</strong></label>
                 </td>
                 <td><input type="text" class="form-control" name="no_of_month" id="no_of_month" value=""
                         readonly></td>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <td style="vertical-align: text-top"> <label for="payable_amt"> <strong> Payable
                             Amount</strong></label></td>
                 <td><input type="text" class="form-control" name="payable_amt" id="payable_amt" value=""
+                        readonly></td>
+            </div>
+            <div class="col-md-4">
+                <td style="vertical-align: text-top"> <label for="deposit"> <strong>Deposit</strong></label></td>
+                <td><input type="text" class="form-control" name="deposit" id="deposit" value=""
                         readonly></td>
             </div>
         </div>
@@ -79,7 +84,7 @@
             <!-- Payment Amount Field -->
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="payment_amount">Payment Amount</label>
+                    <label for="payment_amount">Payment Amount With Deposit</label>
                     <input type="number" class="form-control" id="payment_amount" name="payment_amount" required
                         min="1" step="0.01" readonly>
                 </div>
@@ -198,31 +203,33 @@
                     response); // Debug: Check the loan details returned
 
                     let loanAmount = parseFloat(response.loan_amount); // Loan amount as a float
-                    let loanCategoryId = parseFloat(response
+                    let percentage = parseFloat(response
                     .loan_category_percentage); // Loan category as a percentage (float)
                     let loanTerm = parseInt(response.loan_term); // Loan term as an integer
-
+                    let deposit = parseFloat(response.deposit);
+                    console.log("Deposit:", deposit);
                     // Check if response has loan details
                     if (response && response.loan_amount && response.loan_term && response
-                        .loan_category_id) {
+                        .loan_category_percentage) {
                         // Populate the form fields with the loan details
                         $('#loan_amount').val(response.loan_amount); // Populate loan amount
                         $('#loan_term').val(response.loan_term); // Populate loan term
 
-
+                        $('#deposit').val(response.deposit);
                         // Calculate the payment amount (loan_amount / loan_term)
                         // Calculate the interest as a percentage of the loan amount
-                        let interest = (loanAmount * loanCategoryId) /
-                        100; // Interest = loan_amount * (loan_category_id / 100)
+                        let interest = (loanAmount * percentage) / 100; // Interest = loan_amount * (loan_category_id / 100)
 
                         // Calculate the amount with interest
                         let amountWithInterest = loanAmount + interest;
-
+                        
+                            // consol.log(amountWithInterest);
                         // Calculate the payment amount (amount with interest divided by loan term)
-                        let paymentAmount = amountWithInterest / loanTerm;
-
+                        let paymentAmount = amountWithInterest / loanTerm ;
+                        
+                        let withDeposit = paymentAmount + deposit;
                         // Set the calculated payment amount in the input field, formatted to two decimal places
-                        $('#payment_amount').val(paymentAmount.toFixed(
+                        $('#payment_amount').val(withDeposit.toFixed(
                         2)); // Set payment amount with two decimal places
 
                     } else {
@@ -285,6 +292,8 @@
     function updatePayableAmount(selectedMonths) {
         // Get the per month amount (assuming it's in an input field with id 'payment_amount')
         const perMonthAmount = parseFloat(document.getElementById('payment_amount').value) || 0;
+
+        const deposit    = parseFloat(document.getElementById('deposit').value) || 0;
 
         // Log the per month amount for debugging
         console.log("Per Month Amount: ", perMonthAmount);

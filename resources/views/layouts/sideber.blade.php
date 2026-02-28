@@ -406,7 +406,7 @@
                 </a>
                 <div class="collapse" id="loan-request" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link ajax_link" href="#" data-url="{{ url('show-list') }}">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('loan-request') }}">
                             <i class="fas fa-clipboard-list me-2" style="font-size: 0.8rem;"></i>
                             <span>Requests</span>
                         </a>
@@ -499,7 +499,7 @@
                 </a>
                 <div class="collapse" id="loan-request" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link ajax_link" href="#" data-url="{{ url('show-list') }}">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('loan-request') }}">
                             <i class="fas fa-clipboard-list me-2" style="font-size: 0.8rem;"></i>
                             <span>Requests</span>
                         </a>

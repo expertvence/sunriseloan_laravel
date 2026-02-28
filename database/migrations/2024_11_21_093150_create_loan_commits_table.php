@@ -20,8 +20,9 @@ class CreateLoanCommitsTable extends Migration
                 ->references('loan_ide')->on('loans')  
                 ->onDelete('cascade'); 
             $table->string('loan_commit_id')->unique(); 
-
+            $table->string('emp_id')->nullable();
             $table->decimal('payment_amount', 10, 2);
+            $table->float('without_deposit')->default(0.0);
             $table->integer('loan_year');
             $table->string('payment_month');
             $table->integer('committed_user_id');

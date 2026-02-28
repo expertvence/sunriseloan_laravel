@@ -54,6 +54,9 @@ Route::get('/show-edit/{loan_ide?}',[LoanController::class, 'loanEdit'])->name('
 Route::post('/update-status', [LoanController::class, 'updateStatus'])->name('update-status');
 Route::get('/comitted-list', [LoanController::class, 'ApplovalLoanList'])->name('comitted-list');
 
+Route::post('/update-deposit', [LoanController::class, 'updateDeposit'])
+    ->name('update-deposit');
+
 
 /* Loan section end */
 

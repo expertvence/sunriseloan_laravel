@@ -170,6 +170,32 @@ class LoanController extends Controller
         return Template::loadView('admin/loan/loan_list', compact('data'));
     }
 
+    public function updateDeposit(Request $request)
+{
+    //  dd($request->all());
+    $request->validate([
+        'deposit' => 'required|numeric|min:0'
+    ]);
+
+    $loan = Loan::where('loan_ide', $request->id)->first();
+
+    if(!$loan){
+        return response()->json([
+            'success' => false,
+            'message' => 'Loan not found'
+        ]);
+    }
+
+    $loan->deposit = $request->deposit;
+    $loan->save();
+
+    return response()->json([
+        'success' => true,
+        'deposit' => $loan->deposit
+    ]);
+}
+
+
     /* Edit */
 
     public function loanEdit()
