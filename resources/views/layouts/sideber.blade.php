@@ -376,6 +376,26 @@
                         </a>
                     </nav>
                 </div>
+                <div class="sb-sidenav-menu-heading">Deposit</div>
+
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#deposit">
+                    <span class="accent-bar"></span>
+                    <div class="sb-nav-link-icon"><i class="fas fa-coins"></i></div>
+                    <span>Deposit</span>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="deposit" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ route('deposite-add-form') }}">
+                            <i class="fas fa-plus-circle me-2" style="font-size: 0.8rem;"></i>
+                            <span>Add Deposit</span>
+                        </a>
+                        <a class="nav-link ajax_link" href="#" data-url="{{ route('deposite-list') }}">
+                            <i class="fas fa-history me-2" style="font-size: 0.8rem;"></i>
+                            <span>Deposit List</span>
+                        </a>
+                    </nav>
+                </div>
 
                 <div class="sb-sidenav-menu-heading">LOAN</div>
 
