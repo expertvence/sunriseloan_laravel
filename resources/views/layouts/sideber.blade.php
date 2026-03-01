@@ -1,13 +1,13 @@
+<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion"
+    style="background: linear-gradient(165deg, #0a0c15 0%, #0f1220 50%, #1a1f2f 100%); color: #F8F8FF; margin-top: 0rem; margin-right: auto; border-right: 1px solid rgba(147, 112, 219, 0.15); box-shadow: 10px 0 30px -10px rgba(0, 0, 0, 0.5), inset -1px 0 0 rgba(255, 255, 255, 0.03); height: 100vh; position: sticky; top: 0;">
 
-
-<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background: linear-gradient(165deg, #0a0c15 0%, #0f1220 50%, #1a1f2f 100%); color: #F8F8FF; margin-top: 0rem; margin-right: auto; border-right: 1px solid rgba(147, 112, 219, 0.15); box-shadow: 10px 0 30px -10px rgba(0, 0, 0, 0.5), inset -1px 0 0 rgba(255, 255, 255, 0.03); height: 100vh; position: sticky; top: 0;">
-    
     <style>
         /* Ultra Premium Sidebar Styling - Fixed Scrolling Issue */
         .sb-sidenav {
             font-family: 'Inter', 'Segoe UI', sans-serif;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden; /* Changed from overflow-y: hidden */
+            overflow: hidden;
+            /* Changed from overflow-y: hidden */
             position: relative;
             width: 100%;
             height: 100%;
@@ -24,7 +24,8 @@
             -ms-overflow-style: none;
             position: relative;
             z-index: 1;
-            min-height: 0; /* Important for flex child scrolling */
+            min-height: 0;
+            /* Important for flex child scrolling */
         }
 
         .sb-sidenav-menu::-webkit-scrollbar {
@@ -57,7 +58,8 @@
             backdrop-filter: blur(10px);
             border-radius: 0;
             box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
-            flex-shrink: 0; /* Prevent shrinking */
+            flex-shrink: 0;
+            /* Prevent shrinking */
         }
 
         .sidebar-user-profile::before {
@@ -101,9 +103,17 @@
         }
 
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
         }
 
         .user-status {
@@ -286,7 +296,7 @@
             box-sizing: border-box;
         }
     </style>
-    
+
     <!-- User Profile at Top -->
     <div class="sidebar-user-profile">
         <div style="display: flex; align-items: center; gap: 1rem;">
@@ -315,7 +325,7 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     <span>Dashboard</span>
                 </a>
-                
+
                 <div class="sb-sidenav-menu-heading">USERS</div>
 
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#member_reg">
@@ -418,10 +428,11 @@
                     </nav>
                 </div>
 
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#loan-request">
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                    data-bs-target="#loan-request">
                     <span class="accent-bar"></span>
                     <div class="sb-nav-link-icon"><i class="fas fa-hand-holding-heart"></i></div>
-                    <span>Loan Commit</span>
+                    <span>Loan Request</span>
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <div class="collapse" id="loan-request" data-bs-parent="#sidenavAccordion">
@@ -430,18 +441,33 @@
                             <i class="fas fa-clipboard-list me-2" style="font-size: 0.8rem;"></i>
                             <span>Requests</span>
                         </a>
-                        <a class="nav-link ajax_link" href="#" data-url="{{ url('loan-commite') }}">
-                            <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
-                            <span>Approvals</span>
-                        </a>
-                         <a class="nav-link ajax_link" href="#" data-url="{{ url('comitted-list') }}">
-                            <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
-                            <span>Loan Requet list</span>
-                        </a>
+
                         <a class="nav-link ajax_link" href="#" data-url="{{ url('loan-request-list') }}">
                             <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
                             <span>Loan Approval List</span>
                         </a>
+                    </nav>
+                </div>
+
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                    data-bs-target="#loan-commit">
+                    <span class="accent-bar"></span>
+                    <div class="sb-nav-link-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                    <span>Loan Commit</span>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="loan-commit" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('loan-commite') }}">
+                            <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
+                            <span>Loan Commit</span>
+                        </a>
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('comitted-list') }}">
+                            <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
+                            <span>Loan Requet list</span>
+                        </a>
+
                     </nav>
                 </div>
 
@@ -468,7 +494,8 @@
 
                 <div class="sb-sidenav-menu-heading">SYSTEM</div>
 
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#profile-edit">
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                    data-bs-target="#profile-edit">
                     <span class="accent-bar"></span>
                     <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
                     <span>Settings</span>
@@ -476,13 +503,12 @@
                 </a>
                 <div class="collapse" id="profile-edit" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link ajax_link" href="#" data-url="{{ url('admin-profile') }}">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('admin-password') }}">
                             <i class="fas fa-user-cog me-2" style="font-size: 0.8rem;"></i>
                             <span>Profile</span>
                         </a>
                     </nav>
                 </div>
-
             @elseif(Auth::user()->user_type == 'employee')
                 <!-- Employee menu items -->
             @elseif(Auth::user()->user_type == 'manager')
@@ -493,7 +519,7 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     <span>Dashboard</span>
                 </a>
-                
+
                 <div class="sb-sidenav-menu-heading">USERS</div>
 
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#member_reg">
@@ -504,7 +530,8 @@
                 </a>
                 <div class="collapse" id="member_reg" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link ajax_link" href="#" data-url="{{ route('employee-member-register') }}">
+                        <a class="nav-link ajax_link" href="#"
+                            data-url="{{ route('employee-member-register') }}">
                             <i class="fas fa-user-plus me-2" style="font-size: 0.8rem;"></i>
                             <span>Create Member</span>
                         </a>
@@ -515,7 +542,8 @@
                     </nav>
                 </div>
 
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#loan-request">
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                    data-bs-target="#loan-request">
                     <span class="accent-bar"></span>
                     <div class="sb-nav-link-icon"><i class="fas fa-hand-holding-heart"></i></div>
                     <span>Loan Commit</span>
@@ -531,10 +559,27 @@
                             <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
                             <span>Loan Commits</span>
                         </a>
-                       
+
                         <a class="nav-link ajax_link" href="#" data-url="{{ url('comitted-list') }}">
                             <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
                             <span>Approval List</span>
+                        </a>
+                    </nav>
+                </div>
+
+                 <div class="sb-sidenav-menu-heading">SYSTEM</div>
+
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#profile-edit">
+                    <span class="accent-bar"></span>
+                    <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
+                    <span>Settings</span>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="profile-edit" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('manager-profile') }}">
+                            <i class="fas fa-user-cog me-2" style="font-size: 0.8rem;"></i>
+                            <span>Profile</span>
                         </a>
                     </nav>
                 </div>
@@ -548,27 +593,27 @@
 <!-- আপনার sidebar code এর শেষে এই JavaScript টা যোগ করুন -->
 
 <script>
-// Update sidebar when theme changes
-window.addEventListener('themeChanged', function(e) {
-    const sidebar = document.querySelector('.sb-sidenav');
-    if (sidebar) {
-        if (document.body.classList.contains('dark-mode')) {
-            sidebar.style.background = 'linear-gradient(165deg, #1a1f2e 0%, #232837 50%, #2d3447 100%)';
-        } else {
-            sidebar.style.background = 'linear-gradient(165deg, #0a0c15 0%, #0f1220 50%, #1a1f2f 100%)';
+    // Update sidebar when theme changes
+    window.addEventListener('themeChanged', function(e) {
+        const sidebar = document.querySelector('.sb-sidenav');
+        if (sidebar) {
+            if (document.body.classList.contains('dark-mode')) {
+                sidebar.style.background = 'linear-gradient(165deg, #1a1f2e 0%, #232837 50%, #2d3447 100%)';
+            } else {
+                sidebar.style.background = 'linear-gradient(165deg, #0a0c15 0%, #0f1220 50%, #1a1f2f 100%)';
+            }
         }
-    }
-});
+    });
 
-// Initialize sidebar on load
-document.addEventListener('DOMContentLoaded', function() {
-    const sidebar = document.querySelector('.sb-sidenav');
-    if (sidebar) {
-        if (document.body.classList.contains('dark-mode')) {
-            sidebar.style.background = 'linear-gradient(165deg, #1a1f2e 0%, #232837 50%, #2d3447 100%)';
-        } else {
-            sidebar.style.background = 'linear-gradient(165deg, #0a0c15 0%, #0f1220 50%, #1a1f2f 100%)';
+    // Initialize sidebar on load
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.querySelector('.sb-sidenav');
+        if (sidebar) {
+            if (document.body.classList.contains('dark-mode')) {
+                sidebar.style.background = 'linear-gradient(165deg, #1a1f2e 0%, #232837 50%, #2d3447 100%)';
+            } else {
+                sidebar.style.background = 'linear-gradient(165deg, #0a0c15 0%, #0f1220 50%, #1a1f2f 100%)';
+            }
         }
-    }
-});
+    });
 </script>

@@ -207,7 +207,6 @@ class LoanController extends Controller
 
      public function updateStatus(Request $request)
     {
-        dd($request->all());
         $status = $request->status;
         $newStatus = $request->status;
 
@@ -231,8 +230,60 @@ class LoanController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function ApplovalLoanList(){
-        $data = Loancommit::all();
+    public function ApprovalLoanList(){
+        $data = LoanCommit::all();
         return Template::loadView('admin/loan_commit/approval_loan_list', compact('data'));
     }
+
+    // public function UpdateApprovalLoanStatus(Request $request)
+    // {
+
+    //     $status = $request->status;
+    //     $newStatus = $request->status;
+
+    //     $request->validate([
+    //         'id' => 'required|exists:loan_commits,id',
+    //         'status' => 'required|in:pending,complete,rejected',
+    //     ]);
+    //     $loanCommit = LoanCommit::find($request->id);
+    //     if ($newStatus == 'complete') {
+    //         $totalLoan = LoanCommit::sum('payment_amount');
+
+    //         $totalAsset = TotalAsset::sum('assets');
+
+    //         // if($totalLoan > $totalAsset)
+    //         // {
+    //         //     return response()->json(['error'=>false,'message'=>'Total loan exceeds total assets! Remove : '.abs($totalLoan-$totalAsset)]);
+    //         // }
+    //     }
+    //     $loanCommit->status = $status;
+    //     $loanCommit->save();
+    //     return response()->json(['success' => true]);
+    // }  
+    
+    public function UpdateApprovalLoanStatus(Request $request)
+{
+    // dd($request->all());
+
+    $request->validate([
+        'loan_ide' => 'required|exists:loan_commits,id',
+        'status' => 'required|in:pending,approved,rejected',
+    ]);
+
+    $loanCommit = LoanCommit::find($request->loan_ide);
+
+    if (!$loanCommit) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data not found'
+        ]);
+    }
+
+    $loanCommit->status = $request->status;
+    $loanCommit->save();
+
+    return response()->json([
+        'success' => true
+    ]);
+}
 }

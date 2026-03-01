@@ -61,16 +61,18 @@
             </div>
 
             <div class="col-md-4">
-                <label for="loanTerm" class="form-label">Loan Term (Months)</label>
+                <label for="loanTerm" class="form-label">Loan Term (Weekly)</label>
                 <select class="form-select" id="loanTerm" name="loan_term" required>
-                    <option value="">---select---</option>
-                    <option value="30">Monthly </option>
-                    <option value="7">Wekly </option>
-                    {{-- @for ($i = 1; $i <= 60; $i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
-                    @endfor --}}
+                    {{-- <option value="">---select---</option> --}}
+                    {{-- <option value="30">Monthly </option>
+                    <option value="7">Wekly </option> --}}
+                    @for ($i = 1; $i <= 48; $i++)
+                        <option value="{{ $i }}">
+                            {{ $i }} {{ Str::plural('Week', $i) }}
+                        </option>
+                    @endfor
                 </select>
-                
+
             </div>
 
             <div class="col-md-4">
@@ -102,7 +104,7 @@
 
 
 
-        
+
         <div class="mt-4 mb-0">
             <div class="d-grid"><button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"
                     redirect="{{ route('loan-request-list') }}">Create Loan</button></div>

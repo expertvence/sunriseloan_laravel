@@ -13,7 +13,20 @@ class AdmiProfileController extends Controller
 {
     public function index()
     {
-        return Template::loadView('admin/profile/profile_request');
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+        return Template::loadView('admin/profile/admin_profile', ['user' => $user]);
+    }
+
+    public function changePassword()
+    {
+        $data = Auth::user();
+        if (!$data) {
+            return redirect()->route('login');
+        }
+        return Template::loadView('admin/profile/admin_password', ['data' => $data]);
     }
 
     public function resetPassword(Request $request)

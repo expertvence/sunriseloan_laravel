@@ -95,8 +95,9 @@
                         @foreach ($data as $value)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $value->user_name }}</td>
                                 <td>{{ $value->loan_commit_id }}</td>
+                                <td>{{ $value->user_name }}</td>
+                                
                                 <td>{{ $value->payment_amount }}</td>
                                 <td>{{ $value->payment_month }}</td>
                                 <td>{{ $value->loan_year }}</td>
@@ -106,17 +107,17 @@
 
                                     @if (auth()->user()->user_type == 'admin')
                                         <!-- Admin can change status -->
-                                        <select id="statusDropdown{{ $value->loan_ide }}"
-                                            onchange="updateStatus({{ $value->loan_ide }})"
+                                        <select id="statusDropdown{{ $value->id }}"
+                                            onchange="updateStatus({{ $value->id }})"
                                             class="form-control 
                 @if ($value->status == 'pending') text-danger 
-                @elseif($value->status == 'complete') text-success 
+                @elseif($value->status == 'approved') text-success 
                 @elseif($value->status == 'rejected') text-danger @endif">
 
                                             <option value="pending"
                                                 {{ $value->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                            <option value="complete"
-                                                {{ $value->status == 'complete' ? 'selected' : '' }}>Accepted</option>
+                                            <option value="approved"
+                                                {{ $value->status == 'approved' ? 'selected' : '' }}>Approved</option>
                                             <option value="rejected"
                                                 {{ $value->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
 
@@ -126,7 +127,7 @@
                                         <span
                                             class="
                                             @if ($value->status == 'pending') text-danger 
-                                            @elseif($value->status == 'complete') text-success 
+                                            @elseif($value->status == 'approved') text-success 
                                             @elseif($value->status == 'rejected') text-danger @endif">
 
                                             {{ ucfirst($value->status) }}
@@ -235,7 +236,7 @@
         let statuschange = $("#statusDropdown" + loan_ide).val();
 
         $.ajax({
-            url: "{{ route('update-status') }}",
+            url: "{{ route('update-approval-status') }}",
             type: 'POST',
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
@@ -249,7 +250,7 @@
                     if (statuschange === 'pending') {
                         $("#statusDropdown" + loan_ide).removeClass('text-success text-danger').addClass(
                             'text-danger');
-                    } else if (statuschange === 'complete') {
+                    } else if (statuschange === 'approved') {
                         $("#statusDropdown" + loan_ide).removeClass('text-danger text-success').addClass(
                             'text-success');
                     } else if (statuschange === 'rejected') {

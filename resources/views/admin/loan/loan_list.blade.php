@@ -1,62 +1,66 @@
-
 <style>
+    /* Wrapper */
+    .action-wrapper {
+        position: relative;
+        display: inline-block;
+    }
 
-/* Wrapper */
-.action-wrapper{
-    position:relative;
-    display:inline-block;
-}
+    /* Three Dot Button */
+    .action-toggle {
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all .3s ease;
+    }
 
-/* Three Dot Button */
-.action-toggle{
-    border-radius:50%;
-    width:36px;
-    height:36px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:all .3s ease;
-}
+    .action-toggle:hover {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        transform: rotate(90deg);
+    }
 
-.action-toggle:hover{
-    background:linear-gradient(135deg,#667eea,#764ba2);
-    color:#fff;
-    transform:rotate(90deg);
-}
+    /* Dropdown Box */
+    .action-dropdown {
+        position: absolute;
+        top: 45px;
+        right: 0;
+        min-width: 160px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 8px 0;
+        display: none;
+        z-index: 999;
+        animation: fadeIn .2s ease-in-out;
+    }
 
-/* Dropdown Box */
-.action-dropdown{
-    position:absolute;
-    top:45px;
-    right:0;
-    min-width:160px;
-    background:#fff;
-    border-radius:12px;
-    padding:8px 0;
-    display:none;
-    z-index:999;
-    animation:fadeIn .2s ease-in-out;
-}
+    /* Dropdown Items */
+    .action-dropdown .dropdown-item {
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: all .2s;
+        font-size: 14px;
+    }
 
-/* Dropdown Items */
-.action-dropdown .dropdown-item{
-    padding:8px 15px;
-    cursor:pointer;
-    transition:all .2s;
-    font-size:14px;
-}
+    .action-dropdown .dropdown-item:hover {
+        background: #f1f3f9;
+        padding-left: 20px;
+    }
 
-.action-dropdown .dropdown-item:hover{
-    background:#f1f3f9;
-    padding-left:20px;
-}
+    /* Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-5px);
+        }
 
-/* Animation */
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(-5px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 </style>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
@@ -75,8 +79,8 @@
                         {{-- <th>Id</th> --}}
                         <th>Loan amount</th>
                         <th>Monthly Income</th>
-                        @if(auth()->user()->user_type == 'admin')
-                        <th>Add Deposit</th>
+                        @if (auth()->user()->user_type == 'admin')
+                            {{-- <th>Add Deposit</th> --}}
                         @endif
                         <th>Loan Terms</th>
                         @if (auth()->user()->user_type == 'admin')
@@ -99,37 +103,33 @@
                                 {{-- <td>{{ $value->loan_ide }}</td> --}}
                                 <td>{{ $value->loan_amount }}</td>
                                 <td>{{ $value->monthly_income }}</td>
-                                @if(auth()->user()->user_type == 'admin')
-                               <td>
-    <div class="deposit-wrapper" data-id="{{ $value->loan_ide }}">
+                                {{-- @if (auth()->user()->user_type == 'admin')
+                                    <td>
+                                        <div class="deposit-wrapper" data-id="{{ $value->loan_ide }}">
 
-        @if($value->deposit == 0)
+                                            @if ($value->deposit == 0)
+                                                <!-- Add Icon -->
+                                                <div class="deposit-display add-mode">
+                                                    <button type="button" class="btn btn-sm btn-light addDepositBtn">
+                                                        <i class="fas fa-plus text-success"></i>
+                                                        <span class="add-text">Add Deposit</span>
+                                                    </button>
+                                                </div>
+                                            @else
+                                                <!-- Show Amount + Edit Icon -->
+                                                <div class="deposit-display">
+                                                    <span class="deposit-amount">
+                                                        {{ number_format($value->deposit, 2) }}
+                                                    </span>
+                                                    <button type="button" class="btn btn-sm btn-light editDepositBtn">
+                                                        <i class="fas fa-pen text-primary"></i>
+                                                    </button>
+                                                </div>
+                                            @endif
+                                @endif --}}
 
-            <!-- Add Icon -->
-            <div class="deposit-display add-mode">
-                <button type="button" class="btn btn-sm btn-light addDepositBtn">
-                    <i class="fas fa-plus text-success"></i>
-                    <span class="add-text">Add Deposit</span>
-                </button>
-            </div>
-
-        @else
-
-            <!-- Show Amount + Edit Icon -->
-            <div class="deposit-display">
-                <span class="deposit-amount">
-                    {{ number_format($value->deposit,2) }}
-                </span>
-                <button type="button" class="btn btn-sm btn-light editDepositBtn">
-                    <i class="fas fa-pen text-primary"></i>
-                </button>
-            </div>
-
-        @endif
-        @endif
-
-        <!-- Hidden Input Box -->
-        <div class="deposit-edit-box d-none mt-2">
+                                <!-- Hidden Input Box -->
+                                {{-- <div class="deposit-edit-box d-none mt-2">
             <input type="number" step="0.01"
                 class="form-control form-control-sm depositInput"
                 value="{{ $value->deposit }}">
@@ -137,71 +137,67 @@
             <button class="btn btn-sm btn-success mt-1 saveDepositBtn">
                 Submit
             </button>
+        </div> --}}
+
         </div>
-
-    </div>
-</td>
+        </td>
 
 
 
-                                <td>
-                                    @if ($value->loan_term == 30)
-                                        <span class="badge bg-success">Yearly</span>
-                                    @elseif($value->loan_term == 7)
-                                        <span class="badge bg-primary">Weekly</span>
-                                    @else
-                                        <span class="badge bg-secondary">Custom</span>
-                                    @endif
-                                </td>
-                                @if (auth()->user()->user_type == 'admin')
-                                    <td>{{ $value->payment_schedule }}</td>
-                                    <td>
-                                        <img src="{{ $value->other_documents
-                                            ? asset('images/loan_documents/' . $value->other_documents)
-                                            : asset('default/default.jpg') }}"
-                                            width="80" style="object-fit:cover; border-radius:6px;">
-                                    </td>
-                                @endif
-                                <td>{{ $value->user ? $value->user->email : 'no email' }}</td>
-                                <td>{{ $value->created_at->format('Y-m-d H:i:s') }}</td>
+        <td>
+            @if ($value->loan_term == 30)
+                <span class="badge bg-success">Yearly</span>
+            @elseif($value->loan_term == 7)
+                <span class="badge bg-primary">Weekly</span>
+            @else
+                <span class="badge bg-secondary">Custom</span>
+            @endif
+        </td>
+        @if (auth()->user()->user_type == 'admin')
+            <td>{{ $value->payment_schedule }}</td>
+            <td>
+                <img src="{{ $value->other_documents
+                    ? asset('images/loan_documents/' . $value->other_documents)
+                    : asset('default/default.jpg') }}"
+                    width="80" style="object-fit:cover; border-radius:6px;">
+            </td>
+        @endif
+        <td>{{ $value->user ? $value->user->email : 'no email' }}</td>
+        <td>{{ $value->created_at->format('Y-m-d H:i:s') }}</td>
 
-                                <!-- Status Update -->
-                                <td class="text-center">
+        <!-- Status Update -->
+        <td class="text-center">
 
-                                    @if (auth()->user()->user_type == 'admin')
-                                        <!-- Admin can change status -->
-                                        <select id="statusDropdown{{ $value->loan_ide }}"
-                                            onchange="updateStatus({{ $value->loan_ide }})"
-                                            class="form-control 
+            @if (auth()->user()->user_type == 'admin')
+                <!-- Admin can change status -->
+                <select id="statusDropdown{{ $value->loan_ide }}" onchange="updateStatus({{ $value->loan_ide }})"
+                    class="form-control 
                 @if ($value->status == 'pending') text-danger 
                 @elseif($value->status == 'complete') text-success 
                 @elseif($value->status == 'rejected') text-danger @endif">
 
-                                            <option value="pending"
-                                                {{ $value->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                            <option value="complete"
-                                                {{ $value->status == 'complete' ? 'selected' : '' }}>Accepted</option>
-                                            <option value="rejected"
-                                                {{ $value->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                    <option value="pending" {{ $value->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                    <option value="complete" {{ $value->status == 'complete' ? 'selected' : '' }}>Accepted</option>
+                    <option value="rejected" {{ $value->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
 
-                                        </select>
-                                    @else
-                                        <!-- Other users can only see status -->
-                                        <span
-                                            class="
+                </select>
+            @else
+                <!-- Other users can only see status -->
+                <span
+                    class="
                                             @if ($value->status == 'pending') text-danger 
                                             @elseif($value->status == 'complete') text-success 
                                             @elseif($value->status == 'rejected') text-danger @endif">
 
-                                            {{ ucfirst($value->status) }}
+                    {{ ucfirst($value->status) }}
 
-                                        </span>
-                                    @endif
+                </span>
+            @endif
 
-                                </td>
+        </td>
 
 
-                                {{-- <td>
+        {{-- <td>
                                     <a href="#" target="_blank" rel="noopener noreferrer"><i
                                             class="fas fa-user"></i></a>
                                     @if (auth()->user()->user_type == 'admin')
@@ -214,51 +210,45 @@
                                     @endif
                                 </td> --}}
 
-                                <td style="position:relative;">
+        <td style="position:relative;">
 
-    <!-- Modern Three Dot Button -->
-    <div class="action-wrapper">
-        <button type="button" class="btn btn-light btn-sm action-toggle">
-            <i class="fas fa-ellipsis-v"></i>
-        </button>
-
-        <!-- Dropdown Action Box -->
-        <div class="action-dropdown shadow-lg">
-
-            <a href="{{ url('show-view', $value->loan_ide) }}" 
-               class="dropdown-item text-info">
-                <i class="fas fa-eye me-2"></i> View
-            </a>
-
-            @if (auth()->user()->user_type == 'admin')
-
-                <span class="dropdown-item text-warning open-modal btnView"
-                      data-action="{{ url('show-edit', $value->loan_ide) }}"
-                      data-modal="common-modal-md"
-                      data-title="Member Edit"
-                      data-id="{{ $value->loan_ide }}">
-                    <i class="fas fa-edit me-2"></i> Edit
-                </span>
-
-                <button type="button"
-                        class="dropdown-item text-danger btnDelete"
-                        data-id="{{ $value->loan_ide }}">
-                    <i class="fas fa-trash me-2"></i> Delete
+            <!-- Modern Three Dot Button -->
+            <div class="action-wrapper">
+                <button type="button" class="btn btn-light btn-sm action-toggle">
+                    <i class="fas fa-ellipsis-v"></i>
                 </button>
 
-            @endif
-        </div>
-    </div>
+                <!-- Dropdown Action Box -->
+                <div class="action-dropdown shadow-lg">
 
-</td>
+                    <a href="{{ url('show-view', $value->loan_ide) }}" class="dropdown-item text-info">
+                        <i class="fas fa-eye me-2"></i> View
+                    </a>
 
-                            </tr>
-                        @endforeach
+                    @if (auth()->user()->user_type == 'admin')
+                        <span class="dropdown-item text-warning open-modal btnView"
+                            data-action="{{ url('show-edit', $value->loan_ide) }}" data-modal="common-modal-md"
+                            data-title="Member Edit" data-id="{{ $value->loan_ide }}">
+                            <i class="fas fa-edit me-2"></i> Edit
+                        </span>
+
+                        <button type="button" class="dropdown-item text-danger btnDelete"
+                            data-id="{{ $value->loan_ide }}">
+                            <i class="fas fa-trash me-2"></i> Delete
+                        </button>
                     @endif
-                </tbody>
-            </table>
-        </div>
+                </div>
+            </div>
+
+        </td>
+
+        </tr>
+        @endforeach
+        @endif
+        </tbody>
+        </table>
     </div>
+</div>
 </div>
 
 
@@ -311,62 +301,61 @@
 </script>
 
 <script>
-  $(document).on('click', '.action-toggle', function(e){
-    e.stopPropagation();
+    $(document).on('click', '.action-toggle', function(e) {
+        e.stopPropagation();
 
-    $(".action-dropdown").not($(this).next()).hide(); // close others
-    $(this).next('.action-dropdown').toggle();
-});
+        $(".action-dropdown").not($(this).next()).hide(); // close others
+        $(this).next('.action-dropdown').toggle();
+    });
 
-// click outside to close
-$(document).on('click', function(){
-    $(".action-dropdown").hide();
-});
+    // click outside to close
+    $(document).on('click', function() {
+        $(".action-dropdown").hide();
+    });
 
 
-// deposti
+    // deposti
 
-// Show input when Add or Edit clicked
-$(document).on('click', '.addDepositBtn, .editDepositBtn', function(){
-    let wrapper = $(this).closest('.deposit-wrapper');
-    wrapper.find('.deposit-display').hide();
-    wrapper.find('.deposit-edit-box').removeClass('d-none');
-});
+    // Show input when Add or Edit clicked
+    $(document).on('click', '.addDepositBtn, .editDepositBtn', function() {
+        let wrapper = $(this).closest('.deposit-wrapper');
+        wrapper.find('.deposit-display').hide();
+        wrapper.find('.deposit-edit-box').removeClass('d-none');
+    });
 
-// Save Deposit
-$(document).on('click', '.saveDepositBtn', function(){
+    // Save Deposit
+    $(document).on('click', '.saveDepositBtn', function() {
 
-    let wrapper = $(this).closest('.deposit-wrapper');
-    let id = wrapper.data('id');
-    let amount = wrapper.find('.depositInput').val();
+        let wrapper = $(this).closest('.deposit-wrapper');
+        let id = wrapper.data('id');
+        let amount = wrapper.find('.depositInput').val();
 
-    $.ajax({
-        url: "{{ route('update-deposit') }}",
-        type: "POST",
-        data: {
-            _token: $('meta[name="csrf-token"]').attr('content'),
-            id: id,
-            deposit: amount
-        },
-        success: function(response){
+        $.ajax({
+            url: "{{ route('update-deposit') }}",
+            type: "POST",
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                id: id,
+                deposit: amount
+            },
+            success: function(response) {
 
-            console.log(response);
-            if(response.success){
+                console.log(response);
+                if (response.success) {
 
-                wrapper.find('.deposit-edit-box').addClass('d-none');
+                    wrapper.find('.deposit-edit-box').addClass('d-none');
 
-                wrapper.find('.deposit-display').html(`
+                    wrapper.find('.deposit-display').html(`
                     <span class="deposit-amount">${parseFloat(amount).toFixed(2)}</span>
                     <button type="button" class="btn btn-sm btn-light editDepositBtn">
                         <i class="fas fa-pen text-primary"></i>
                     </button>
                 `).show();
 
-            } else {
-                alert("Error saving deposit");
+                } else {
+                    alert("Error saving deposit");
+                }
             }
-        }
+        });
     });
-});
-
 </script>

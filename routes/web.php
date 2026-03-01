@@ -53,7 +53,8 @@ Route::POST('/loan/insert',[LoanController::class,'loan_store'])->name('loan');
 Route::get('/show-list',[LoanController::class, 'showLoan_list'])->name('show-list');
 Route::get('/show-edit/{loan_ide?}',[LoanController::class, 'loanEdit'])->name('edit-loan');
 Route::post('/update-status', [LoanController::class, 'updateStatus'])->name('update-status');
-Route::get('/comitted-list', [LoanController::class, 'ApplovalLoanList'])->name('comitted-list');
+Route::post('/update-approval-status', [LoanController::class, 'UpdateApprovalLoanStatus'])->name('update-approval-status');
+Route::get('/comitted-list', [LoanController::class, 'ApprovalLoanList'])->name('comitted-list');
 
 Route::post('/update-deposit', [LoanController::class, 'updateDeposit'])
     ->name('update-deposit');
@@ -176,7 +177,8 @@ Route::get('/for-get',[LoancategoryController::class, 'categoriwithid'])->name('
   
 }); */
 
-Route::get('/admin-profile', [AdmiProfileController::class, 'index'])->name('admin-profile');
+Route::get('/admin-password', [AdmiProfileController::class, 'index'])->name('admin-password');
+Route::get('/admin-change-password', [AdmiProfileController::class, 'changePassword'])->name('admin-change-password');
 Route::post('/reset-password', [AdmiProfileController::class, 'resetPassword'])->name('reset-password');
 
 
@@ -201,6 +203,9 @@ Route::get('/deposit-edit/{id}',[AddDepositeController::class,'depositEdit'])->n
 // manager section
 
 Route::get('/managerDashboard',[ManagerController::class,'managerDashboard'])->name('managerDashboard');
+Route::get('/manager-profile',[ManagerController::class,'managerProfile'])->name('manager-profile');
+Route::get('/manager-change-password',[ManagerController::class,'changePassword'])->name('manager-change-password');
+Route::post('/manager-save-password',[ManagerController::class,'managerPassword'])->name('manager-save-password');
 Route::post('/submit-request', [LoanRequestController::class, 'store'])->name('submit-request');
 Route::get('/loan-request-list', [LoanRequestController::class, 'loanRequestList'])->name('loan-request-list');
 
