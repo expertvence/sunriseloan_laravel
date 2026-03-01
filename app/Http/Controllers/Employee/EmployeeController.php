@@ -168,15 +168,35 @@ class EmployeeController extends Controller
     }
 }
 
+// public function show($id)
+// {
+//     $user = DB::table('members')
+//         ->leftJoin('users', 'users.member_id', '=', 'members.id')
+//         ->where('members.id', $id)
+//         ->where('users.member_id', $id)
+//         ->first();
+
+//     // dd($user);
+
+//     return Template::loadView('employee/memberRegister/member_show', compact('user'));
+// }
+
 public function show($id)
 {
     $user = DB::table('members')
         ->leftJoin('users', 'users.member_id', '=', 'members.id')
         ->where('members.id', $id)
-        ->where('users.member_id', $id)
-        ->first();
+        ->select(
+            'members.*',
 
-    // dd($user);
+            // Users table fields (rename conflicting ones)
+            'users.id as user_id',
+            'users.name as user_name',
+            'users.email',
+            // 'users.is_publish',
+            'users.created_at as user_created_at'
+        )
+        ->first();
 
     return Template::loadView('employee/memberRegister/member_show', compact('user'));
 }
