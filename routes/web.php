@@ -193,7 +193,7 @@ Route::post('/member-status-update',
 // deposite
 
 Route::get('/deposite-add-form',[AddDepositeController::class,'index'])->name('deposite-add-form');
-Route::get('/deposit-list',[AddDepositeController::class,'depositeList'])->name('deposite-list');
+Route::get('/deposit-list',[AddDepositeController::class,'depositeList'])->name('deposit-list');
 Route::post('/submit-deposit',[AddDepositeController::class,'addDeposite'])->name('submit-deposit');
 Route::get('/deposit-edit/{id}',[AddDepositeController::class,'depositEdit'])->name('deposit-edit');
 

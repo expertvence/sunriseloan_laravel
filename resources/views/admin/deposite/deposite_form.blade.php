@@ -1,13 +1,18 @@
 @php
-$id = '';
-$transection_date = '';
-$income_expence_amt = '';
-$description = '';
-$type = '';
+$id = isset($deposit_data) && !empty($deposit_data) ? $deposit_data->id : '';
+$member_name = isset($deposit_data) && !empty($deposit_data) ? $deposit_data->member_name : '';
+$member_id = isset($deposit_data) && !empty($deposit_data) ? $deposit_data->member_id : '';
+$transection_date = isset($deposit_data) && !empty($deposit_data) ? date('d-m-Y', strtotime($deposit_data->deposit_date)) : '';
+$income_expence_amt = isset($deposit_data) && !empty($deposit_data) ? $deposit_data->deposite_amount : '';
+$description = isset($deposit_data) && !empty($deposit_data) ? $deposit_data->description : '';
+$type = isset($deposit_data) && !empty($deposit_data) ? $deposit_data->deposit_type : '';
 @endphp
 
 <form action="{{ route('submit-deposit') }}" method="POST" id="depositForm">
     @csrf
+
+    <!-- Hidden ID for Edit -->
+    <input type="hidden" name="id" id="id" value="{{ $id }}">
 
     <div style="border:1px solid gray; padding:10px">
         <p class="text-center" 
@@ -22,9 +27,17 @@ $type = '';
             <!-- Member Name -->
             <div class="col-md-4">
                 <label><strong> Member Name <span class="text-danger">*</span></strong></label>
-                <input type="text" class="form-control" id="member_name" name="member_name" required>
+                <input type="text" 
+                       class="form-control" 
+                       id="member_name" 
+                       name="member_name"
+                       value="{{ $member_name }}"
+                       required>
 
-                <input type="hidden" id="member_id" name="member_id">
+                <input type="hidden" 
+                       id="member_id" 
+                       name="member_id"
+                       value="{{ $member_id }}">
             </div>
 
             <!-- Deposit Date -->
@@ -34,6 +47,7 @@ $type = '';
                        class="form-control date_picker" 
                        name="transection_date" 
                        id="transection_date" 
+                       value="{{ $transection_date }}"
                        placeholder="dd-mm-yyyy" 
                        autocomplete="off" 
                        required>
@@ -46,7 +60,8 @@ $type = '';
                        step="0.01"
                        class="form-control" 
                        name="income_expence_amt" 
-                       id="income_expence_amt" 
+                       id="income_expence_amt"
+                       value="{{ $income_expence_amt }}"
                        placeholder="Enter deposit amount" 
                        required>
             </div>
@@ -57,18 +72,20 @@ $type = '';
                 <input type="text" 
                        class="form-control" 
                        name="description" 
-                       id="description" 
+                       id="description"
+                       value="{{ $description }}"
                        placeholder="Write description" 
                        autocomplete="off" 
                        required>
             </div>
 
-             <div class="col-md-2">
-                <label class="" for="type"> <strong> Type <span class="text-danger">*</span></strong></label>
+            <!-- Type -->
+            <div class="col-md-2 mt-2">
+                <label><strong> Type <span class="text-danger">*</span></strong></label>
                 <select class="form-control" name="type" id="type" required>
                     <option value="">select</option>
-                    <option value="relesed" @if($type=='relesed' ) selected @endif>Relesed</option>
-                    <option value="deposite" @if($type=='deposite' ) selected @endif>Deposite</option>
+                    <option value="relesed" {{ $type == 'relesed' ? 'selected' : '' }}>Relesed</option>
+                    <option value="deposite" {{ $type == 'deposite' ? 'selected' : '' }}>Deposite</option>
                 </select>
             </div>
 
@@ -76,9 +93,12 @@ $type = '';
     </div>
 
     <div class="d-grid mt-3">
-        <div class="d-grid mt-2">
-        <button type="submit" onclick="save(this)" class="btn btn-primary btn-block" redirect="{{route('income-expence-list')}}">Save</button>
-    </div>
+        <button type="submit"
+                onclick="save(this)"
+                class="btn btn-primary btn-block"
+                redirect="{{ route('deposit-list') }}">
+            {{ $id ? 'Update' : 'Save' }}
+        </button>
     </div>
 </form>
 

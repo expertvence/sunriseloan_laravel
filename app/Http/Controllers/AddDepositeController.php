@@ -13,14 +13,17 @@ class AddDepositeController extends Controller
 {
     public function index()
     {
+
         return Template::loadView('admin/deposite/deposite_form');
     }
 
-    public function addDeposite(Request $request)
+  public function addDeposite(Request $request)
 {
     DB::beginTransaction();
 
     try {
+
+        $id = $request->id;
 
         if (!$request->member_id) {
             return response()->json([
@@ -31,8 +34,8 @@ class AddDepositeController extends Controller
 
         // 🔎 Check loan exists with complete status
         $loan = Loan::where('member_id', $request->member_id)
-                    ->where('status', 'complete')
-                    ->first();
+            ->where('status', 'complete')
+            ->first();
 
         if (!$loan) {
             return response()->json([
@@ -41,23 +44,40 @@ class AddDepositeController extends Controller
             ]);
         }
 
-        // ✅ Insert into member_deposits
-        MemberDeposit::create([
+        $data = [
             'member_id'       => $request->member_id,
             'member_name'     => $request->member_name,
             'description'     => $request->description,
-            'deposit_date'    => $request->transection_date 
-                                    ? date('Y-m-d', strtotime($request->transection_date)) 
-                                    : date('Y-m-d'),
-            'deposit_type'    => 'deposite',
+            'deposit_date'    => $request->transection_date
+                ? date('Y-m-d', strtotime($request->transection_date))
+                : date('Y-m-d'),
+            'deposit_type'    => $request->type,
             'deposite_amount' => $request->income_expence_amt,
             'status'          => 'active',
-        ]);
+        ];
+
+        // ✅ ADD
+        if ($id == "") {
+
+            $data['created_at'] = now();
+            MemberDeposit::insert($data);
+
+            $msg = 'Deposit Saved Successfully';
+
+        } 
+        // ✅ EDIT
+        else {
+
+            $data['updated_at'] = now();
+            MemberDeposit::where('id', $id)->update($data);
+
+            $msg = 'Deposit Updated Successfully';
+        }
 
         DB::commit();
 
         return response()->json([
-            'msg' => 'Deposit Saved Successfully',
+            'msg' => $msg,
             'title' => 'Success'
         ]);
 
@@ -72,7 +92,7 @@ class AddDepositeController extends Controller
     }
 }
 
- public function depositeList()
+    public function depositeList()
     {
         $deposit = MemberDeposit::orderby('created_at', 'desc')->get();
         // dd($deposit);
@@ -80,9 +100,9 @@ class AddDepositeController extends Controller
         //  return Template::loadView('admin/income_expence/income_expence_list', ['income_expense' => $income_expense]);
     }
 
-     public function depositEdit($id = "")
+    public function depositEdit($id = "")
     {
-        $deposit = MemberDeposit::where('id', $id)->first();
-         return Template::loadView('admin/deposite/deposite_form', ['deposit' => $deposit]);
+        $deposit_data = MemberDeposit::where('id', $id)->first();
+        return Template::loadView('admin/deposite/deposite_form', ['deposit_data' => $deposit_data]);
     }
 }
