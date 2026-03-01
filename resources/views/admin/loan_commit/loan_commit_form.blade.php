@@ -162,7 +162,7 @@
             },
             success: function(response) {
                 $('#loan_id').empty();
-
+                console.log('Loans for user:', response); // Debug: Check the loans returned for the user
                 if (response.length > 0) {
                     $('#loan_id').append('<option value="">Select Loan</option>');
                     response.forEach(function(loan) {
