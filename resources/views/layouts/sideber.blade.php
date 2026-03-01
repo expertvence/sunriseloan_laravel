@@ -305,11 +305,11 @@
             </div>
             <div style="flex: 1; min-width: 0;"> <!-- Added min-width:0 for text truncation -->
                 <div class="welcome-text">WELCOME BACK</div>
-                <div class="user-name-large">{{ Auth::user()->name }}</div>
+                <div class="user-name-large">{{ Auth::user()->name??'' }}</div>
                 <div class="user-status">
                     <span class="live-dot"></span>
                     <span>Active</span>
-                    <span class="user-role-badge">{{ ucfirst(Auth::user()->user_type) }}</span>
+                    <span class="user-role-badge">{{ ucfirst(Auth::user()->user_type??'') }}</span>
                 </div>
             </div>
         </div>

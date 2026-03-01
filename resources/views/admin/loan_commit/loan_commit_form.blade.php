@@ -118,7 +118,7 @@
             <div class="col-md-12">
                 <div class="d-grid">
                     <button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"
-                    redirect="{{ route('loan-request-list') }}">Submit</button>
+                    redirect="{{ route('comitted-list') }}">Submit</button>
                 </div>
                 <div id="message" style="display: none; color:red;"></div>
             </div>
