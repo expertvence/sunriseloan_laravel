@@ -60,20 +60,58 @@
                 </select>
             </div>
 
-            <div class="col-md-4">
-                <label for="loanTerm" class="form-label">Loan Term (Weekly)</label>
-                <select class="form-select" id="loanTerm" name="loan_term" required>
-                    {{-- <option value="">---select---</option> --}}
-                    {{-- <option value="30">Monthly </option>
-                    <option value="7">Wekly </option> --}}
+            <!-- Repayment Type -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label">Repayment Type</label>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio"
+                        name="repayment_type" id="monthlyOption" value="monthly">
+                    <label class="form-check-label" for="monthlyOption">
+                        Monthly
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio"
+                        name="repayment_type" id="weeklyOption" value="weekly">
+                    <label class="form-check-label" for="weeklyOption">
+                        Weekly
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Section -->
+        <div class="row mb-3 d-none" id="monthlySection">
+            <div class="col-md-6">
+                <label>Select Month Duration</label>
+                <select class="form-select" name="monthly_duration">
+                    <option value="">-- Select Month --</option>
+                    @for ($i = 1; $i <= 12; $i++)
+                        <option value="{{ $i }}">
+                            {{ $i }} {{ Str::plural('Month', $i) }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+        </div>
+
+        <!-- Weekly Section -->
+        <div class="row mb-3 d-none" id="weeklySection">
+            <div class="col-md-6">
+                <label>Select Week Duration</label>
+                <select class="form-select" name="weekly_duration">
+                    <option value="">-- Select Week --</option>
                     @for ($i = 1; $i <= 48; $i++)
                         <option value="{{ $i }}">
                             {{ $i }} {{ Str::plural('Week', $i) }}
                         </option>
                     @endfor
                 </select>
-
             </div>
+        </div>
 
             <div class="col-md-4">
                 <label for="monthlyIncome" class="form-label">Monthly Income</label>
@@ -104,7 +142,7 @@
 
 
 
-
+        
         <div class="mt-4 mb-0">
             <div class="d-grid"><button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"
                     redirect="{{ route('loan-request-list') }}">Create Loan</button></div>
@@ -124,5 +162,28 @@
             "bAutoWidth": false,
 
         });
+    });
+</script>
+<!-- JS Section -->
+<script>
+    openDoctorAutocomplete('#member_name', 'member_id');
+
+    $(document).ready(function () {
+
+        $('input[name="repayment_type"]').on('change', function () {
+
+            if ($(this).val() === 'monthly') {
+                $('#monthlySection').removeClass('d-none');
+                $('#weeklySection').addClass('d-none');
+                $('select[name="weekly_duration"]').val('');
+            }
+
+            if ($(this).val() === 'weekly') {
+                $('#weeklySection').removeClass('d-none');
+                $('#monthlySection').addClass('d-none');
+                $('select[name="monthly_duration"]').val('');
+            }
+        });
+
     });
 </script>

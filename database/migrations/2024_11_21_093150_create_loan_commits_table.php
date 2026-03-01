@@ -25,6 +25,7 @@ class CreateLoanCommitsTable extends Migration
             $table->float('without_deposit')->default(0.0);
             $table->integer('loan_year');
             $table->string('payment_month');
+            $table->string('payment_week')->nullable();
             $table->integer('committed_user_id');
             $table->string('committed_user_name');
             $table->timestamps();

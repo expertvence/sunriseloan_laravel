@@ -80,6 +80,10 @@ Route::get('/get-total-paid/{loanIde}', [LoanCommitController::class, 'getTotalP
 //Loan commit section
 // Route::get('/loan-commite','LoanCommitController@index')->name('loan-commite');
 Route::get('/loan-commite', [LoanCommitController::class, 'index'])->name('loan-commite');
+Route::get('/get-repayment-type/{userId}', [LoanCommitController::class, 'getRepaymentType']);
+Route::get('/get-committed-weeks/{loanId}/{month}', [LoanCommitController::class, 'getCommittedWeeks']);
+
+
 Route::post('/loan-commit-submit', [LoanCommitController::class, 'insertLoanCommit'])->name('loan-commit-submit');
 Route::get('/employee-loan-commite', [EmployeeLoanCommitController::class, 'index']);
 // Route::get('/employee-get-loans-for-user/{userId}', [EmployeeLoanCommitController::class, 'getLoansForUser']);
@@ -134,7 +138,7 @@ Route::post('/merber-save', [MemberRegistrationController::class, 'store'])->nam
 Route::get('/member-list', [HomeController::class, 'memberList'])->name('member-list');
 // Route::get('/member-register-form/{id?}', 'HomeController@memRegistrationForm')->name('member-register-form');
 Route::get('/member-register-form/{id?}', [HomeController::class, 'memRegistrationForm'])->name('member-register-form');
-Route::get('/realtime-comunication', [ComunicationController::class, 'realComunication'])->name('realtime-comunication');
+// Route::get('/realtime-comunication', [ComunicationController::class, 'realComunication'])->name('realtime-comunication');
 
 
 // Route::get('/', 'ChatsController@index');

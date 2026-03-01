@@ -24,7 +24,10 @@ class CreateLoansTable extends Migration
             $table->string('loan_category_id');
             $table->text('loan_purpose');  
             $table->integer('creator_id');  
-            $table->string('loan_term');  
+            $table->string('loan_term');
+            $table->string('repayment_type');   
+            $table->string('monthly_duration')->nullable();  
+            $table->string('weekly_duration')->nullable();
             $table->integer('payment_schedule');  
             $table->float('deposit')->nullable();  
             $table->decimal('monthly_income', 15, 2); 
