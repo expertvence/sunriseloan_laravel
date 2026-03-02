@@ -95,8 +95,11 @@ class HomeController extends Controller
     }
     public function adminPanel()
     {
-        $totalDeposit = MemberDeposit::where('deposit_type', '=', 'deposite')->sum('deposite_amount');
-        $totalWithdraw = MemberDeposit::where('deposit_type', '=', 'relesed')->sum('deposite_amount');
+        $totalDeposit = MemberDeposit::where('deposit_type', 'deposite')->sum('deposite_amount');
+        $totalWithdraw = MemberDeposit::where('deposit_type', 'relesed')->sum('deposite_amount');
+
+        $totalBalance = $totalDeposit - $totalWithdraw;
+
 
         // Sum of total assets and loans
         $totalAssets = TotalAsset::sum('assets') ?? 0;
@@ -115,6 +118,7 @@ class HomeController extends Controller
             $loanCategory = $loan->loan_category_id ?? 0; // Default to 0 if null
             return $carry + ($loan->loan_amount * ($loanCategory / 100));
         }, 0);
+
         //Exact Capital
         $comitedAmount = LoanCommit::sum('payment_amount');
         $totalExpence = IncomeExpense::where('type', 'Expense')->sum('income_expence');
@@ -122,13 +126,10 @@ class HomeController extends Controller
         $totalServicesCharge = IncomeExpense::where('type', 'Income')->sum('income_expence');
         //dd($totalServicesCharge);
         $exactAssetsWithprofitandwithoutloan = $remainingAmount + $comitedAmount + $totalServicesCharge - $totalExpence;
-        //dd($exactAssetsWithprofitandwithoutloan);
-        // Count total users
+
         $totalUser = User::count();
 
 
-        // dd($totalExpence);
-        // Return the admin view
         return Template::loadView('admin.index', compact(
             'totalAssets',
             'loan',
@@ -140,7 +141,8 @@ class HomeController extends Controller
             'totalExpence',
             'totalServicesCharge',
             'totalDeposit',
-            'totalWithdraw'
+            'totalWithdraw',
+            'totalBalance'
         ));
     }
 

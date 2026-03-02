@@ -221,7 +221,7 @@
                 <!-- Dropdown Action Box -->
                 <div class="action-dropdown shadow-lg">
 
-                    <a href="{{ url('show-view', $value->loan_ide) }}" class="dropdown-item text-info">
+                    <a href="{{ url('loan-request-details', $value->loan_ide) }}" class="dropdown-item text-info">
                         <i class="fas fa-eye me-2"></i> View
                     </a>
 

@@ -22,10 +22,30 @@ class LoanRequestController extends Controller
     public function loanRequestList()
     {
         $data = Loan::all();
-        // dd($data);
         return Template::loadView('admin/loan/loan_list', ['data' => $data]);
     }
 
+
+    public function showLonDetails($loan_ide)
+    {
+        $loan = DB::table('loans')
+    ->leftJoin('users', 'loans.user_id', '=', 'users.id')
+    ->leftJoin('members', 'loans.member_id', '=', 'members.id')
+    ->where('loans.loan_ide', $loan_ide)
+    ->select(
+        'loans.*',
+        'users.name',
+        'users.email',
+        'users.mobile',
+        'members.member_photo',
+        'members.Uid',
+        
+    )
+    ->first();
+
+
+        return Template::loadView('admin/loan/loan_request_details', compact('loan'));
+    }
 
     function generateUniqueUid()
     {
@@ -40,13 +60,10 @@ class LoanRequestController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
-
         try {
 
             DB::beginTransaction();
 
-            // ✅ Validation
             $request->validate([
                 'member_id'        => 'required|exists:members,id',
                 'loan_amount'      => 'required|numeric|min:1',
@@ -69,7 +86,7 @@ class LoanRequestController extends Controller
                     'title' => 'Error'
                 ], 400);
             }
-            // ✅ Get user using member_id (same system logic)
+
             $user = User::where('member_id', $request->member_id)->first();
 
             if (!$user) {
@@ -80,7 +97,6 @@ class LoanRequestController extends Controller
                 ]);
             }
 
-            // ✅ File Upload
             $filePath = null;
             if ($request->hasFile('other_documents')) {
                 $uploadedFile = $request->file('other_documents');
@@ -98,26 +114,25 @@ class LoanRequestController extends Controller
 
             if ($request->repayment_type == 'monthly') {
 
-    if (!$request->monthly_duration) {
-        return response()->json([
-            'msg' => 'Please select monthly duration',
-            'title' => 'Error'
-        ], 400);
-    }
+                if (!$request->monthly_duration) {
+                    return response()->json([
+                        'msg' => 'Please select monthly duration',
+                        'title' => 'Error'
+                    ], 400);
+                }
 
-    $loanTerm = $request->monthly_duration;
+                $loanTerm = $request->monthly_duration;
+            } else {
 
-} else {
+                if (!$request->weekly_duration) {
+                    return response()->json([
+                        'msg' => 'Please select weekly duration',
+                        'title' => 'Error'
+                    ], 400);
+                }
 
-    if (!$request->weekly_duration) {
-        return response()->json([
-            'msg' => 'Please select weekly duration',
-            'title' => 'Error'
-        ], 400);
-    }
-
-    $loanTerm = $request->weekly_duration;
-}
+                $loanTerm = $request->weekly_duration;
+            }
 
             $loan_uId = $this->generateUniqueUid();
             $data = [

@@ -188,8 +188,6 @@ public function show($id)
         ->where('members.id', $id)
         ->select(
             'members.*',
-
-            // Users table fields (rename conflicting ones)
             'users.id as user_id',
             'users.name as user_name',
             'users.email',

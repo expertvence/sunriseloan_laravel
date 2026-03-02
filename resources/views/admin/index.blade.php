@@ -2,7 +2,7 @@
     <style>
         /* Simplified Premium Dashboard - Theme Aware */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
+
         * {
             margin: 0;
             padding: 0;
@@ -10,7 +10,7 @@
         }
 
         /* Theme variables already defined in theme-manager */
-        
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-primary, #0b1120);
@@ -26,16 +26,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                repeating-linear-gradient(45deg, 
-                    var(--primary-alpha, rgba(99, 102, 241, 0.03)) 0px, 
+            background:
+                repeating-linear-gradient(45deg,
+                    var(--primary-alpha, rgba(99, 102, 241, 0.03)) 0px,
                     var(--primary-alpha, rgba(99, 102, 241, 0.03)) 2px,
-                    transparent 2px, 
+                    transparent 2px,
                     transparent 20px),
-                repeating-linear-gradient(135deg, 
-                    var(--primary-alpha, rgba(99, 102, 241, 0.03)) 0px, 
+                repeating-linear-gradient(135deg,
+                    var(--primary-alpha, rgba(99, 102, 241, 0.03)) 0px,
                     var(--primary-alpha, rgba(99, 102, 241, 0.03)) 2px,
-                    transparent 2px, 
+                    transparent 2px,
                     transparent 20px);
             pointer-events: none;
             z-index: 0;
@@ -89,7 +89,8 @@
             gap: 1.5rem;
         }
 
-        .date-box, .time-box {
+        .date-box,
+        .time-box {
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -101,7 +102,8 @@
             border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
         }
 
-        .date-box i, .time-box i {
+        .date-box i,
+        .time-box i {
             color: var(--primary, #6366f1);
         }
 
@@ -116,8 +118,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
         }
 
         /* Stats Grid */
@@ -338,23 +347,40 @@
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .stats-grid, .analytics-grid {
+
+            .stats-grid,
+            .analytics-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 768px) {
-            .dashboard { padding: 1rem; }
-            .header { flex-direction: column; gap: 1rem; align-items: start; }
-            .datetime { width: 100%; justify-content: space-between; }
-            .stats-grid, .analytics-grid { grid-template-columns: 1fr; }
+            .dashboard {
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: start;
+            }
+
+            .datetime {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .stats-grid,
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* DataTable - Theme aware */
-        .dataTables_wrapper { 
-            color: var(--text-primary, rgba(255, 255, 255, 0.8)); 
+        .dataTables_wrapper {
+            color: var(--text-primary, rgba(255, 255, 255, 0.8));
         }
-        
+
         .dataTables_filter input {
             background: var(--card-bg, rgba(255, 255, 255, 0.03));
             border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
@@ -362,11 +388,11 @@
             padding: 0.4rem 1rem 0.4rem 2.2rem;
             color: var(--text-primary, white);
         }
-        
+
         .dataTables_filter input::placeholder {
             color: var(--text-muted, rgba(255, 255, 255, 0.5));
         }
-        
+
         .dataTables_length select {
             background: var(--card-bg, rgba(255, 255, 255, 0.03));
             border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
@@ -430,7 +456,7 @@
                     <span class="card-title">Total Assets</span>
                     <span class="card-icon"><i class="fas fa-building"></i></span>
                 </div>
-                <div class="card-value">৳{{ number_format($totalAssets??0, 2) }}</div>
+                <div class="card-value">৳{{ number_format($totalAssets ?? 0, 2) }}</div>
                 <div class="card-trend">
                     <span class="trend-up"><i class="fas fa-arrow-up"></i> 12.5%</span>
                     <span class="trend-text">vs last month</span>
@@ -443,7 +469,7 @@
                     <span class="card-title">Total Loan</span>
                     <span class="card-icon"><i class="fas fa-hand-holding-usd"></i></span>
                 </div>
-                <div class="card-value">৳{{ number_format($loan??0, 2) }}</div>
+                <div class="card-value">৳{{ number_format($loan ?? 0, 2) }}</div>
                 <div class="card-trend">
                     <span class="trend-down"><i class="fas fa-arrow-down"></i> 3.2%</span>
                     <span class="trend-text">vs last month</span>
@@ -456,7 +482,7 @@
                     <span class="card-title">Total Profit</span>
                     <span class="card-icon"><i class="fas fa-chart-pie"></i></span>
                 </div>
-                <div class="card-value">৳{{ number_format($totalProfit ??0, 2) }}</div>
+                <div class="card-value">৳{{ number_format($totalProfit ?? 0, 2) }}</div>
                 <div class="card-trend">
                     <span class="trend-up"><i class="fas fa-arrow-up"></i> 18.3%</span>
                     <span class="trend-text">vs last month</span>
@@ -469,18 +495,18 @@
                     <span class="card-title">Remaining</span>
                     <span class="card-icon"><i class="fas fa-wallet"></i></span>
                 </div>
-                @if($warningMessage)
+                {{-- @if ($warningMessage)
                     <div class="alert">
                         <i class="fas fa-exclamation-triangle"></i>
                         <span>{{ $warningMessage }}</span>
                     </div>
-                @else
+                @else --}}
                     <div class="card-value">৳{{ number_format($remainingAmount ?? 0, 2) }}</div>
                     <div class="card-trend">
                         <span class="trend-neutral"><i class="fas fa-minus"></i> Stable</span>
                         <span class="trend-text">Available</span>
                     </div>
-                @endif
+                {{-- @endif --}}
             </div>
 
             <!-- Total Users -->
@@ -539,9 +565,9 @@
                     <span class="card-title">Total Deposit</span>
                     <span class="card-icon"><i class="fas fa-scale-balanced"></i></span>
                 </div>
-               <div class="card-value">
-    ৳{{ number_format($totalDeposit ?? 0, 2) }}
-</div>
+                <div class="card-value">
+                    ৳{{ number_format($totalBalance ?? 0, 2) }}
+                </div>
 
                 <div class="card-trend">
                     <span class="trend-up"><i class="fas fa-arrow-up"></i> 9.2%</span>
@@ -553,7 +579,7 @@
                     <span class="card-title">Total Withdraw</span>
                     <span class="card-icon"><i class="fas fa-scale-balanced"></i></span>
                 </div>
-                <div class="card-value">৳{{ number_format($totalWithdraw??0, 2) }}</div>
+                <div class="card-value">৳{{ number_format($totalWithdraw ?? 0, 2) }}</div>
                 <div class="card-trend">
                     <span class="trend-up"><i class="fas fa-arrow-up"></i> 9.2%</span>
                     <span class="trend-text">net position</span>
@@ -569,9 +595,11 @@
             </div>
             <div class="analytics-grid">
                 @php
-                    $profitMargin = $totalProfit > 0 && $totalAssets > 0 ? round(($totalProfit / $totalAssets) * 100, 2) : 0;
+                    $profitMargin =
+                        $totalProfit > 0 && $totalAssets > 0 ? round(($totalProfit / $totalAssets) * 100, 2) : 0;
                     $loanRatio = $loan > 0 && $totalAssets > 0 ? round(($loan / $totalAssets) * 100, 2) : 0;
-                    $expenseRatio = $totalExpence > 0 && $totalProfit > 0 ? round(($totalExpence / $totalProfit) * 100, 2) : 0;
+                    $expenseRatio =
+                        $totalExpence > 0 && $totalProfit > 0 ? round(($totalExpence / $totalProfit) * 100, 2) : 0;
                     $avgUserValue = $totalUser > 0 ? round($totalAssets / $totalUser, 0) : 0;
                 @endphp
 
@@ -599,14 +627,14 @@
         </div>
 
         <!-- Data Table (your existing code remains exactly the same) -->
-        @if(isset($dataTable))
-        <div class="table-section">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5><i class="fas fa-table me-2" style="color: var(--primary);"></i> Transactions</h5>
-                <button class="export-btn"><i class="fas fa-download me-1"></i> Export</button>
+        @if (isset($dataTable))
+            <div class="table-section">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5><i class="fas fa-table me-2" style="color: var(--primary);"></i> Transactions</h5>
+                    <button class="export-btn"><i class="fas fa-download me-1"></i> Export</button>
+                </div>
+                {{ $dataTable->table() }}
             </div>
-            {{ $dataTable->table() }}
-        </div>
         @endif
     </div>
 
@@ -618,44 +646,44 @@
         // Simple function to update time - this WILL work
         function startLiveClock() {
             console.log("Clock started");
-            
+
             const dateElement = document.getElementById('currentDate');
             const timeElement = document.getElementById('currentTime');
-            
+
             if (!dateElement || !timeElement) {
                 console.error("Time elements not found!");
                 return;
             }
-            
+
             function update() {
                 const now = new Date();
-                
+
                 // Simple date formatting
                 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                
+
                 const dayName = days[now.getDay()];
                 const monthName = months[now.getMonth()];
                 const day = now.getDate();
                 const year = now.getFullYear();
-                
+
                 dateElement.textContent = `${dayName}, ${day} ${monthName} ${year}`;
-                
+
                 // Simple time formatting
                 let hours = now.getHours();
                 let minutes = now.getMinutes();
                 let seconds = now.getSeconds();
                 const ampm = hours >= 12 ? 'PM' : 'AM';
-                
+
                 hours = hours % 12;
                 hours = hours ? hours : 12;
-                
+
                 minutes = minutes < 10 ? '0' + minutes : minutes;
                 seconds = seconds < 10 ? '0' + seconds : seconds;
-                
+
                 timeElement.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
             }
-            
+
             update();
             setInterval(update, 1000);
         }
