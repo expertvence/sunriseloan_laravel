@@ -23,7 +23,7 @@ class MemberRegistrationController extends Controller
         try {
 
         $request->validate([
-            'Uid'            => 'required|string|max:255',
+            // 'Uid'            => 'required|string|max:255',
             'gender'         => 'required|string',
             'age'            => 'nullable|numeric',
             'religion'       => 'nullable|string',
