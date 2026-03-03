@@ -517,12 +517,6 @@ body.dark-mode .percentage-badge {
 }
 </style>
 
-<!-- ================= মোড টগল বাটন ================= -->
-<div class="mode-toggle" id="modeToggle">
-    <i class="fas fa-moon" id="modeIcon"></i>
-    <span id="modeText">Dark Mode</span>
-</div>
-
 <!-- ================= মেইন কন্টেইনার ================= -->
 <div class="premium-card">
     <!-- কার্ড হেডার -->

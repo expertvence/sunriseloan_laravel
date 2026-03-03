@@ -9,6 +9,10 @@ $percentage = isset($datas) && !empty($datas) ? $datas->percentage : '';
    🌈 মডার্ন ফর্ম - ডার্ক/লাইট মোড সহ
    ======================================== */
 
+/* ========================================
+   ফুল-উইডথ ফর্ম - সাইডবার লেআউটের সাথে মিল রেখে
+   ======================================== */
+
 :root {
     /* Light Mode */
     --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -55,56 +59,57 @@ body.dark-mode {
     --shadow-hover: 0 8px 25px rgba(129, 140, 248, 0.3);
 }
 
-/* Base Body */
+/* Base Body - modified for full width */
 body {
     background: var(--bg-body);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     margin: 0;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    display: block;  /* changed from flex to block */
+    padding: 0;  /* removed padding */
     transition: var(--transition);
 }
 
-/* Modern Form Styling */
+/* Modern Form Styling - full width card */
 .card {
     border: none;
-    border-radius: 15px;
-    box-shadow: var(--shadow);
+    border-radius: 0;  /* no border radius for full width look */
+    box-shadow: none;  /* removed shadow for cleaner look */
     background: var(--bg-card);
-    max-width: 600px;
     width: 100%;
-    margin: 0 auto;
+    margin: 0;  /* no margin */
     overflow: hidden;
     transition: var(--transition);
+    margin-top: 40px;  /* added top margin for spacing */
 }
 
+/* Remove hover effect */
 .card:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-2px);
+    box-shadow: none;
+    transform: none;
 }
 
+/* Card Header - exactly like screenshot */
 .card-header {
-    background: var(--primary-gradient);
-    padding: 25px;
-    text-align: center;
+    background: ;
+    padding: 15px 25px;  /* adjusted padding */
+    text-align: left;  /* left align like screenshot */
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .card-header h1 {
     margin: 0;
-    color: white;
-    font-size: 28px;
-    font-weight: 600;
+    color: rgb(42, 179, 156);
+    font-size: 20px;  /* smaller font like screenshot */
+    font-weight: 700;
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 10px;
 }
 
+/* Card Body - adjusted padding */
 .card-body {
-    padding: 30px;
+    padding: 25px;  /* reduced padding */
     background: var(--bg-card);
 }
 
@@ -118,26 +123,41 @@ body {
     margin-bottom: 8px;
     color: var(--text-primary);
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;  /* smaller font */
+    text-transform: uppercase;  /* uppercase like screenshot */
+    letter-spacing: 0.3px;
     transition: var(--transition);
 }
 
+/* Dark mode form control */
+body.dark-mode .form-control {
+    color: #ffffff;
+    background: var(--bg-input);
+}
+
+/* Form Control - both inputs same style */
 .form-control {
     width: 100%;
     padding: 12px 15px;
-    font-size: 15px;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
+    font-size: 14px;
+    border: 1px solid var(--border-color);  /* thinner border */
+    border-radius: 4px;  /* smaller border radius */
     transition: var(--transition);
     background: var(--bg-input);
-    color: var(--text-primary);
+    color: #000000;  /* black text */
+    box-sizing: border-box;
+}
+
+/* Both inputs exactly same */
+#loan_category, #percentage {
+    height: 42px;  /* same height */
 }
 
 .form-control:focus {
     border-color: var(--primary-color);
     outline: none;
     background: var(--bg-card);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
 }
 
 .form-control:hover {
@@ -145,20 +165,21 @@ body {
 }
 
 .form-control::placeholder {
-    color: var(--text-muted);
-    opacity: 0.7;
+    color: #999;  /* darker placeholder */
+    opacity: 1;
+    font-size: 13px;
 }
 
-/* Checkbox Styling */
+/* Checkbox Styling - exactly like screenshot */
 .form-check {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 25px 0;
-    padding: 15px;
+    margin: 20px 0;
+    padding: 12px 15px;
     background: var(--bg-checkbox);
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
     transition: var(--transition);
     cursor: pointer;
 }
@@ -169,29 +190,34 @@ body {
 }
 
 .form-check-input {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
     accent-color: var(--primary-color);
+    margin: 0;
 }
 
 .form-check-label {
-    color: var(--text-secondary);
-    font-size: 14px;
+    color: var(--text-primary);
+    font-size: 13px;
     cursor: pointer;
     transition: var(--transition);
 }
 
-/* Button Styling */
+.form-check-label i {
+    display: none;  /* hide icon to match screenshot */
+}
+
+/* Button Styling - exactly like screenshot */
 .btn {
     width: 100%;
-    padding: 14px 20px;
-    font-size: 16px;
+    padding: 12px 20px;
+    font-size: 14px;
     font-weight: 600;
     color: white;
-    background: var(--primary-gradient);
+    background: rgb(42, 179, 156);
     border: none;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
     transition: var(--transition);
     text-transform: uppercase;
@@ -199,11 +225,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
+    margin-top: 15px;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
+    background: rgb(150, 199, 191);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-hover);
 }
 
@@ -211,18 +239,23 @@ body {
     transform: translateY(0);
 }
 
-/* Mode Toggle Button */
+/* Hide icons from labels to match screenshot */
+.form-label i {
+    display: none;
+}
+
+/* Mode Toggle Button - repositioned */
 .mode-toggle {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 15px;
+    right: 25px;
     background: var(--bg-card);
-    border: 2px solid var(--border-color);
-    border-radius: 50px;
-    padding: 10px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 8px 16px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     cursor: pointer;
     z-index: 1000;
     box-shadow: var(--shadow);
@@ -230,29 +263,19 @@ body {
 }
 
 .mode-toggle:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-hover);
 }
 
 .mode-toggle i {
-    font-size: 18px;
+    font-size: 14px;
     color: var(--primary-color);
 }
 
 .mode-toggle span {
     color: var(--text-primary);
     font-weight: 500;
-}
-
-/* Success Animation */
-@keyframes successPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.btn-success {
-    animation: successPulse 0.5s ease;
+    font-size: 13px;
 }
 
 /* Responsive */
@@ -262,37 +285,26 @@ body {
     }
     
     .card-header h1 {
-        font-size: 24px;
+        font-size: 18px;
     }
     
     .btn {
-        padding: 12px 16px;
-        font-size: 14px;
+        padding: 10px 16px;
+        font-size: 13px;
     }
     
     .mode-toggle {
         top: 10px;
-        right: 10px;
-        padding: 8px 15px;
+        right: 15px;
+        padding: 6px 12px;
     }
 }
 
-@media (max-width: 480px) {
-    .card-header {
-        padding: 20px;
-    }
-    
-    .card-header h1 {
-        font-size: 20px;
-    }
-    
-    .card-body {
-        padding: 15px;
-    }
-    
-    .form-check {
-        padding: 12px;
-    }
+/* Remove any extra spacing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 </style>
 

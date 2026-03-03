@@ -430,7 +430,7 @@
                     <span class="card-title">Total Assets</span>
                     <span class="card-icon"><i class="fas fa-building"></i></span>
                 </div>
-                <div class="card-value">₦{{ number_format($totalAssets, 2) }}</div>
+                <div class="card-value">৳ {{ number_format($totalAssets, 2) }}</div>
                 <div class="card-trend">
                     <span class="trend-up"><i class="fas fa-arrow-up"></i> 12.5%</span>
                     <span class="trend-text">vs last month</span>
@@ -443,7 +443,7 @@
                     <span class="card-title">Total Loan</span>
                     <span class="card-icon"><i class="fas fa-hand-holding-usd"></i></span>
                 </div>
-                <div class="card-value">₦{{ number_format($loan, 2) }}</div>
+                <div class="card-value">৳ {{ number_format($loan, 2) }}</div>
                 <div class="card-trend">
                     <span class="trend-down"><i class="fas fa-arrow-down"></i> 3.2%</span>
                     <span class="trend-text">vs last month</span>
@@ -456,7 +456,7 @@
                     <span class="card-title">Total Profit</span>
                     <span class="card-icon"><i class="fas fa-chart-pie"></i></span>
                 </div>
-                <div class="card-value">₦{{ number_format($totalProfit, 2) }}</div>
+                <div class="card-value">৳ {{ number_format($totalProfit, 2) }}</div>
                 <div class="card-trend">
                     <span class="trend-up"><i class="fas fa-arrow-up"></i> 18.3%</span>
                     <span class="trend-text">vs last month</span>
@@ -475,7 +475,7 @@
                         <span>{{ $warningMessage }}</span>
                     </div>
                 @else
-                    <div class="card-value">₦{{ number_format($remainingAmount, 2) }}</div>
+                    <div class="card-value">৳ {{ number_format($remainingAmount, 2) }}</div>
                     <div class="card-trend">
                         <span class="trend-neutral"><i class="fas fa-minus"></i> Stable</span>
                         <span class="trend-text">Available</span>
@@ -502,7 +502,7 @@
                     <span class="card-title">Service Charge</span>
                     <span class="card-icon"><i class="fas fa-file-invoice"></i></span>
                 </div>
-                <div class="card-value">₦{{ number_format($totalServicesCharge, 2) }}</div>
+                <div class="card-value">৳ {{ number_format($totalServicesCharge, 2) }}</div>
                 <div class="card-trend">
                     <span class="trend-up"><i class="fas fa-arrow-up"></i> 2.1%</span>
                     <span class="trend-text">vs last month</span>
@@ -515,7 +515,7 @@
                     <span class="card-title">Total Expense</span>
                     <span class="card-icon"><i class="fas fa-credit-card"></i></span>
                 </div>
-                <div class="card-value">₦{{ number_format($totalExpence, 2) }}</div>
+                <div class="card-value">৳ {{ number_format($totalExpence, 2) }}</div>
                 <div class="card-trend">
                     <span class="trend-down"><i class="fas fa-arrow-down"></i> 8.4%</span>
                     <span class="trend-text">reduced</span>
@@ -528,7 +528,7 @@
                     <span class="card-title">Exact Capital</span>
                     <span class="card-icon"><i class="fas fa-scale-balanced"></i></span>
                 </div>
-                <div class="card-value">₦{{ number_format($exactAssetsWithprofitandwithoutloan, 2) }}</div>
+                <div class="card-value">৳ {{ number_format($exactAssetsWithprofitandwithoutloan, 2) }}</div>
                 <div class="card-trend">
                     <span class="trend-up"><i class="fas fa-arrow-up"></i> 9.2%</span>
                     <span class="trend-text">net position</span>
@@ -567,7 +567,7 @@
                 </div>
                 <div class="metric">
                     <div class="metric-label">Avg/User</div>
-                    <div class="metric-value">₦{{ number_format($avgUserValue) }}</div>
+                    <div class="metric-value">৳ {{ number_format($avgUserValue) }}</div>
                     <div class="metric-change positive"><i class="fas fa-arrow-up"></i> 12.5k</div>
                 </div>
             </div>
