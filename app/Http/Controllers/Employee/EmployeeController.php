@@ -29,7 +29,7 @@ class EmployeeController extends Controller
         public function EmployeememberList()
     {
         $data = MemberRegistration::get();
-        
+        dd($data);
          return Template::loadView('employee/memberRegister/member_list', ['data' => $data]);
     }
     
