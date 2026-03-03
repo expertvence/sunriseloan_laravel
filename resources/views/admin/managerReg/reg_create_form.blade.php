@@ -398,7 +398,7 @@ body.dark-mode .page-header-custom h1 {
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="premium-input-group">
                         <div class="form-floating">
-                            <input class="form-control" id="name" name="name" type="text" placeholder="Enter manager's full name" value="{{ $name }}" />
+                            <input class="form-control" id="name" name="name" type="text" placeholder="Enter manager's full name" value="{{ $name }}" required />
                             <label for="name"><i class="fas fa-user me-2"></i>Full Name</label>
                         </div>
                     </div>
@@ -407,7 +407,7 @@ body.dark-mode .page-header-custom h1 {
                 <div class="col-lg-3 col-md-3 col-sm-12">
                     <div class="premium-input-group">
                         <div class="form-floating">
-                            <input class="form-control" id="inputEmail" type="email" name="email" placeholder="name@example.com" value="{{ $email }}" />
+                            <input class="form-control" id="inputEmail" type="email" name="email" placeholder="name@example.com" value="{{ $email }}" required />
                             <label for="inputEmail"><i class="fas fa-envelope me-2"></i>Email Address</label>
                         </div>
                     </div>

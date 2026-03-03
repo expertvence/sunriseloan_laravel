@@ -417,11 +417,11 @@
                 </a>
                 <div class="collapse" id="category" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link ajax_link" href="#" data-url="{{ url('show-categories-insert') }}">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('show-categories-form') }}">
                             <i class="fas fa-plus-circle me-2" style="font-size: 0.8rem;"></i>
                             <span>Create</span>
                         </a>
-                        <a class="nav-link ajax_link" href="#" data-url="{{ url('show_categories') }}">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('show_categories-list') }}">
                             <i class="fas fa-list me-2" style="font-size: 0.8rem;"></i>
                             <span>List</span>
                         </a>

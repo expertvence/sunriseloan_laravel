@@ -22,6 +22,26 @@ class MemberRegistrationController extends Controller
     {
         try {
 
+        // $request->validate([
+        //        'uid' => 'required|string|max:50',
+        //     'gender'         => 'required|string',
+        //     'age'            => 'nullable|numeric',
+        //     'religion'       => 'nullable|string',
+        //     'fathers_name'   => 'nullable|string',
+        //     'mothers_name'   => 'nullable|string',
+        //     'mobile'         => 'nullable|string|max:20',
+        //     'address'        => 'nullable|string|max:500',
+        //     'name'           => 'required|string|max:255',
+        //     'email'          => 'required|email',
+        //     'member_image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
+
+        // if ($request->validate()) {
+        //     return response()->json([
+        //         'msg'   => 'Validation failed',
+        //         'title' => 'Error'
+        //     ]);
+        // }
             $id = $request->id;
             DB::beginTransaction();
 
@@ -110,7 +130,7 @@ class MemberRegistrationController extends Controller
                         'member_id' => $member_id,
                         'password' => Hash::make('12345678'),
                         'status' => 'active',
-                        'user_type' => 'manager',
+                        'user_type' => 'user',
                         'ref_id' => Auth::user()->id,
                         'created_by' => Auth::user()->name,
                         'created_at' => now(),
@@ -225,6 +245,6 @@ public function show($id)
      */
     public function destroy(MemberRegistration $memberRegistration)
     {
-        //
+        
     }
 }

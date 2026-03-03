@@ -37,6 +37,7 @@
     --transition: all 0.3s ease;
 }
 
+<<<<<<< HEAD
 /* Dark Mode */
 body.dark-mode {
     --primary-gradient: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
@@ -528,6 +529,17 @@ body.dark-mode .percentage-badge {
         <div class="header-badge">
             <i class="fas fa-database"></i>
             Total: {{ count($data) }} Categories
+=======
+                        <td>
+
+                            <span class="btn btn-sm  open-modal btnView" data-action="{{route('show-categories-form', $value->id)}}" data-modal="common-modal-md" data-title=" Member Edit" title="Edit" data-id="{{$value->id}}"><i class="fas fa-edit"></i></span> 
+                        </td>
+                    </tr>
+                    @endforeach
+                    @endif
+                </tbody>
+            </table>
+>>>>>>> f6f83e1344b366a9f2a80543e9004aa96a99037f
         </div>
     </div>
 

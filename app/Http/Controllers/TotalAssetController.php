@@ -17,18 +17,17 @@ class TotalAssetController extends Controller
     }
     public function store(Request $request)
     {
-       
-       
-        
         try {
             // Validate the incoming request
             $request->validate([
-                'assets' => 'required|numeric'
+                'assets' => 'required|numeric',
+                'date' => 'nullable|date',
             ]);
         
             // Prepare the data
             $data = [
-                'assets' => $request->assets
+                'assets' => $request->assets,
+                'date' => $request->date
             ];
         
             // Check if assets_id is provided or not
@@ -104,9 +103,21 @@ class TotalAssetController extends Controller
         ]);
     } */
     
-     public function destroyAsset($id)
+     public function assetDelete($id)
     {
-        TotalAsset::find($id)->delete();
-        return redirect()->back()->with('success', 'Assets successfully deleted.');
+        try {
+            $manager = TotalAsset::where('id', $id)->firstOrFail(); 
+            $manager->delete(); // Delete the record
+
+            return response()->json([
+                'msg' => 'Assets Deleted Successfully',
+                'title' => 'Success'
+            ]);
+        }  catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong. Please try again.'
+            ], 500);
+        }
     }
 }

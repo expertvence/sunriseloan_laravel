@@ -145,10 +145,10 @@ body{
         <div><b>Email:</b> {{ $user->email }}</div>
     </div>
 
-    <button onclick="window.location.href='{{ route('manager-change-password') }}'"
+    {{-- <button onclick="window.location.href='{{ route('manager-change-password') }}'"
         class="btn-blue">
         <i class="fa fa-lock"></i> Change Password
-    </button>
+    </button> --}}
 
 </div>
 
