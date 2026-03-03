@@ -425,27 +425,8 @@ class HomeController extends Controller
     }
     public function memberProfile($id)
     {
-        $data = MemberRegistration::with(['installmentPayment' => function ($query) {
-            $query->get();
-            // $query->latest()->take(1);
-        }, 'extraPayment' => function ($query) {
-            $query->get();
-            // $query->latest()->take(1);
-        }])->find($id);
-        $datas = $data->toArray();
-        // description', 'income_expence', 'type','date','id'
-        $profit_loss = IncomeExpense::select(DB::raw('SUM(CASE WHEN type = "Income" THEN income_expence ELSE 0 END) as income_sum'), DB::raw('SUM(CASE WHEN type = "Expense" THEN income_expence ELSE 0 END) as expense_sum'), DB::raw('(select sum(no_of_share)  from members) as no_of_share'))->first();
-
-        // $datas['installment_payments_count'] = $data->installmentPayment->count();
-        $datas['installment_payments_count'] = $data->installmentPayment->count();
-        $datas['installment_payments_sum'] = $data->installmentPayment->sum('share_amount');
-        $datas['extra_payment_count'] = $data->extraPayment->count();
-        $datas['extra_payment_sum'] = $data->extraPayment->sum('amount');
-        // ->where('is_publish', 1)
-        // ->first();
-        // $data = MemberRegistration::find()->get();
-        // dd($profit_loss);
-        return Template::loadView('admin/memberReg/member_profile', ['data' => $datas, 'profit_loss' => $profit_loss]);
+        $user = User::find($id);
+        return Template::loadView('admin/memberReg/member_profile', [ 'user' => $user]);
     }
 
 

@@ -641,7 +641,7 @@ body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
                                 </td>
                                 <td>
                                     <div class="action-buttons">
-                                        <a href="{{ route('member_profile', $value->id) }}" target="_blank" class="action-btn view-btn" title="View Profile">
+                                        <a href="{{ route('member_profile', $value->id) }}" target="" class="action-btn view-btn" title="View Profile">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <span class="action-btn edit-btn open-modal" 
