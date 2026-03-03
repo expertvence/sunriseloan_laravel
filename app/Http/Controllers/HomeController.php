@@ -131,7 +131,7 @@ class HomeController extends Controller
     ->join('members', 'users.member_id', '=', 'members.id')
     ->where('users.user_type', 'user')
     ->where('users.status', 'active')
-    ->where('members.is_publish', 1)
+    ->where('members.status', 'active')
     ->count();
 
         $totalUser = User::where('user_type', 'user')->count();
