@@ -1,4 +1,4 @@
-<meta name="csrf-token" content="your-csrf-token-here">
+
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -36,6 +36,7 @@ body.dark-mode {
     background-color: #0f172a !important;
 }
 
+<<<<<<< HEAD
 /* Full Page Dark Mode */
 body.dark-mode,
 body.dark-mode #app,
@@ -654,11 +655,311 @@ body.dark-mode select[multiple] option:checked {
             </button>
         </form>
     </div>
+=======
+        <div class="row">
+            <!-- User Name Field -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="user_name">User Name</label>
+                    <input type="text" class="form-control" id="member_name" name="member_name" required>
+                    <input type="hidden" id="member_id" name="member_id">
+                    <input type="hidden" id="repayment_type" name="repayment_type">
+                    <ul id="user-suggestions" class="list-group" style="display:none;"></ul>
+                </div>
+            </div>
+
+            <!-- Loan Amount Field -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="loan_id">Loan Code</label>
+                    <select class="form-select" name="loan_payment_id" id="loan_id">
+                        <option value="">Select Loan</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Month Dropdown -->
+            <div class="col-md-6">
+                <label for="from_month"><strong>Month</strong></label>
+                <select name="from_month[]" id="from_month" class="form-control" multiple required>
+                    <!-- Populated dynamically -->
+                </select>
+            </div>
+
+            <!-- Week Dropdown (Weekly Loans) -->
+            <div class="col-md-6" id="week-container" style="display:none;">
+                <label for="from_week"><strong>Week</strong></label>
+                <select id="from_week" name="from_week[]" class="form-control" multiple>
+                    <!-- Populated dynamically -->
+                </select>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <!-- Year Dropdown -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="loan_year">Year</label>
+                    <select class="form-control" id="loan_year" name="loan_year" required>
+                        <option value="">Select Year</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- No of Months -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="no_of_month"><strong>No Of Month</strong></label>
+                    <input type="text" class="form-control" id="no_of_month" name="no_of_month" readonly>
+                </div>
+            </div>
+            <!-- No of Months -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="no_of_month"><strong>Total Amount</strong></label>
+                    <input type="text" class="form-control" id="total_amount" name="total_amount" readonly>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <!-- Payment Amount -->
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="payment_amount">Payment Amount</label>
+                    <input type="number" class="form-control" id="payment_amount" name="payment_amount" required
+                        min="1" step="0.01" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="successfull_payment">Successfully Paid</label>
+                    <input type="number" class="form-control" id="successfull_payment" name="successfull_payment"
+                        readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="last_payment_month">Last Payment Month</label>
+                    <input type="date" class="form-control" id="last_payment_month" name="last_payment_month"
+                        readonly>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="remaining_amount">Remaining Amount</label>
+                    <input type="number" class="form-control" id="remaining_amount" name="remaining_amount" readonly>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="d-grid">
+                    <button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"
+                    redirect="{{ route('comitted-list') }}">Submit</button>
+                </div>
+                <div id="message" style="display: none; color:red;"></div>
+            </div>
+        </div>
+
+    </form>
+>>>>>>> 5e5667e0c6862e3a926cf645ff55d7af2e8340a8
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.3.1/typeahead.bundle.min.js"
     integrity="sha512-lEb9Vp/rkl9g2E/LdHIMFTqz21+LA79f84gqP75fbimHqVTu6483JG1AwJlWLLQ8ezTehty78fObKupq3HSHPQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script>
+    // Typeahead / Autocomplete for member_name
+    openDoctorAutocomplete('#member_name', 'member_id', '', '', memberInfo);
+
+    function memberInfo(item, obj) {
+        $('#no_of_share').val(item.share_no);
+        $('#share_amt').val(item.share_amt);
+        fetchLoansForUser(item.user_id);
+
+        // Fetch repayment type
+        $.ajax({
+            url: `/get-repayment-type/${item.user_id}`,
+            method: 'GET',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            success: function(response) {
+                $('#repayment_type').val(response.repayment_type);
+
+                if (response.repayment_type === 'weekly') {
+    $('#week-container').show();
+    populateWeekDropdown(response.remaining_weeks, response.committed_weeks); 
+} else {
+    $('#week-container').hide();
+}
+
+            },
+            error: function() {
+                $('#week-container').hide();
+            }
+        });
+    }
+
+    function fetchLoansForUser(userId) {
+        $('#loan_id').empty().append('<option value="">Loading...</option>');
+
+        $.ajax({
+            url: `/get-loans-for-user/${userId}`,
+            method: 'GET',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            success: function(response) {
+                $('#loan_id').empty();
+                if (response.length > 0) {
+                    $('#loan_id').append('<option value="">Select Loan</option>');
+                    response.forEach(function(loan) {
+                        $('#loan_id').append(`<option value="${loan.loan_ide}">${loan.l_uId}</option>`);
+                    });
+                } else {
+                    $('#loan_id').append('<option>No loans found for this user</option>');
+                }
+            }
+        });
+    }
+
+// --- Sequential Week Dropdown Logic ---
+function populateWeekDropdown(totalWeeks = 4, committedWeeks = []) {
+    const weekSelect = $('#from_week');
+    weekSelect.empty();
+
+    // Sort committed weeks
+    committedWeeks.sort((a, b) => a - b);
+
+    // Determine next available week
+    let nextWeek = 1;
+    for (let i = 1; i <= totalWeeks; i++) {
+        if (!committedWeeks.includes(i)) {
+            nextWeek = i;
+            break;
+        }
+    }
+
+    // Only allow selection of the next week
+    if (nextWeek <= totalWeeks) {
+        weekSelect.append(`<option value="${nextWeek}">Week ${nextWeek}</option>`);
+    }
+}
+
+
+
+    // Populate months
+    function populateMonthDropdown() {
+        const months = ["January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"];
+        const monthSelect = document.getElementById('from_month');
+        monthSelect.innerHTML = '';
+        months.forEach(m => monthSelect.append(new Option(m, m)));
+    }
+
+    function populateYearDropdown() {
+        const yearSelect = document.getElementById('loan_year');
+        const currentYear = new Date().getFullYear();
+        for (let y = currentYear - 5; y <= currentYear; y++) {
+            yearSelect.append(new Option(y, y));
+        }
+    }
+
+    window.onload = function() {
+        populateMonthDropdown();
+        populateYearDropdown();
+    };
+
+    // Update number of months and payable amount
+    $('#from_month').on('change', function() {
+        const selectedMonths = $(this).val() || [];
+        $('#no_of_month').val(selectedMonths.length);
+
+        const perMonthAmount = parseFloat($('#payment_amount').val()) || 0;
+        
+        $('#total_amount').val((perMonthAmount * selectedMonths.length).toFixed(2));
+        const totalAmount = parseFloat($('#total_amount').val()) || 0;
+    });
+
+    // Validate weekly selection before submit
+    $('#loan-commit-form').on('submit', function(e) {
+        const repaymentType = $('#repayment_type').val();
+        const selectedWeeks = $('#from_week').val() || [];
+
+        if (repaymentType === 'weekly' && selectedWeeks.length > 4) {
+            e.preventDefault();
+            alert('You cannot select more than 4 weeks per month!');
+        }
+    });
+
+
+     // Fetch the loan details when a loan_ide is selected
+    $('#loan_id').on('change', function() {
+        let loanIde = $(this).val(); // Get the selected loan_ide
+
+        // If a loan_ide is selected
+        if (loanIde) {
+            // Fetch loan details for the selected loan_ide
+            $.ajax({
+                url: `/get-loan-details/${loanIde}`, // The route to get loan details
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content') // Ensure CSRF token is included
+                },
+                success: function(response) {
+                    console.log('Loan details:',
+                    response); // Debug: Check the loan details returned
+
+                    let loanAmount = parseFloat(response.loan_amount); // Loan amount as a float
+                    let percentage = parseFloat(response
+                    .loan_category_percentage); // Loan category as a percentage (float)
+                    let loanTerm = parseInt(response.loan_term); // Loan term as an integer
+                    // let deposit = parseFloat(response.deposit);
+                    // console.log("Deposit:", deposit);
+                    // Check if response has loan details
+                    if (response && response.loan_amount && response.loan_term && response
+                        .loan_category_percentage) {
+                        // Populate the form fields with the loan details
+                        $('#loan_amount').val(response.loan_amount); // Populate loan amount
+                        $('#loan_term').val(response.loan_term); // Populate loan term
+
+                        // $('#deposit').val(response.deposit);
+                        // Calculate the payment amount (loan_amount / loan_term)
+                        // Calculate the interest as a percentage of the loan amount
+                        let interest = (loanAmount * percentage) / 100; // Interest = loan_amount * (loan_category_id / 100)
+
+                        // Calculate the amount with interest
+                        let amountWithInterest = loanAmount + interest;
+                        
+                            // consol.log(amountWithInterest);
+                        // Calculate the payment amount (amount with interest divided by loan term)
+                        let paymentAmount = amountWithInterest / loanTerm ;
+                        
+                        let withDeposit = paymentAmount;
+                        // Set the calculated payment amount in the input field, formatted to two decimal places
+                        $('#payment_amount').val(withDeposit.toFixed(
+                        2)); // Set payment amount with two decimal places
+
+                    } else {
+                        // If no loan details found for the selected loan_ide
+                        alert('No loan details found for this loan_ide');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching loan details:", error);
+                    alert("Error fetching loan details. Please try again.");
+                }
+            });
+        }
+    });
+
+</script>
 <script>
     openDoctorAutocomplete('#member_name', 'member_id', '', '', memberInfo);
 
@@ -705,67 +1006,7 @@ body.dark-mode select[multiple] option:checked {
 
 
 
-    // Fetch the loan details when a loan_ide is selected
-    $('#loan_id').on('change', function() {
-        let loanIde = $(this).val(); // Get the selected loan_ide
-
-        // If a loan_ide is selected
-        if (loanIde) {
-            // Fetch loan details for the selected loan_ide
-            $.ajax({
-                url: `/get-loan-details/${loanIde}`, // The route to get loan details
-                method: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content') // Ensure CSRF token is included
-                },
-                success: function(response) {
-                    console.log('Loan details:',
-                    response); // Debug: Check the loan details returned
-
-                    let loanAmount = parseFloat(response.loan_amount); // Loan amount as a float
-                    let percentage = parseFloat(response
-                    .loan_category_percentage); // Loan category as a percentage (float)
-                    let loanTerm = parseInt(response.loan_term); // Loan term as an integer
-                    let deposit = parseFloat(response.deposit);
-                    console.log("Deposit:", deposit);
-                    // Check if response has loan details
-                    if (response && response.loan_amount && response.loan_term && response
-                        .loan_category_percentage) {
-                        // Populate the form fields with the loan details
-                        $('#loan_amount').val(response.loan_amount); // Populate loan amount
-                        $('#loan_term').val(response.loan_term); // Populate loan term
-
-                        $('#deposit').val(response.deposit);
-                        // Calculate the payment amount (loan_amount / loan_term)
-                        // Calculate the interest as a percentage of the loan amount
-                        let interest = (loanAmount * percentage) / 100; // Interest = loan_amount * (loan_category_id / 100)
-
-                        // Calculate the amount with interest
-                        let amountWithInterest = loanAmount + interest;
-                        
-                            // consol.log(amountWithInterest);
-                        // Calculate the payment amount (amount with interest divided by loan term)
-                        let paymentAmount = amountWithInterest / loanTerm ;
-                        
-                        let withDeposit = paymentAmount + deposit;
-                        // Set the calculated payment amount in the input field, formatted to two decimal places
-                        $('#payment_amount').val(withDeposit.toFixed(
-                        2)); // Set payment amount with two decimal places
-
-                    } else {
-                        // If no loan details found for the selected loan_ide
-                        alert('No loan details found for this loan_ide');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error fetching loan details:", error);
-                    alert("Error fetching loan details. Please try again.");
-                }
-            });
-        }
-    });
-
+   
 
 
 
@@ -1002,134 +1243,3 @@ body.dark-mode select[multiple] option:checked {
 </script>
 
 
-<!--
-<script>
-    // Get the CSRF token from the meta tag
-    let csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-    // When the user inputs their loan IDE, fetch user name suggestions
-    $('#loan_ide').on('input', function() {
-        let loanIde = $(this).val();
-
-        if (loanIde.length >= 2) {
-            $.ajax({
-                url: '/search-user',
-                method: 'GET',
-                data: {
-                    loan_ide: loanIde
-                },
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                success: function(response) {
-                    let suggestions = $('#user-suggestions');
-                    suggestions.empty();
-                    if (response.length > 0) {
-                        response.forEach(function(user) {
-                            suggestions.append(
-                                `<li class="list-group-item user-item" data-user-id="${user.id}" data-loan-ide="${loanIde}">${user.name}</li>`
-                                );
-                        });
-                        suggestions.show();
-                    } else {
-                        // Display a custom message when no users are found
-                        alert('This id has no approved Loan!');
-                        suggestions.hide(); // Show the suggestion list with the error message
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error fetching user data:", error);
-                    alert("Error fetching user data. Please try again.");
-                }
-            });
-        } else {
-            $('#user-suggestions').hide();
-        }
-    });
-    // When a user is selected, fetch the loans and update the input field with the user name
-    $('#user-suggestions').on('click', '.user-item', function() {
-        let userId = $(this).data('user-id');
-        let loanIde = $(this).data('loan-ide'); // This is the loan ID, we can ignore it here
-        let userName = $(this).text(); // The text content is the user's name
-
-        // Set the loan_ide (User Name) input value to the selected user's name
-        $('#loan_ide').val(userName); // Populate the User Name input field
-
-        $.ajax({
-            url: `/get-user-loans/${userId}`,
-            method: 'GET',
-            data: {
-                loan_ide: loanIde
-            }, // The loan ID (you can use it for further filtering if needed)
-            success: function(response) {
-                console.log('Response:', response); // Debug: Check the response structure
-
-                if (response.length > 0) {
-                    response.forEach(function(loan) {
-                        // Check if the loan matches the selected loan IDE (optional)
-                        if (loan.loan_ide === loanIde) {
-                            console.log('Loan Data:', loan); // Debug: Check the loan data
-
-                            // Populate the form fields with the loan data
-                            $('#loan_amount').val(parseFloat(loan.loan_amount).toFixed(
-                            2)); // Populate loan amount as a number
-                            $('#loan_schedule').val(loan
-                            .payment_schedule); // Populate payment schedule (make sure this exists in your response)
-
-                            // Show the full loan term (e.g., "6 months")
-                            $('#loan_term').val(loan
-                            .loan_term); // Display the full loan term (e.g., "6 months")
-
-                            // Recalculate payment amount (assuming the payment amount is not part of the response)
-                            let term = parseInt(loan
-                            .loan_term); // Assuming the term is like "6 months"
-                            calculatePaymentAmount(parseFloat(loan.loan_amount),
-                            term); // Use parsed term for calculation
-                        }
-                    });
-                } else {
-                    alert("No loans found for the selected user and loan IDE.");
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error fetching loans:", error);
-                alert("Error fetching loans. Please try again.");
-            }
-        });
-
-        // Hide the suggestion list after a user is selected
-        $('#user-suggestions').hide();
-    });
-
-    // Function to calculate payment amount based on loan amount and term
-    function calculatePaymentAmount(amount, term) {
-        if (term && amount) {
-            let monthlyPayment = amount / term; // Simple calculation (you can modify this as needed)
-            console.log('Calculated Monthly Payment:', monthlyPayment); // Debug: Log calculated monthly payment
-            $('#payment_amount').val(monthlyPayment.toFixed(2));
-
-            let number_of_commit = amount / monthlyPayment;
-            console.log('Number of commits:', number_of_commit);
-            $('#total_commit').val(number_of_commit.toFixed(2));
-
-        }
-
-
-
-    }
-
-
-
-    // Dynamically generate the year options for the dropdown
-    const yearSelect = document.getElementById('loan_year');
-    const currentYear = new Date().getFullYear(); // Get current year
-
-    // Generate year options for the next 5 years (you can modify this range)
-    for (let i = 0; i < 5; i++) {
-        let yearOption = document.createElement('option');
-        yearOption.value = currentYear + i; // Set year value
-        yearOption.textContent = currentYear + i; // Display year text
-        yearSelect.appendChild(yearOption); // Add option to the dropdown
-    }
-</script>
- -->

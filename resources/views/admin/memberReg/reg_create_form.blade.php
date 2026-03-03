@@ -454,6 +454,34 @@ body,
 }
 </style>
 
+@php
+$data = isset($data) && !empty($data) ? $data : [];
+$id=isset($data->id)  ? $data->id : "";
+$Uid=isset($data->Uid)  ? $data->Uid : "";
+$name=isset($data->name ) ? $data->name : "";
+$gender=isset($data->gender)  ? $data->gender : "";
+$age=isset($data->age)  ? $data->age : "";
+$religion=isset($data->religion)  ? $data->religion : "";
+ $fathers_name = isset($data->fathers_name) ? $data->fathers_name : '';
+$mothers_name = isset($data->mothers_name) ? $data->mothers_name : '';
+$mobile=isset($data->mobile)  ? $data->mobile : "";
+$address=isset($data->address)  ? $data->address : "";
+$email=isset($data->email)  ? $data->email : "";
+$number_of_share=isset($data->no_of_share)  ? $data->no_of_share : "";
+$share_amt=isset($data->share_amount)  ? $data->share_amount : "";
+
+$nid=isset($data->nid)  ? $data->nid : "";
+$member_photo=isset($data->member_photo)  ? $data->member_photo : "";
+$member_profession=isset($data->member_profession)  ? $data->member_profession : "";
+$nomini_name=isset($data->nomini_name)  ? $data->nomini_name : "";
+$nomini_relation=isset($data->nomini_relation)  ? $data->nomini_relation : "";
+$nomini_age=isset($data->nomini_age)  ? $data->nomini_age : "";
+$nomini_barth_or_ind=isset($data->nomini_barth_or_ind)  ? $data->nomini_barth_or_ind : "";
+$nomini_address=isset($data->nomini_address)  ? $data->nomini_address : "";
+$nomini_photo=isset($data->nomini_photo)  ? $data->nomini_photo : "";
+
+$is_publish=isset($data->is_publish)  ? $data->is_publish : "";
+@endphp
 <div class="premium-card">
     <div class="card-inner">
         <form action="{{ route('merber-save') }}" method="POST" id="regForm" enctype="multipart/form-data">

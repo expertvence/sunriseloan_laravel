@@ -87,14 +87,15 @@ body {
 /* ================= PREMIUM CONTAINER ================= */
 .premium-container {
     width: 100%;
+    max-width: 900px;  /* Increased from default to 900px */
     margin: 0 auto;
     position: relative;
 }
 
-/* ================= ULTRA PREMIUM CARD ================= */
+/* ================= ENLARGED ULTRA PREMIUM CARD ================= */
 .assets-card {
     background: var(--card-bg);
-    border-radius: var(--radius-xl);
+    border-radius: 5px;
     box-shadow: var(--shadow-xl);
     overflow: hidden;
     border: 1px solid var(--border-color);
@@ -103,7 +104,8 @@ body {
     backdrop-filter: blur(10px);
     transform: translateY(0);
     animation: floatIn 0.8s ease-out;
-    
+    width: 100%;
+    min-width: 800px;  /* Ensures minimum width */
 }
 
 @keyframes floatIn {

@@ -538,7 +538,7 @@ body.dark-mode .table tbody tr:hover td {
                                     </td>
                                     <td data-label="Actions">
                                         <div class="action-buttons">
-                                            <a href="{{ route('show', $value->id) }}" target="" 
+                                            <a href="{{ route('show-employee', $value->id) }}" target="" 
                                                class="action-btn view-btn" data-tooltip="View Profile">
                                                 <i class="fas fa-eye"></i>
                                             </a>

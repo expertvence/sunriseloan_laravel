@@ -43,25 +43,20 @@ Auth::routes();
 /* loan request form */
 // Route::get('/', 'HomeController@landingPage')->name('home_2');
 Route::get('/', [HomeController::class, 'landingPage'])->name('home_2');
-/* loan Section start */
-// Route::get('/loan-request', 'LoanRequestController@loanRequest')->name('loan-request');
+
+
 Route::get('/loan-request', [LoanController::class, 'loanRequest'])->name('loan-request');
-Route::post('/submit-request', [LoanController::class,'loan_store'])->name('submit-request');
-
-Route::POST('/loan/insert',[LoanController::class,'loan_store'])->name('loan');
-
-Route::get('/show-list',[LoanController::class, 'showLoan_list'])->name('show-list');
 Route::get('/show-edit/{loan_ide?}',[LoanController::class, 'loanEdit'])->name('edit-loan');
+Route::get('/show-list',[LoanController::class, 'showLoan_list'])->name('show-list');
+Route::get('/comitted-list', [LoanController::class, 'ApprovalLoanList'])->name('comitted-list');
+
+Route::post('/submit-request', [LoanController::class,'loan_store'])->name('submit-request');
+Route::post('/loan/insert',[LoanController::class,'loan_store'])->name('loan');
 Route::post('/update-status', [LoanController::class, 'updateStatus'])->name('update-status');
-Route::get('/comitted-list', [LoanController::class, 'ApplovalLoanList'])->name('comitted-list');
-
-Route::post('/update-deposit', [LoanController::class, 'updateDeposit'])
-    ->name('update-deposit');
+Route::post('/update-approval-status', [LoanController::class, 'UpdateApprovalLoanStatus'])->name('update-approval-status');
+Route::post('/update-deposit', [LoanController::class, 'updateDeposit'])->name('update-deposit');
 
 
-/* Loan section end */
-
-// Route for searching users based on username
 // Route::get('/search-user', 'LoanCommitController@searchUser');
 Route::get('/search-user', [LoanCommitController::class,'searchUser']);
 
@@ -79,6 +74,10 @@ Route::get('/get-total-paid/{loanIde}', [LoanCommitController::class, 'getTotalP
 //Loan commit section
 // Route::get('/loan-commite','LoanCommitController@index')->name('loan-commite');
 Route::get('/loan-commite', [LoanCommitController::class, 'index'])->name('loan-commite');
+Route::get('/get-repayment-type/{userId}', [LoanCommitController::class, 'getRepaymentType']);
+Route::get('/get-committed-weeks/{loanId}/{month}', [LoanCommitController::class, 'getCommittedWeeks']);
+
+
 Route::post('/loan-commit-submit', [LoanCommitController::class, 'insertLoanCommit'])->name('loan-commit-submit');
 Route::get('/employee-loan-commite', [EmployeeLoanCommitController::class, 'index']);
 // Route::get('/employee-get-loans-for-user/{userId}', [EmployeeLoanCommitController::class, 'getLoansForUser']);
@@ -94,9 +93,8 @@ Route::middleware(['auth', 'user.type:admin'])->group(function () {
 
 
 
-// Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-// Route::get('/test', 'HomeController@test')->name('test');
 Route::get('/test', [HomeController::class, 'test'])->name('test');
 // Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
 // Route::get('/member-register', 'HomeController@memRegistration')->name('member-register');
@@ -133,7 +131,7 @@ Route::post('/merber-save', [MemberRegistrationController::class, 'store'])->nam
 Route::get('/member-list', [HomeController::class, 'memberList'])->name('member-list');
 // Route::get('/member-register-form/{id?}', 'HomeController@memRegistrationForm')->name('member-register-form');
 Route::get('/member-register-form/{id?}', [HomeController::class, 'memRegistrationForm'])->name('member-register-form');
-Route::get('/realtime-comunication', [ComunicationController::class, 'realComunication'])->name('realtime-comunication');
+// Route::get('/realtime-comunication', [ComunicationController::class, 'realComunication'])->name('realtime-comunication');
 
 
 // Route::get('/', 'ChatsController@index');
@@ -176,7 +174,8 @@ Route::get('/for-get',[LoancategoryController::class, 'categoriwithid'])->name('
   
 }); */
 
-Route::get('/admin-profile', [AdmiProfileController::class, 'index'])->name('admin-profile');
+Route::get('/admin-password', [AdmiProfileController::class, 'index'])->name('admin-password');
+Route::get('/admin-change-password', [AdmiProfileController::class, 'changePassword'])->name('admin-change-password');
 Route::post('/reset-password', [AdmiProfileController::class, 'resetPassword'])->name('reset-password');
 
 
@@ -201,8 +200,12 @@ Route::get('/deposit-edit/{id}',[AddDepositeController::class,'depositEdit'])->n
 // manager section
 
 Route::get('/managerDashboard',[ManagerController::class,'managerDashboard'])->name('managerDashboard');
+Route::get('/manager-profile',[ManagerController::class,'managerProfile'])->name('manager-profile');
+Route::get('/manager-change-password',[ManagerController::class,'changePassword'])->name('manager-change-password');
+Route::post('/manager-save-password',[ManagerController::class,'managerPassword'])->name('manager-save-password');
 Route::post('/submit-request', [LoanRequestController::class, 'store'])->name('submit-request');
 Route::get('/loan-request-list', [LoanRequestController::class, 'loanRequestList'])->name('loan-request-list');
+Route::get('/loan-request-details/{loan_ide}', [LoanRequestController::class, 'showLonDetails'])->name('loan-request-details');
 
 Route::get('/manager-create-form/{id?}', [ManagerAddController::class, 'managerCreate'])->name('manager-create-form');
 Route::post('/manager-create', [ManagerAddController::class, 'store'])->name('manager-create');

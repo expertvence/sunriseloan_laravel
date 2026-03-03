@@ -338,12 +338,12 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-user-circle"></i>
-                <span class="d-none d-lg-inline">{{ Auth::user()->name }}</span>
+                <span class="d-none d-lg-inline">{{ Auth::user()->name ??''}}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li class="user-name">
                     <i class="fas fa-user me-2" style="color: #6366f1;"></i>
-                    {{ Auth::user()->name }}
+                    {{ Auth::user()->name??''}} 
                 </li>
                 <li><a class="dropdown-item" href="#" data-url="{{url('profile-edit')}}">
                     <i class="fas fa-cog me-2" style="color: #6366f1;"></i> Settings

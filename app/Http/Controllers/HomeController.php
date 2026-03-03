@@ -9,6 +9,7 @@ use App\Investment;
 use App\Library\Template;
 use App\Loan;
 use App\LoanCommit;
+use App\MemberDeposit;
 use App\MemberRegistration;
 use App\TotalAsset;
 use App\User;
@@ -36,43 +37,44 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-     public function landingPage(){
+    public function landingPage()
+    {
         // return Template::loadView('welcome');
         return view('welcome');
-     }
+    }
     public function index()
     {
-    
-         // Sum of total assets and loans
-         $totalAssets = TotalAsset::sum('assets') ?? 0;
-         $loan = Loan::where('status','complete')->sum('loan_amount') ?? 0;
-     
-         // Calculate remaining amount
-         $remainingAmount = $totalAssets - $loan;
-        // dd($remainingAmount);
-         //$removeAmount=$remainingAmount+$loan;
-         // Warning message if remaining amount is negative
-         $warningMessage = $remainingAmount < 0 ? 'Total loan exceeds total assets! Remove : '.abs($remainingAmount)  : null;
-         
-         //Fetch completed loans and calculate total profit
-         $completedLoans = Loan::where('status', 'complete')->get();
-         $totalProfit = $completedLoans->reduce(function ($carry, $loan) {
-             $loanCategory = $loan->loan_category_id ?? 0; // Default to 0 if null
-             return $carry + ($loan->loan_amount * ($loanCategory / 100));
-         }, 0);
-     //Exact Capital
-    $comitedAmount=LoanCommit::sum('payment_amount');
-    $totalExpence=IncomeExpense::where('type','Expense')->sum('income_expence');
 
-    $totalServicesCharge=IncomeExpense::where('type','Income')->sum('income_expence');
-    //dd($totalServicesCharge);
-    $exactAssetsWithprofitandwithoutloan=$remainingAmount+$comitedAmount+$totalServicesCharge-$totalExpence;
-    //dd($exactAssetsWithprofitandwithoutloan);
+        // Sum of total assets and loans
+        $totalAssets = TotalAsset::sum('assets') ?? 0;
+        $loan = Loan::where('status', 'complete')->sum('loan_amount') ?? 0;
+
+        // Calculate remaining amount
+        $remainingAmount = $totalAssets - $loan;
+        // dd($remainingAmount);
+        //$removeAmount=$remainingAmount+$loan;
+        // Warning message if remaining amount is negative
+        $warningMessage = $remainingAmount < 0 ? 'Total loan exceeds total assets! Remove : ' . abs($remainingAmount)  : null;
+
+        //Fetch completed loans and calculate total profit
+        $completedLoans = Loan::where('status', 'complete')->get();
+        $totalProfit = $completedLoans->reduce(function ($carry, $loan) {
+            $loanCategory = $loan->loan_category_id ?? 0; // Default to 0 if null
+            return $carry + ($loan->loan_amount * ($loanCategory / 100));
+        }, 0);
+        //Exact Capital
+        $comitedAmount = LoanCommit::sum('payment_amount');
+        $totalExpence = IncomeExpense::where('type', 'Expense')->sum('income_expence');
+
+        $totalServicesCharge = IncomeExpense::where('type', 'Income')->sum('income_expence');
+        //dd($totalServicesCharge);
+        $exactAssetsWithprofitandwithoutloan = $remainingAmount + $comitedAmount + $totalServicesCharge - $totalExpence;
+        //dd($exactAssetsWithprofitandwithoutloan);
         // Count total users
         $totalUser = User::count();
-        
-        
-       // dd($totalExpence);
+
+
+        // dd($totalExpence);
         // Return the admin view
         return Template::loadView('admin.index', compact(
             'totalAssets',
@@ -89,41 +91,45 @@ class HomeController extends Controller
 
     public function test()
     {
-         return Template::loadView('admin/test');
+        return Template::loadView('admin/test');
     }
     public function adminPanel()
     {
+        $totalDeposit = MemberDeposit::where('deposit_type', 'deposite')->sum('deposite_amount');
+        $totalWithdraw = MemberDeposit::where('deposit_type', 'relesed')->sum('deposite_amount');
+
+        $totalBalance = $totalDeposit - $totalWithdraw;
+
+
         // Sum of total assets and loans
         $totalAssets = TotalAsset::sum('assets') ?? 0;
-        $loan = Loan::where('status','complete')->sum('loan_amount') ?? 0;
-    
+        $loan = Loan::where('status', 'complete')->sum('loan_amount') ?? 0;
+
         // Calculate remaining amount
         $remainingAmount = $totalAssets - $loan;
-       // dd($remainingAmount);
+        // dd($remainingAmount);
         //$removeAmount=$remainingAmount+$loan;
         // Warning message if remaining amount is negative
-        $warningMessage = $remainingAmount < 0 ? 'Total loan exceeds total assets! Remove : '.abs($remainingAmount)  : null;
-        
+        $warningMessage = $remainingAmount < 0 ? 'Total loan exceeds total assets! Remove : ' . abs($remainingAmount)  : null;
+
         // Fetch completed loans and calculate total profit
         $completedLoans = Loan::where('status', 'complete')->get();
         $totalProfit = $completedLoans->reduce(function ($carry, $loan) {
             $loanCategory = $loan->loan_category_id ?? 0; // Default to 0 if null
             return $carry + ($loan->loan_amount * ($loanCategory / 100));
         }, 0);
-    //Exact Capital
-    $comitedAmount=LoanCommit::sum('payment_amount');
-    $totalExpence=IncomeExpense::where('type','Expense')->sum('income_expence');
 
-    $totalServicesCharge=IncomeExpense::where('type','Income')->sum('income_expence');
-    //dd($totalServicesCharge);
-    $exactAssetsWithprofitandwithoutloan=$remainingAmount+$comitedAmount+$totalServicesCharge-$totalExpence;
-    //dd($exactAssetsWithprofitandwithoutloan);
-        // Count total users
+        //Exact Capital
+        $comitedAmount = LoanCommit::sum('payment_amount');
+        $totalExpence = IncomeExpense::where('type', 'Expense')->sum('income_expence');
+
+        $totalServicesCharge = IncomeExpense::where('type', 'Income')->sum('income_expence');
+        //dd($totalServicesCharge);
+        $exactAssetsWithprofitandwithoutloan = $remainingAmount + $comitedAmount + $totalServicesCharge - $totalExpence;
+
         $totalUser = User::count();
-        
-        
-       // dd($totalExpence);
-        // Return the admin view
+
+
         return Template::loadView('admin.index', compact(
             'totalAssets',
             'loan',
@@ -133,10 +139,13 @@ class HomeController extends Controller
             'warningMessage',
             'exactAssetsWithprofitandwithoutloan',
             'totalExpence',
-            'totalServicesCharge'
+            'totalServicesCharge',
+            'totalDeposit',
+            'totalWithdraw',
+            'totalBalance'
         ));
     }
-    
+
     public function memRegistration()
     {
         return Template::loadView('admin/memberReg/register');
@@ -168,7 +177,7 @@ class HomeController extends Controller
         $invenstment_data = Investment::where('id', $id)->first();
 
         // dd(  $invenstment_data);
-         return Template::loadView('admin/payment/investment_system_form', ['invenstment_data' => $invenstment_data]);
+        return Template::loadView('admin/payment/investment_system_form', ['invenstment_data' => $invenstment_data]);
     }
     public function incomeExpence()
     {
@@ -181,7 +190,7 @@ class HomeController extends Controller
     public function incomeExpenceEdit($id = "")
     {
         $income_expence_data = IncomeExpense::where('id', $id)->first();
-         return Template::loadView('admin/income_expence/income_expence_form', ['income_expence_data' => $income_expence_data]);
+        return Template::loadView('admin/income_expence/income_expence_form', ['income_expence_data' => $income_expence_data]);
     }
     public function incomeExpence_store(Request $request)
     {
@@ -211,7 +220,7 @@ class HomeController extends Controller
         }
         return response()->json($message);
     }
-  
+
     public function incomeExpenceList()
     {
         $income_expense = IncomeExpense::orderby('created_at', 'desc')->get();
@@ -223,13 +232,13 @@ class HomeController extends Controller
     {
         $investment_list = InstallmentPayment::orderby('created_at', 'desc')->get();
         // dd($payment_list);
-         return Template::loadView('admin/payment/installment_payment_list', ['payment_list' => $investment_list]);
+        return Template::loadView('admin/payment/installment_payment_list', ['payment_list' => $investment_list]);
     }
     public function investment_system_list()
     {
         $investment_list = Investment::orderby('created_at', 'desc')->get();
         // dd($payment_list);
-         return Template::loadView('admin/payment/investment_list', ['payment_list' => $investment_list]);
+        return Template::loadView('admin/payment/investment_list', ['payment_list' => $investment_list]);
     }
     //  public function memRegistrationForm($id ="")
     // {
@@ -401,7 +410,7 @@ class HomeController extends Controller
     {
         $data = MemberRegistration::get();
         // dd($data);
-         return Template::loadView('admin/memberReg/member_list', ['data' => $data]);
+        return Template::loadView('admin/memberReg/member_list', ['data' => $data]);
     }
     public function memberProfile($id)
     {
@@ -414,7 +423,7 @@ class HomeController extends Controller
         }])->find($id);
         $datas = $data->toArray();
         // description', 'income_expence', 'type','date','id'
-        $profit_loss = IncomeExpense::select(DB::raw('SUM(CASE WHEN type = "Income" THEN income_expence ELSE 0 END) as income_sum'),DB::raw('SUM(CASE WHEN type = "Expense" THEN income_expence ELSE 0 END) as expense_sum'),DB::raw('(select sum(no_of_share)  from members) as no_of_share'))->first();
+        $profit_loss = IncomeExpense::select(DB::raw('SUM(CASE WHEN type = "Income" THEN income_expence ELSE 0 END) as income_sum'), DB::raw('SUM(CASE WHEN type = "Expense" THEN income_expence ELSE 0 END) as expense_sum'), DB::raw('(select sum(no_of_share)  from members) as no_of_share'))->first();
 
         // $datas['installment_payments_count'] = $data->installmentPayment->count();
         $datas['installment_payments_count'] = $data->installmentPayment->count();
@@ -425,7 +434,7 @@ class HomeController extends Controller
         // ->first();
         // $data = MemberRegistration::find()->get();
         // dd($profit_loss);
-         return Template::loadView('admin/memberReg/member_profile', ['data' => $datas,'profit_loss'=>$profit_loss]);
+        return Template::loadView('admin/memberReg/member_profile', ['data' => $datas, 'profit_loss' => $profit_loss]);
     }
 
 
@@ -433,8 +442,8 @@ class HomeController extends Controller
     {
         // dd($request->all());
         $query = $request->search_data;
-    
-        $filterResult = DB::table('members')->select('members.*','users.id as user_id')->leftJoin('users','users.member_id','=','members.id')->whereRaw(DB::raw(" upper(members.name) LIKE '%$query%'"))->get();
+
+        $filterResult = DB::table('members')->select('members.*', 'users.id as user_id')->leftJoin('users', 'users.member_id', '=', 'members.id')->whereRaw(DB::raw(" upper(members.name) LIKE '%$query%'"))->get();
         //   dd( $filterResult);
         $member_data = [];
         if (!empty($filterResult)) {
@@ -462,12 +471,12 @@ class HomeController extends Controller
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->getDomPDF()->set_option('isHtml5ParserEnabled', true);
         $member_info = MemberRegistration::find($request->member_id);
-        
-        $payment_list = InstallmentPayment::where('member_id_fk', $member_info->id)->orderby('created_at', 'asc')->get();
-      //  $extrapayment=ExtraPayment::where('member_id_fk',$member_info->id)->get();
-    
 
-        $pdf = PDF::loadView('admin/payment/installment_payment_list_pdf', ['payment_list' => $payment_list, 'member_info' => $member_info/*  'extrapayment'=>$extrapayment */ ]);
+        $payment_list = InstallmentPayment::where('member_id_fk', $member_info->id)->orderby('created_at', 'asc')->get();
+        //  $extrapayment=ExtraPayment::where('member_id_fk',$member_info->id)->get();
+
+
+        $pdf = PDF::loadView('admin/payment/installment_payment_list_pdf', ['payment_list' => $payment_list, 'member_info' => $member_info/*  'extrapayment'=>$extrapayment */]);
         return $pdf->stream('pdf_file.pdf');
         // ->setPaper('a5', 'portrait');
     }

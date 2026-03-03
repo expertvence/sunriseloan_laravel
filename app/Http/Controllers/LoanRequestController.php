@@ -22,10 +22,30 @@ class LoanRequestController extends Controller
     public function loanRequestList()
     {
         $data = Loan::all();
-        // dd($data);
         return Template::loadView('admin/loan/loan_list', ['data' => $data]);
     }
 
+
+    public function showLonDetails($loan_ide)
+    {
+        $loan = DB::table('loans')
+    ->leftJoin('users', 'loans.user_id', '=', 'users.id')
+    ->leftJoin('members', 'loans.member_id', '=', 'members.id')
+    ->where('loans.loan_ide', $loan_ide)
+    ->select(
+        'loans.*',
+        'users.name',
+        'users.email',
+        'users.mobile',
+        'members.member_photo',
+        'members.Uid',
+        
+    )
+    ->first();
+
+
+        return Template::loadView('admin/loan/loan_request_details', compact('loan'));
+    }
 
     function generateUniqueUid()
     {
@@ -40,19 +60,20 @@ class LoanRequestController extends Controller
 
     public function store(Request $request)
     {
-
         try {
 
             DB::beginTransaction();
 
-            // ✅ Validation
             $request->validate([
                 'member_id'        => 'required|exists:members,id',
                 'loan_amount'      => 'required|numeric|min:1',
                 'loan_purpose'     => 'required|string|max:1000',
                 'loan_category_id' => 'required|',
-                'loan_term'        => 'required|integer|min:1|max:60',
+                // 'loan_term'        => 'required|integer|min:1|max:60',
                 'monthly_income'   => 'required|numeric|min:0',
+                'monthly_duration' => 'nullable|integer|min:1|max:60',
+                'weekly_duration'  => 'nullable|integer|min:1|max:60',
+                'repayment_type'   => 'required|string|in:monthly,weekly',
                 'other_documents'  => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
             ]);
 
@@ -65,7 +86,7 @@ class LoanRequestController extends Controller
                     'title' => 'Error'
                 ], 400);
             }
-            // ✅ Get user using member_id (same system logic)
+
             $user = User::where('member_id', $request->member_id)->first();
 
             if (!$user) {
@@ -76,7 +97,6 @@ class LoanRequestController extends Controller
                 ]);
             }
 
-            // ✅ File Upload
             $filePath = null;
             if ($request->hasFile('other_documents')) {
                 $uploadedFile = $request->file('other_documents');
@@ -86,11 +106,34 @@ class LoanRequestController extends Controller
                 $filePath = $fileName;
             }
 
-            if ($request->loan_term == 30) {
-                $payment_schedule = 12;
+            // if ($request->loan_term == 30) {
+            //     $payment_schedule = 12;
+            // } else {
+            //     $payment_schedule = 52;
+            // }
+
+            if ($request->repayment_type == 'monthly') {
+
+                if (!$request->monthly_duration) {
+                    return response()->json([
+                        'msg' => 'Please select monthly duration',
+                        'title' => 'Error'
+                    ], 400);
+                }
+
+                $loanTerm = $request->monthly_duration;
             } else {
-                $payment_schedule = 52;
+
+                if (!$request->weekly_duration) {
+                    return response()->json([
+                        'msg' => 'Please select weekly duration',
+                        'title' => 'Error'
+                    ], 400);
+                }
+
+                $loanTerm = $request->weekly_duration;
             }
+
             $loan_uId = $this->generateUniqueUid();
             $data = [
                 'user_id'         => $user->id,
@@ -99,8 +142,11 @@ class LoanRequestController extends Controller
                 'loan_amount'     => $request->loan_amount,
                 'loan_purpose'    => $request->loan_purpose,
                 'loan_category_id' => $request->loan_category_id,
-                'loan_term'       => $request->loan_term,
-                'payment_schedule' => $payment_schedule,
+                'loan_term'       => $loanTerm,
+                'payment_schedule' => $loanTerm,
+                'repayment_type'   => $request->repayment_type,
+                'monthly_duration' => $request->repayment_type == 'monthly' ? $request->monthly_duration : null,
+                'weekly_duration'  => $request->repayment_type == 'weekly' ? $request->weekly_duration : null,
                 'monthly_income'  => $request->monthly_income,
                 'other_documents' => $filePath,
                 'status'          => 'pending',

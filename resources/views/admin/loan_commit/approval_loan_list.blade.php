@@ -531,6 +531,7 @@ body.dark-mode .dataTables_paginate .paginate_button {
 }
 </style>
 
+<<<<<<< HEAD
 <!-- 📦 Main Container -->
 <div class="premium-card">
     <!-- 👑 Card Header -->
@@ -543,6 +544,126 @@ body.dark-mode .dataTables_paginate .paginate_button {
             <i class="fas fa-database"></i>
             Total: {{ count($data) }} Records
         </span>
+=======
+                <tbody>
+                    @if (!empty($data))
+                        @foreach ($data as $value)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $value->loan_commit_id }}</td>
+                                <td>{{ $value->user_name }}</td>
+                                
+                                <td>{{ $value->payment_amount }}</td>
+                                <td>{{ $value->payment_month }}</td>
+                                <td>{{ $value->loan_year }}</td>
+
+                                 <!-- Status Update -->
+                                <td class="text-center">
+
+                                    @if (auth()->user()->user_type == 'admin')
+                                        <!-- Admin can change status -->
+                                        <select id="statusDropdown{{ $value->id }}"
+                                            onchange="updateStatus({{ $value->id }})"
+                                            class="form-control 
+                @if ($value->status == 'pending') text-danger 
+                @elseif($value->status == 'approved') text-success 
+                @elseif($value->status == 'rejected') text-danger @endif">
+
+                                            <option value="pending"
+                                                {{ $value->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="approved"
+                                                {{ $value->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                                            <option value="rejected"
+                                                {{ $value->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+
+                                        </select>
+                                    @else
+                                        <!-- Other users can only see status -->
+                                        <span
+                                            class="
+                                            @if ($value->status == 'pending') text-danger 
+                                            @elseif($value->status == 'approved') text-success 
+                                            @elseif($value->status == 'rejected') text-danger @endif">
+
+                                            {{ ucfirst($value->status) }}
+
+                                        </span>
+                                    @endif
+
+                                </td>
+
+                                <td>
+                                    @if ($value->loan_term == 30)
+                                        <span class="badge bg-success">Yearly</span>
+                                    @elseif($value->loan_term == 7)
+                                        <span class="badge bg-primary">Weekly</span>
+                                    @else
+                                        <span class="badge bg-secondary">Custom</span>
+                                    @endif
+                                </td>
+                                @if (auth()->user()->user_type == 'admin')
+                                    <td>{{ $value->payment_schedule }}</td>
+                                    <td>
+                                        <img src="{{ $value->other_documents
+                                            ? asset('images/loan_documents/' . $value->other_documents)
+                                            : asset('default/default.jpg') }}"
+                                            width="80" style="object-fit:cover; border-radius:6px;">
+                                    </td>
+                                @endif
+                                <td>{{ $value->user ? $value->user->email : 'no email' }}</td>
+                                <td>{{ $value->created_at->format('Y-m-d H:i:s') }}</td>
+
+                               
+
+
+                                {{-- <td>
+                                    <a href="#" target="_blank" rel="noopener noreferrer"><i
+                                            class="fas fa-user"></i></a>
+                                    @if (auth()->user()->user_type == 'admin')
+                                        <span class="btn btn-sm open-modal btnView"
+                                            data-action="{{ url('show-edit', $value->loan_ide) }}"
+                                            data-modal="common-modal-md" data-title=" Member Edit" title="Edit"
+                                            data-id="{{ $value->loan_ide }}">
+                                            <i class="fas fa-edit"></i>
+                                        </span>
+                                    @endif
+                                </td> --}}
+
+                                <td style="position:relative;">
+
+    <!-- Modern Three Dot Button -->
+    <div class="action-wrapper">
+        <button type="button" class="btn btn-light btn-sm action-toggle">
+            <i class="fas fa-ellipsis-v"></i>
+        </button>
+
+        <!-- Dropdown Action Box -->
+        <div class="action-dropdown shadow-lg">
+
+            <a href="{{ url('show-view', $value->loan_ide) }}" 
+               class="dropdown-item text-info">
+                <i class="fas fa-eye me-2"></i> View
+            </a>
+
+            @if (auth()->user()->user_type == 'admin')
+
+                <span class="dropdown-item text-warning open-modal btnView"
+                      data-action="{{ url('show-edit', $value->loan_ide) }}"
+                      data-modal="common-modal-md"
+                      data-title="Member Edit"
+                      data-id="{{ $value->loan_ide }}">
+                    <i class="fas fa-edit me-2"></i> Edit
+                </span>
+
+                <button type="button"
+                        class="dropdown-item text-danger btnDelete"
+                        data-id="{{ $value->loan_ide }}">
+                    <i class="fas fa-trash me-2"></i> Delete
+                </button>
+
+            @endif
+        </div>
+>>>>>>> 5e5667e0c6862e3a926cf645ff55d7af2e8340a8
     </div>
 
     <!-- 📊 Table -->
@@ -713,6 +834,7 @@ $(document).ready(function() {
     });
 });
 
+<<<<<<< HEAD
 // Status Update Function
 function updateStatus(loan_ide) {
     let statuschange = $("#statusDropdown" + loan_ide).val();
@@ -734,6 +856,37 @@ function updateStatus(loan_ide) {
                 console.log('Status updated successfully');
             } else {
                 alert(response.message || 'Error updating status');
+=======
+        $.ajax({
+            url: "{{ route('update-approval-status') }}",
+            type: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
+                loan_ide: loan_ide, // The ID of the loan
+                status: statuschange, // The new status selected
+            },
+
+            success: function(response) {
+                // On success, you could show a message, update the UI, etc.
+                if (response.success) {
+                    if (statuschange === 'pending') {
+                        $("#statusDropdown" + loan_ide).removeClass('text-success text-danger').addClass(
+                            'text-danger');
+                    } else if (statuschange === 'approved') {
+                        $("#statusDropdown" + loan_ide).removeClass('text-danger text-success').addClass(
+                            'text-success');
+                    } else if (statuschange === 'rejected') {
+                        $("#statusDropdown" + loan_ide).removeClass('text-success text-danger').addClass(
+                            'text-danger');
+                    }
+                } else {
+                    alert(response.message || 'Error updating status');
+                }
+            },
+            error: function() {
+                // Handle any AJAX errors
+                alert('An error occurred while updating the status');
+>>>>>>> 5e5667e0c6862e3a926cf645ff55d7af2e8340a8
             }
         },
         error: function() {
