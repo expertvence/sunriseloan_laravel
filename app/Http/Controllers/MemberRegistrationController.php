@@ -36,12 +36,12 @@ class MemberRegistrationController extends Controller
             'member_image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if ($request->validate()) {
-            return response()->json([
-                'msg'   => 'Validation failed',
-                'title' => 'Error'
-            ]);
-        }
+        // if ($request->validate()) {
+        //     return response()->json([
+        //         'msg'   => 'Validation failed',
+        //         'title' => 'Error'
+        //     ]);
+        // }
             $id = $request->id;
             DB::beginTransaction();
 

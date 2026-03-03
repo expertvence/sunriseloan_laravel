@@ -39,12 +39,12 @@ class ManagerAddController extends Controller
                 'profession'     => 'nullable|string|max:255',
             ]);
 
-            if ($request->validate()) {
-                return response()->json([
-                    'msg'   => 'Validation failed',
-                    'title' => 'Error'
-                ]);
-            }
+            // if ($request->validate()) {
+            //     return response()->json([
+            //         'msg'   => 'Validation failed',
+            //         'title' => 'Error'
+            //     ]);
+            // }
             $id = $request->id;
 
             // Handle file upload
