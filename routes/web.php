@@ -141,7 +141,7 @@ Route::post('messages', 'ChatsController@sendMessage');
 /* Create Categories */
 Route::get('/show-categories-form',[LoanCategoryController::class,'index'])->name('show-categories-form');
 Route::post('/save-category', [LoancategoryController::class, 'categoryStore'])->name('save-category');
-Route::get('/show_categories', [LoancategoryController::class, 'show_categories'])->name('show-categories-insert');
+Route::get('/show_categories-list', [LoancategoryController::class, 'show_categories'])->name('show-categories-list');
 Route::post('/delete/{id}',[LoancategoryController::class, 'delete'])->name('delete');
 Route::get('/edit-category/{id}', [LoancategoryController::class, 'categoriId'])->name('edit-category');
 Route::get('/loancategories',[LoancategoryController::class, 'categoriId']);
@@ -153,6 +153,7 @@ Route::get('/index',[TotalAssetController::class,'index'])->name('index');
 
 Route::post('/store-assets',[TotalAssetController::class,'store'])->name('store-assets');
 Route::get('/show-assets',[TotalAssetController::class,'show_list'])->name('show-assets');
+Route::delete('/delete-asset/{id}',[TotalAssetController::class,'assetDelete'])->name('delete-asset');
 Route::get('/edit-assets/{id}',[TotalAssetController::class,'edit_assets'])->name('edit-assets');
 Route::post('/destroy-assets/{id}',[TotalAssetController::class,'destroyAsset'])->name('destroy-assets');
 // Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');

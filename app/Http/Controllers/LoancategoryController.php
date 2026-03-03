@@ -4,107 +4,68 @@ namespace App\Http\Controllers;
 use App\Library\Template;
 use App\Loancategory;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 class LoancategoryController extends Controller
 {
-    public function index($id = "")
+    public function index()
     {
-        $data = Loancategory::find($id);
-        dd($data);
-        return Template::loadView('admin/categorys/categories_create',['data' => $data]);
+        return Template::loadView('admin/categorys/categories_create');
     }
-    // public function categori_store(Request $request)
-    // {
-    //     // Validate the incoming data
-    //     $request->validate([
-    //         'loan_category' => 'required|string|max:100',
-    //         'percentage' => 'required|integer',
-    //     ]);
     
-    //     // Check if the request is for an existing category (update) or a new category (insert)
-    //     if ($request->categories_id == '') {
-    //         // Creating a new category
-    //         $category = new Loancategory();
-    //         $category->loan_category = $request->loan_category;
-    //         $category->percentage = $request->percentage;
-    //         $category->save();
-    //     } else {
-    //         // Updating an existing category
-    //         $category = Loancategory::find($request->categories_id);  // Find the category by ID
-    //         if ($category) {  // Check if the category exists
-    //             $category->loan_category = $request->loan_category;
-    //             $category->percentage = $request->percentage;
-    //             $category->save();  // Save the updated category
-    //         } else {
-    //             // Optionally, handle the case where the category ID is not found
-    //             return redirect()->route('show-categories-insert')->with('error', 'Category not found');
-    //         }
-    //     }
     
-    //     // Redirect with success message
-    //     return redirect()->route('show-categories-insert')->with('success', 'Category created/updated successfully');
-    // }
-    
-    public function categoryStore(Request $request)
+public function categoryStore(Request $request)
 {
     DB::beginTransaction();
 
     try {
-
+        // ✅ Validation
         $request->validate([
             'loan_category' => 'required|string|max:100',
-            'percentage'    => 'required|integer',
+            'percentage'    => 'required|numeric|min:0|max:100',
         ]);
 
-        $id = $request->categories_id;
+        $id = $request->id;
 
+        // ✅ Prepare data array
         $data = [
             'loan_category' => $request->loan_category,
             'percentage'    => $request->percentage,
-            'created_at'    => now(),
-            'created_by'    => Auth::user()->name ?? null,
+            'updated_at'    => now()
         ];
 
         if (empty($id)) {
+            // ✅ Create new category
+            $category_id = Loancategory::insertGetId(array_merge($data, ['created_at' => now()]));
 
-            // Optional: Check if category already exists
-            $existingCategory = Loancategory::where('loan_category', $request->loan_category)->first();
-            if ($existingCategory) {
+            if ($category_id) {
+                DB::commit();
                 return response()->json([
-                    'msg'   => 'Category already exists',
+                    'msg'   => 'Category Saved Successfully',
+                    'title' => 'Success'
+                ]);
+            } else {
+                DB::rollBack();
+                return response()->json([
+                    'msg'   => 'Failed to save category',
                     'title' => 'Error'
                 ]);
             }
 
-            // Create new category
-            Loancategory::create($data);
-
-            DB::commit();
-
-            return response()->json([
-                'msg'   => 'Category Saved Successfully',
-                'title' => 'Success'
-            ]);
-
         } else {
-
+            // ✅ Update existing category
             $category = Loancategory::find($id);
 
             if (!$category) {
+                DB::rollBack();
                 return response()->json([
                     'msg'   => 'Category not found',
                     'title' => 'Error'
                 ]);
             }
 
-            // Update category
-            $data['updated_at'] = now();
-            $data['updated_by'] = Auth::user()->name ?? null;
-
             $category->update($data);
 
             DB::commit();
-
             return response()->json([
                 'msg'   => 'Category Updated Successfully',
                 'title' => 'Success'
@@ -112,9 +73,7 @@ class LoancategoryController extends Controller
         }
 
     } catch (\Exception $e) {
-
         DB::rollBack();
-
         return response()->json([
             'msg'   => 'Error: ' . $e->getMessage(),
             'title' => 'Error'
@@ -122,20 +81,22 @@ class LoancategoryController extends Controller
     }
 }
 
+
+
     public function show_categories()
     {
         $data=Loancategory::all();
         return Template::loadView('admin/categorys/categories_list', compact('data'));
     }
      
-    // public function categoriId($id)
-    // {
-    //     $datas = Loancategory::find($id);
-    //    // dd($datas);
-    //     if ($datas) {
-    //         return Template::loadView('admin/categorys/categories_create_form', compact('datas'));
-    //     }
-        
+    public function categoriId($id)
+    {
+        $data = Loancategory::find($id);
+       // dd($datas);
+        if ($data) {
+            return Template::loadView('admin/categorys/categories_create_form', ['data'=>$data]);
+        }
+    }
     //     // Handle the case where the category is not found (404 or error message)
     //     return redirect()->route('categories.index')->with('error', 'Category not found');
     // }

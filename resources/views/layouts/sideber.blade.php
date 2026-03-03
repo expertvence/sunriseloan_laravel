@@ -421,7 +421,7 @@
                             <i class="fas fa-plus-circle me-2" style="font-size: 0.8rem;"></i>
                             <span>Create</span>
                         </a>
-                        <a class="nav-link ajax_link" href="#" data-url="{{ url('show_categories') }}">
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('show_categories-list') }}">
                             <i class="fas fa-list me-2" style="font-size: 0.8rem;"></i>
                             <span>List</span>
                         </a>

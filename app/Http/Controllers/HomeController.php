@@ -187,14 +187,13 @@ class HomeController extends Controller
     {
         $invenstment_data = Investment::where('id', $id)->first();
 
-        // dd(  $invenstment_data);
         return Template::loadView('admin/payment/investment_system_form', ['invenstment_data' => $invenstment_data]);
     }
     public function incomeExpence()
     {
         $invenstment_data = [];
 
-        // dd(  $payment_list);
+      
         return Template::loadView('admin/income_expence/income_expence', ['invenstment_data' => $invenstment_data]);
         //  return Template::loadView('admin/income_expence/income_expence', ['invenstment_data' => $invenstment_data]);
     }

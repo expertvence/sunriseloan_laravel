@@ -22,6 +22,26 @@ class MemberRegistrationController extends Controller
     {
         try {
 
+        $request->validate([
+            'Uid'            => 'required|string|max:255',
+            'gender'         => 'required|string',
+            'age'            => 'nullable|numeric',
+            'religion'       => 'nullable|string',
+            'fathers_name'   => 'nullable|string',
+            'mothers_name'   => 'nullable|string',
+            'mobile'         => 'nullable|string|max:20',
+            'address'        => 'nullable|string|max:500',
+            'name'           => 'required|string|max:255',
+            'email'          => 'required|email',
+            'member_image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->validate()) {
+            return response()->json([
+                'msg'   => 'Validation failed',
+                'title' => 'Error'
+            ]);
+        }
             $id = $request->id;
             DB::beginTransaction();
 
