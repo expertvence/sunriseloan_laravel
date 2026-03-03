@@ -127,8 +127,16 @@ class HomeController extends Controller
         //dd($totalServicesCharge);
         $exactAssetsWithprofitandwithoutloan = $remainingAmount + $comitedAmount + $totalServicesCharge - $totalExpence;
 
-        $totalUser = User::count();
+        $activeUser = DB::table('users')
+    ->join('members', 'users.member_id', '=', 'members.id')
+    ->where('users.user_type', 'user')
+    ->where('users.status', 'active')
+    ->where('members.is_publish', 1)
+    ->count();
 
+        $totalUser = User::where('user_type', 'user')->count();
+        $totalManager = User::where('user_type', 'manager')->count();
+        $activeManger = User::where('user_type', 'manager')->where('status', 'active')->count();
 
         return Template::loadView('admin.index', compact(
             'totalAssets',
@@ -136,6 +144,9 @@ class HomeController extends Controller
             'remainingAmount',
             'totalProfit',
             'totalUser',
+            'activeUser',
+            'totalManager',
+            'activeManger',
             'warningMessage',
             'exactAssetsWithprofitandwithoutloan',
             'totalExpence',
