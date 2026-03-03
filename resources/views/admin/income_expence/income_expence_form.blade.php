@@ -14,7 +14,7 @@ $type=isset($income_expence_data) && !empty($income_expence_data) ? $income_expe
           
             <div class="col-md-2">
                 <label class="" for="transection_date"> <strong> Txn Date <span class="text-danger">*</span></strong></label>
-                <input type="text" class="form-control date_picker" name="transection_date" id="transection_date" value="{{$transection_date}}" placeholder="dd-mm-yyyy" autocomplete="off" required>
+                <input type="date" class="form-control" name="transection_date" id="transection_date" value="{{$transection_date}}" placeholder="dd-mm-yyyy" autocomplete="off" required>
             </div>
             <div class="col-md-6">
                 <label class="" for="description"> <strong>Description <span class="text-danger">*</span></strong></label>

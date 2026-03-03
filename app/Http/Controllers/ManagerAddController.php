@@ -21,8 +21,6 @@ class ManagerAddController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the request
-
         DB::beginTransaction();
 
         try {
@@ -139,7 +137,8 @@ class ManagerAddController extends Controller
     public function managerList()
     {
         $data = User::where('user_type', 'manager')->get();
-        // dd($data);
         return Template::loadView('admin/managerReg/manager_list', ['data' => $data]);
     }
+
+   
 }

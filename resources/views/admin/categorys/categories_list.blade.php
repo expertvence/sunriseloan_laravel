@@ -31,19 +31,9 @@
                         
 
                         <td>
-                            <form action="{{ route('delete', $value->id) }}" method="POST">
-                                @csrf
-                                @method('POST') <!-- Use DELETE method here -->
-                                <span class="btn btn-sm open-modal btnView" data-action="{{ route('edit-category', $value->id) }}" data-modal="common-modal-md" data-title="Categories Edit" title="Edit" data-id="{{ $value->id }}">
-                                <i class="fas fa-edit"></i>
-                            </span>
-                                <button type="submit" style="border: none; background: none; padding: 0; outline: none;">
-                                    <i class="fas fa-trash" style="color: red;"></i>
-                                </button>
-                            
-                                
-                            </form>
 
+                            <span class="btn btn-sm  open-modal btnView" data-action="{{route('show-categories-form', $value->id)}}" data-modal="common-modal-md" data-title=" Member Edit" title="Edit" data-id="{{$value->id}}"><i class="fas fa-edit"></i></span> 
+                        </td>
                     </tr>
                     @endforeach
                     @endif

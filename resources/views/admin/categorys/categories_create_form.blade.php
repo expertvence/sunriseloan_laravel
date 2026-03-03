@@ -1,56 +1,74 @@
 @php
-
-$id=isset($datas) && !empty($datas) ? $datas->id:'';
-$categories=isset($datas) && !empty($datas) ? $datas->loan_category:'';
-$persntage=isset($datas) && !empty($datas) ? $datas->percentage:'';
-
+$id = isset($data) && !empty($data) ? $data->id : '';
+$loan_category = isset($data) && !empty($data) ? $data->loan_category : '';
+$percentage = isset($data) && !empty($data) ? $data->percentage : '';
 @endphp
-<div class="card-body">
-        <h1 class="text-center">Loan Categories</h1>
-        <form method="Post" id="categories_create" action="{{url('insert-category')}}" enctype="multipart/form-data" >
-            <!-- Loan Details -->
-             @csrf
-             <input type="text" hidden name="categories_id" id="categories_id" value="{{$id}}">
-             
-            <div class="mb-3">
-                <label for="loanAmount" class="form-label">Categories:</label>
-                <input type="text" name="loan_category" class="form-control" id="loan_category" placeholder="Enter categories name" required  value="{{$categories}}">
+
+<form action="{{ url('save-category') }}" method="POST" id="categories_create">
+    @csrf
+
+    <!-- Hidden ID for Edit -->
+    <input type="hidden" name="categories_id" id="categories_id" value="{{ $id }}">
+
+    <div style="border:1px solid gray; padding:10px">
+        <p class="text-center" 
+           style="font-size: 30px; font-weight: bold; background-color:darkcyan; color:white">
+            <span style="border-bottom: 1px dotted white;">
+                Loan Category Entry
+            </span>
+        </p>
+
+        <div class="form-row" style="padding: 20px;">
+
+            <!-- Category Name -->
+            <div class="col-md-6">
+                <label><strong> Category Name <span class="text-danger">*</span></strong></label>
+                <input type="text"
+                       class="form-control"
+                       id="loan_category"
+                       name="loan_category"
+                       placeholder="Enter category name"
+                       value="{{ $loan_category }}"
+                       required>
             </div>
 
-            <div class="mb-3">
-                <label for="loanAmount" class="form-label">Persantage :</label>
-                <input type="number" name="percentage" class="form-control" id="percentage" placeholder="Enter categories amount" required value="{{$persntage}}">
+            <!-- Percentage -->
+            <div class="col-md-6">
+                <label><strong> Percentage (%) <span class="text-danger">*</span></strong></label>
+                <input type="number"
+                       step="0.01"
+                       class="form-control"
+                       id="percentage"
+                       name="percentage"
+                       value="{{ $percentage }}"
+                       placeholder="Enter percentage"
+                       required>
             </div>
-            
-            <!-- Terms and Conditions -->
-            <div class="mb-3 form-check">
-            <input 
-        type="checkbox" 
-        class="form-check-input" 
-        id="infoAgreement" 
-        required 
-        {{ $persntage !== '' ? 'checked' : '' }}
-    >
-                <label  class="form-check-label" for="infoAgreement">I agree that the information provided is true and accurate.</label>
-              
+
+            <!-- Agreement Checkbox -->
+            <div class="col-md-12 mt-3">
+                <div class="form-check">
+                    <input type="checkbox"
+                           class="form-check-input"
+                           id="infoAgreement"
+                           required
+                           {{ $id ? 'checked' : '' }}>
+                    <label class="form-check-label" for="infoAgreement">
+                        I agree that the information provided is true and accurate.
+                    </label>
+                </div>
             </div>
-            <!-- <div class="mb-3 form-check">
-    <input 
-        type="checkbox" 
-        class="form-check-input" 
-        id="infoAgreement" 
-        required 
-        {{ $persntage !== '' ? 'checked' : '' }}
-    >
-    <label class="form-check-label" for="infoAgreement">I agree to the terms and conditions</label>
-</div> -->
 
-          
-
-          <!--   <button type="submit" class="btn btn-success w-100">Submit Application</button> -->
-            <!-- <button type="submit" onclick="save(this)" class="btn btn-primary btn-block" redirect="#">Save</button> -->
-            <button type="submit" onclick="save(this)" class="btn btn-primary btn-block" redirect="#">Save</button>
-        </form>
+        </div>
     </div>
-   
 
+    <!-- Submit Button -->
+    <div class="d-grid mt-3">
+        <button type="submit"
+                onclick="save(this)"
+                class="btn btn-primary btn-block"
+                redirect="{{ url('category-list') }}">
+            {{ $id ? 'Update' : 'Save' }}
+        </button>
+    </div>
+</form>

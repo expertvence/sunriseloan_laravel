@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Library\Template;
+use App\Manager;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +39,7 @@ class ManagerController extends Controller
         return Template::loadView('manager/profile/change_password', ['data' => $data]);
     }
 
-     public function managerPassword(Request $request)
+    public function managerPassword(Request $request)
     {
 
         try {
@@ -75,5 +77,41 @@ class ManagerController extends Controller
             ]);
         }
         return response()->json($message);
+    }
+
+    public function managerActiveStatus(Request $request)
+    {
+        if (Auth::user()->user_type != 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $member = User::find($request->id);
+
+        if (!$member) {
+            return response()->json(['error' => 'Manager not found'], 404);
+        }
+
+        $member->status = $request->status;
+        $member->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function managerDestroy($id)
+    {
+        try {
+            $manager = User::where('user_type', 'manager')->where('id', $id)->firstOrFail(); 
+            $manager->delete(); // Delete the record
+
+            return response()->json([
+                'msg' => 'Manager Deleted Successfully',
+                'title' => 'Success'
+            ]);
+        }  catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong. Please try again.'
+            ], 500);
+        }
     }
 }

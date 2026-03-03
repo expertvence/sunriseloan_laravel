@@ -356,12 +356,7 @@ class HomeController extends Controller
     }
     public function investment_store(Request $request)
     {
-        // dd($request->all());
-        // $request->validate([
-        //     // 'member_id_fk' => 'required',
-        //     'from_month' => 'required',
-        //     'year' => 'required',
-        // ]);
+        
         try {
             $id = $request->id;
             $inversment_info = Investment::select('id')->orderby('id', 'desc')->first();
@@ -419,7 +414,13 @@ class HomeController extends Controller
 
     public function memberList()
     {
-        $data = MemberRegistration::get();
+        // $data = MemberRegistration::get();
+        $data = DB::table('members')
+    ->join('users', 'members.id', '=', 'users.member_id')
+    ->where('users.user_type', 'user')
+    ->select('members.*', 'users.user_type')
+    ->get();
+
         // dd($data);
         return Template::loadView('admin/memberReg/member_list', ['data' => $data]);
     }

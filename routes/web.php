@@ -139,8 +139,8 @@ Route::get('messages', 'ChatsController@fetchMessages');
 Route::post('messages', 'ChatsController@sendMessage');
 
 /* Create Categories */
-Route::get('/show-categories-insert',[LoanCategoryController::class,'index']);
-Route::post('/insert-category', [LoancategoryController::class, 'categori_store']);
+Route::get('/show-categories-form',[LoanCategoryController::class,'index'])->name('show-categories-form');
+Route::post('/save-category', [LoancategoryController::class, 'categoryStore'])->name('save-category');
 Route::get('/show_categories', [LoancategoryController::class, 'show_categories'])->name('show-categories-insert');
 Route::post('/delete/{id}',[LoancategoryController::class, 'delete'])->name('delete');
 Route::get('/edit-category/{id}', [LoancategoryController::class, 'categoriId'])->name('edit-category');
@@ -185,8 +185,7 @@ Route::get('/employee-member-list', [EmployeeController::class, 'EmployeememberL
 Route::get('/show-employee/{id}', [EmployeeController::class, 'show'])->name('show-employee');
 Route::get('/employee-mem-register-form/{id?}', [EmployeeController::class, 'memRegistrationForm'])->name('employee-mem-register-form');
 
-Route::post('/member-status-update', 
-    [MemberRegistrationController::class, 'updateStatus']
+Route::post('/member-status-update', [MemberRegistrationController::class, 'updateStatus']
 )->name('member-status-update');
 
 // deposite
@@ -201,6 +200,10 @@ Route::get('/deposit-edit/{id}',[AddDepositeController::class,'depositEdit'])->n
 
 Route::get('/managerDashboard',[ManagerController::class,'managerDashboard'])->name('managerDashboard');
 Route::get('/manager-profile',[ManagerController::class,'managerProfile'])->name('manager-profile');
+Route::delete('/manager-destroy/{id}',[ManagerController::class,'managerDestroy'])->name('manager-destroy');
+Route::post('/manager-status-update', [ManagerController::class, 'managerActiveStatus']
+)->name('manager-status-update');
+
 Route::get('/manager-change-password',[ManagerController::class,'changePassword'])->name('manager-change-password');
 Route::post('/manager-save-password',[ManagerController::class,'managerPassword'])->name('manager-save-password');
 Route::post('/submit-request', [LoanRequestController::class, 'store'])->name('submit-request');

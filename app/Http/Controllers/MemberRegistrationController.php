@@ -225,6 +225,6 @@ public function show($id)
      */
     public function destroy(MemberRegistration $memberRegistration)
     {
-        w
+        
     }
 }
