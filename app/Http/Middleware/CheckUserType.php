@@ -32,7 +32,7 @@ class CheckUserType
     // Check if the user type matches the required type for this route
     if (Auth::user()->user_type !== $type) {
         if (Auth::user()->user_type=="user") {
-            return redirect()->route('member_profile', ['id' => Auth::user()->member_id]);
+            return redirect()->route('userDashboard');
         }
         elseif
         (Auth::user()->user_type=="employee") {
