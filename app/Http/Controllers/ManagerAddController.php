@@ -12,34 +12,39 @@ use Illuminate\Support\Facades\Log;
 
 class ManagerAddController extends Controller
 {
-     public function managerCreate($id = "")
-     {
-           $data = User::find($id);
-          return Template::loadView('admin/managerReg/reg_create_form',['data' => $data]);
-     }
+    public function managerCreate($id = "")
+    {
+        $data = User::find($id);
+        return Template::loadView('admin/managerReg/reg_create_form', ['data' => $data]);
+    }
 
-    
+
     public function store(Request $request)
     {
-        // Validate the request
-        $request->validate([
-            'name'           => 'required|string|max:255',
-            'email'          => 'required|email',
-            'member_image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'gender'         => 'required|string',
-            'age'            => 'nullable|numeric',
-            'religion'       => 'nullable|string',
-            'fathers_name'   => 'nullable|string',
-            'mothers_name'   => 'nullable|string',
-            'mobile'         => 'nullable|string|max:20',
-            'address'        => 'nullable|string|max:500',
-            'nid'            => 'nullable|string|max:50',
-            'profession'     => 'nullable|string|max:255',
-        ]);
-
         DB::beginTransaction();
 
         try {
+            $request->validate([
+                'name'           => 'required|string|max:255',
+                'email'          => 'required|email',
+                'member_image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'gender'         => 'required|string',
+                'age'            => 'nullable|numeric',
+                'religion'       => 'nullable|string',
+                'fathers_name'   => 'nullable|string',
+                'mothers_name'   => 'nullable|string',
+                'mobile'         => 'nullable|string|max:20',
+                'address'        => 'nullable|string|max:500',
+                'nid'            => 'nullable|string|max:50',
+                'profession'     => 'nullable|string|max:255',
+            ]);
+
+            // if ($request->validate()) {
+            //     return response()->json([
+            //         'msg'   => 'Validation failed',
+            //         'title' => 'Error'
+            //     ]);
+            // }
             $id = $request->id;
 
             // Handle file upload
@@ -106,7 +111,6 @@ class ManagerAddController extends Controller
                     'msg'   => 'Manager Saved Successfully',
                     'title' => 'Success'
                 ]);
-
             } else {
                 // Update existing manager
                 User::where('id', $id)->update($data);
@@ -118,7 +122,6 @@ class ManagerAddController extends Controller
                     'title' => 'Success'
                 ]);
             }
-
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -131,11 +134,11 @@ class ManagerAddController extends Controller
         }
     }
 
-      public function managerList()
+    public function managerList()
     {
         $data = User::where('user_type', 'manager')->get();
-        // dd($data);
-         return Template::loadView('admin/managerReg/manager_list', ['data' => $data]);
+        return Template::loadView('admin/managerReg/manager_list', ['data' => $data]);
     }
-}
 
+   
+}

@@ -22,7 +22,7 @@ $type = isset($deposit_data) && !empty($deposit_data) ? $deposit_data->deposit_t
             </span>
         </p>
 
-        <div class="form-row" style="padding: 10px;">
+        <div class="form-row" style="padding: 20px;">
 
             <!-- Member Name -->
             <div class="col-md-4">
@@ -31,6 +31,7 @@ $type = isset($deposit_data) && !empty($deposit_data) ? $deposit_data->deposit_t
                        class="form-control" 
                        id="member_name" 
                        name="member_name"
+                       placeholder="Enter member name"
                        value="{{ $member_name }}"
                        required>
 
@@ -43,8 +44,8 @@ $type = isset($deposit_data) && !empty($deposit_data) ? $deposit_data->deposit_t
             <!-- Deposit Date -->
             <div class="col-md-4">
                 <label><strong> Deposit Date <span class="text-danger">*</span></strong></label>
-                <input type="text" 
-                       class="form-control date_picker" 
+                <input type="date" 
+                       class="form-control" 
                        name="transection_date" 
                        id="transection_date" 
                        value="{{ $transection_date }}"

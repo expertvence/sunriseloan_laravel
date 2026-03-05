@@ -512,10 +512,43 @@
             <!-- Total Users -->
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">Total Users</span>
+                    <span class="card-title">Total Member</span>
                     <span class="card-icon"><i class="fas fa-users"></i></span>
                 </div>
                 <div class="card-value">{{ number_format($totalUser ?? 0) }}</div>
+                <div class="card-trend">
+                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
+                    <span class="trend-text">new this month</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Active Member</span>
+                    <span class="card-icon"><i class="fas fa-users"></i></span>
+                </div>
+                <div class="card-value">{{ number_format($activeUser ?? 0) }}</div>
+                <div class="card-trend">
+                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
+                    <span class="trend-text">new this month</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Total Manager</span>
+                    <span class="card-icon"><i class="fas fa-users"></i></span>
+                </div>
+                <div class="card-value">{{ number_format($totalManager ?? 0) }}</div>
+                <div class="card-trend">
+                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
+                    <span class="trend-text">new this month</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Active Manager</span>
+                    <span class="card-icon"><i class="fas fa-users"></i></span>
+                </div>
+                <div class="card-value">{{ number_format($activeManger ?? 0) }}</div>
                 <div class="card-trend">
                     <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
                     <span class="trend-text">new this month</span>
@@ -620,7 +653,7 @@
                 </div>
                 <div class="metric">
                     <div class="metric-label">Avg/User</div>
-                    <div class="metric-value">৳ {{ number_format($avgUserValue) }}</div>
+                    <div class="metric-value">₦{{ number_format($avgUserValue) }}</div>
                     <div class="metric-change positive"><i class="fas fa-arrow-up"></i> 12.5k</div>
                 </div>
             </div>

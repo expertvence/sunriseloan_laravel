@@ -207,10 +207,6 @@ class LoanController extends Controller
 
      public function updateStatus(Request $request)
     {
-<<<<<<< HEAD
-        //dd($request->all());
-=======
->>>>>>> 5e5667e0c6862e3a926cf645ff55d7af2e8340a8
         $status = $request->status;
         $newStatus = $request->status;
 

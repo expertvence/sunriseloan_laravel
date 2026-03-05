@@ -559,6 +559,10 @@ body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
 .premium-table-card {
     animation: slideIn 0.5s ease-out;
 }
+.action-btn.delete-btn {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
 </style>
 
 <div class="premium-table-card">
@@ -580,8 +584,9 @@ body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
                 <thead>
                     <tr>
                         <th>SL#</th>
-                        <th>Code</th>
+                       
                         <th>Name</th>
+                        <th>Designation</th>
                         <th>Father's Name</th>
                         <th>Mother's Name</th>
                         <th>Email</th>
@@ -597,9 +602,7 @@ body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
                                 <td>
                                     <span class="fw-bold">#{{ $loop->iteration }}</span>
                                 </td>
-                                <td>
-                                    <span class="code-badge">{{ $value->Uid ?? 'N/A' }}</span>
-                                </td>
+                                
                                 <td>
                                     <div class="name-with-avatar">
                                         <div class="avatar-circle">
@@ -608,6 +611,7 @@ body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
                                         <span>{{ $value->name }}</span>
                                     </div>
                                 </td>
+                                <td><span class="badge bg-primary">{{ $value->user_type ?? 'N/A' }}</span></td>
                                 <td>{{ $value->fathers_name ?? 'N/A' }}</td>
                                 <td>{{ $value->mothers_name ?? 'N/A' }}</td>
                                 <td>
@@ -637,7 +641,7 @@ body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
                                 </td>
                                 <td>
                                     <div class="action-buttons">
-                                        <a href="{{ route('member_profile', $value->id) }}" target="_blank" class="action-btn view-btn" title="View Profile">
+                                        <a href="{{ route('member_profile', $value->id) }}" target="" class="action-btn view-btn" title="View Profile">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <span class="action-btn edit-btn open-modal" 
@@ -648,6 +652,14 @@ body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
                                               title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </span>
+                                        <!-- Delete Button -->
+                                        <span class="action-btn delete-btn" 
+                                            data-id="{{ $value->id }}" 
+                                            data-url="{{ route('manager-destroy', $value->id) }}" 
+                                            title="Delete Manager">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+
                                     </div>
                                 </td>
                             </tr>
@@ -725,7 +737,7 @@ $(document).on('change', '.status-select', function() {
     $this.css('opacity', '0.7');
     
     $.ajax({
-        url: "{{ route('member-status-update') }}",
+        url: "{{ route('manager-status-update') }}",
         type: "POST",
         data: {
             _token: "{{ csrf_token() }}",
@@ -749,4 +761,63 @@ $(document).on('change', '.status-select', function() {
         }
     });
 });
+
+
+function confirmDelete(title = "Are you sure?", text = "You won't be able to revert this!") {
+    return Swal.fire({
+        title: title,
+        text: text,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#10b981',
+        cancelButtonColor: '#ef4444',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    });
+}
+function deleteItem(url, rowElement) {
+    $.ajax({
+        url: url,
+        type: 'DELETE',
+        data: {
+            _token: "{{ csrf_token() }}"
+        },
+        success: function(response) {
+            // Remove the row if provided
+            if (rowElement) {
+                rowElement.closest('tr').remove();
+            }
+
+            // Show success Swal
+            Swal.fire(
+                'Deleted!',
+                response.msg ?? 'Item deleted successfully.',
+                'success'
+            );
+        },
+        error: function(xhr) {
+            Swal.fire(
+                'Error!',
+                xhr.responseJSON?.message || 'Something went wrong. Please try again.',
+                'error'
+            );
+        }
+    });
+}
+
+$(document).on('click', '.delete-btn', function() {
+    let $this = $(this);
+    let url = $this.data('url');
+
+    confirmDelete().then((result) => {
+        if (result.isConfirmed) {
+            deleteItem(url, $this);
+        }
+    });
+});
+
+
+
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

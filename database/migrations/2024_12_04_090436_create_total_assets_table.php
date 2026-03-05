@@ -15,7 +15,8 @@ class CreateTotalAssetsTable extends Migration
     {
         Schema::create('total_assets', function (Blueprint $table) {
             $table->id();
-            $table->decimal('assets');
+            $table->float('assets', 15, 2);
+            $table->date('date')->nullable();
             $table->timestamps();
         });
     }

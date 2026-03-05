@@ -127,8 +127,16 @@ class HomeController extends Controller
         //dd($totalServicesCharge);
         $exactAssetsWithprofitandwithoutloan = $remainingAmount + $comitedAmount + $totalServicesCharge - $totalExpence;
 
-        $totalUser = User::count();
+        $activeUser = DB::table('users')
+    ->join('members', 'users.member_id', '=', 'members.id')
+    ->where('users.user_type', 'user')
+    ->where('users.status', 'active')
+    ->where('members.status', 'active')
+    ->count();
 
+        $totalUser = User::where('user_type', 'user')->count();
+        $totalManager = User::where('user_type', 'manager')->count();
+        $activeManger = User::where('user_type', 'manager')->where('status', 'active')->count();
 
         return Template::loadView('admin.index', compact(
             'totalAssets',
@@ -136,6 +144,9 @@ class HomeController extends Controller
             'remainingAmount',
             'totalProfit',
             'totalUser',
+            'activeUser',
+            'totalManager',
+            'activeManger',
             'warningMessage',
             'exactAssetsWithprofitandwithoutloan',
             'totalExpence',
@@ -176,14 +187,13 @@ class HomeController extends Controller
     {
         $invenstment_data = Investment::where('id', $id)->first();
 
-        // dd(  $invenstment_data);
         return Template::loadView('admin/payment/investment_system_form', ['invenstment_data' => $invenstment_data]);
     }
     public function incomeExpence()
     {
         $invenstment_data = [];
 
-        // dd(  $payment_list);
+      
         return Template::loadView('admin/income_expence/income_expence', ['invenstment_data' => $invenstment_data]);
         //  return Template::loadView('admin/income_expence/income_expence', ['invenstment_data' => $invenstment_data]);
     }
@@ -345,12 +355,7 @@ class HomeController extends Controller
     }
     public function investment_store(Request $request)
     {
-        // dd($request->all());
-        // $request->validate([
-        //     // 'member_id_fk' => 'required',
-        //     'from_month' => 'required',
-        //     'year' => 'required',
-        // ]);
+        
         try {
             $id = $request->id;
             $inversment_info = Investment::select('id')->orderby('id', 'desc')->first();
@@ -408,33 +413,20 @@ class HomeController extends Controller
 
     public function memberList()
     {
-        $data = MemberRegistration::get();
+        // $data = MemberRegistration::get();
+        $data = DB::table('members')
+    ->join('users', 'members.id', '=', 'users.member_id')
+    ->where('users.user_type', 'user')
+    ->select('members.*', 'users.user_type')
+    ->get();
+
         // dd($data);
         return Template::loadView('admin/memberReg/member_list', ['data' => $data]);
     }
     public function memberProfile($id)
     {
-        $data = MemberRegistration::with(['installmentPayment' => function ($query) {
-            $query->get();
-            // $query->latest()->take(1);
-        }, 'extraPayment' => function ($query) {
-            $query->get();
-            // $query->latest()->take(1);
-        }])->find($id);
-        $datas = $data->toArray();
-        // description', 'income_expence', 'type','date','id'
-        $profit_loss = IncomeExpense::select(DB::raw('SUM(CASE WHEN type = "Income" THEN income_expence ELSE 0 END) as income_sum'), DB::raw('SUM(CASE WHEN type = "Expense" THEN income_expence ELSE 0 END) as expense_sum'), DB::raw('(select sum(no_of_share)  from members) as no_of_share'))->first();
-
-        // $datas['installment_payments_count'] = $data->installmentPayment->count();
-        $datas['installment_payments_count'] = $data->installmentPayment->count();
-        $datas['installment_payments_sum'] = $data->installmentPayment->sum('share_amount');
-        $datas['extra_payment_count'] = $data->extraPayment->count();
-        $datas['extra_payment_sum'] = $data->extraPayment->sum('amount');
-        // ->where('is_publish', 1)
-        // ->first();
-        // $data = MemberRegistration::find()->get();
-        // dd($profit_loss);
-        return Template::loadView('admin/memberReg/member_profile', ['data' => $datas, 'profit_loss' => $profit_loss]);
+        $user = User::find($id);
+        return Template::loadView('admin/memberReg/member_profile', [ 'user' => $user]);
     }
 
 
