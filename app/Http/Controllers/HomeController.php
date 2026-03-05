@@ -443,6 +443,7 @@ class HomeController extends Controller
                 $member_data[] = array(
                     'id' => $patient->id,
                     'user_id' => $patient->user_id,
+                    'member_id' => $patient->id,
                     'member_code' => $patient->Uid,
                     'share_no' => $patient->no_of_share,
                     'share_amt' => $patient->share_amount,

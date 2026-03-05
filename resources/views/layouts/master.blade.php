@@ -5,6 +5,8 @@
 <body class="sb-nav-fixed mainContant">
 	
 		@include('layouts.header')
+		@include('layouts.css')
+		@include('layouts.scripts')
 		<div id="layoutSidenav">
 			<div id="layoutSidenav_nav">
 				@include('layouts.sideber')
@@ -13,6 +15,7 @@
 				<div class="{{auth()->user() ? 'content-wrapper' : ''}}">
 					<main id="page-content">
 						<!-- @yield('content') -->
+							
 					</main>
 				</div>
 				<footer class="py-4 bg-light mt-auto">
@@ -32,6 +35,7 @@
 	
 	@include('layouts.open_modal')
 	@include('layouts.footer')
+
 
 </body>
 

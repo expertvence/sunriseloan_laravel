@@ -589,7 +589,7 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                 Dashboard
             </a>
-            <a class="nav-link ajax_link" href="#" data-url="{{route('member_profile',Auth::user()->member_id)}}">
+            <a class="nav-link ajax_link" href="#" data-url="{{route('user-profile')}}">
                 <div class="sb-nav-link-icon"><i class="fa fa-user" style=" font-size: 20px;"></i></div>
                 My Profile
             </a>

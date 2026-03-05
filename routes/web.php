@@ -14,6 +14,7 @@ use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\ManagerAddController;
 use App\Http\Controllers\MemberRegistrationController;
 use App\Http\Controllers\TotalAssetController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\UserLoanController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,7 @@ Route::get('/loan-request', [LoanController::class, 'loanRequest'])->name('loan-
 Route::get('/show-edit/{loan_ide?}',[LoanController::class, 'loanEdit'])->name('edit-loan');
 Route::get('/show-list',[LoanController::class, 'showLoan_list'])->name('show-list');
 Route::get('/comitted-list', [LoanController::class, 'ApprovalLoanList'])->name('comitted-list');
+Route::get('/committed-list-pdf', [LoanController::class, 'loanCommitPdf'])->name('committed-list-pdf');
 
 Route::post('/submit-request', [LoanController::class,'loan_store'])->name('submit-request');
 Route::post('/loan/insert',[LoanController::class,'loan_store'])->name('loan');
@@ -169,6 +171,7 @@ Route::get('/member_profile/{id}', [HomeController::class, 'memberProfile'])->na
 //Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
 
 Route::get('/userDashboard',[UserLoanController::class,'userDashboard'])->name('userDashboard');
+Route::get('/user-profile',[UserController::class,'index'])->name('user-profile');
 Route::get('/for-get',[LoancategoryController::class, 'categoriwithid'])->name('for-get');
 /* Route::middleware(['auth', 'user.type:user'])->group(function () {   
    
