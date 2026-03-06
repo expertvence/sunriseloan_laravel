@@ -61,7 +61,7 @@ class HomeController extends Controller
         $loans = Loan::where('status', 'complete')->get();
 
 
-         $totalProfit = Loan::where('loans.status', 'complete')
+        $totalProfit = Loan::where('loans.status', 'complete')
             ->join('loancategories', 'loans.loan_category_id', '=', 'loancategories.id')
             ->selectRaw('SUM(loans.loan_amount * (loancategories.percentage / 100)) as total_profit')
             ->value('total_profit') ?? 0;
@@ -450,15 +450,12 @@ class HomeController extends Controller
         $query = $request->search_data;
 
         // $filterResult = DB::table('members')->select('members.*', 'users.id as user_id')->leftJoin('users', 'users.member_id', '=', 'members.id')->whereRaw(DB::raw(" upper(members.name) LIKE '%$query%'"))->get();
-      $filterResult = DB::table('members')
-    ->select('members.*', 'users.id as user_id')
-    ->leftJoin('users', 'users.member_id', '=', 'members.id')
-    ->whereRaw("UPPER(members.name) LIKE '%$query%' 
+        $filterResult = DB::table('members')
+            ->select('members.*', 'users.id as user_id')
+            ->leftJoin('users', 'users.member_id', '=', 'members.id')
+            ->whereRaw("UPPER(members.name) LIKE '%$query%' 
                 OR UPPER(members.uid) LIKE '%$query%'")
-    ->get();
-
-
-        //   dd( $filterResult);
+            ->get();
         $member_data = [];
         if (!empty($filterResult)) {
             foreach ($filterResult as $patient) {
@@ -474,7 +471,6 @@ class HomeController extends Controller
                 );
             }
         }
-        // dd($member_data);
         return $member_data;
         //   return response()->json($filterResult);
     }
