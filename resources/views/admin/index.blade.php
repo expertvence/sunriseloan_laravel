@@ -89,22 +89,22 @@
                 <div class="card-value">{{ number_format($activeUser ?? 0) }}</div>
                
             </div>
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-header">
                     <span class="card-title">Total Manager</span>
                     <span class="card-icon"><i class="fas fa-users"></i></span>
                 </div>
                 <div class="card-value">{{ number_format($totalManager ?? 0) }}</div>
                
-            </div>
-            <div class="card">
+            </div> --}}
+            {{-- <div class="card">
                 <div class="card-header">
                     <span class="card-title">Active Manager</span>
                     <span class="card-icon"><i class="fas fa-users"></i></span>
                 </div>
                 <div class="card-value">{{ number_format($activeManger ?? 0) }}</div>
                 
-            </div>
+            </div> --}}
 
             <!-- Service Charge -->
             <div class="card">

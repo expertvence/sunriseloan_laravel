@@ -54,12 +54,12 @@
                 <div class="card  text-white text-center"
                     style="min-height: 150px; box-shadow: 9px 5px 10px rgba(18, 19, 19, 0.2); background-color:rgb(230, 40, 26);">
 
-                    <h5 class="mt-3">Pending Loan</h5>
+                    <h5 class="mt-3">Remaining Amount</h5>
 
 
                     <!--  <a class="small text-white stretched-link" href="#">View Details</a> -->
                     <div class="small text-white">
-                        {{-- <h3>{{$pendingLoan}}</h3> --}}
+                        <h3>৳{{ $remainingAmount ?? 0 }}</h3>
                     </div>
 
                 </div>
@@ -67,8 +67,8 @@
             <div class="col-xl-3 col-md-6 col-sm-12 mb-2">
                 <div class="card  text-white "
                     style="min-height: 150px; box-shadow: 9px 5px 10px rgba(17, 18, 17, 0.2); background-color:rgb(59, 189, 221);">
-                    <h5 class="mt-3">##</h5>
-
+                    <h5 class="mt-3">Latest Month</h5>
+                     <h3>{{ $latestMonth ?? 'N/A'}}</h3>
 
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
@@ -155,5 +155,5 @@
         // Page will auto-update via CSS variables
     });
 </script>
-<!-- SIMPLE AND GUARANTEED LIVE TIME SCRIPT -->
+
 

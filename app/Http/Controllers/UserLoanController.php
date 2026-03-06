@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Library\Template;
 use App\Loan;
+use App\Loancategory;
 use App\LoanCommit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,10 @@ class UserLoanController extends Controller
 
         // Get the currently authenticated user
         $user = auth()->user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
 
         // Retrieve all loans for the authenticated user
         $loans = Loan::where('user_id', $user->id)->where('status', 'complete')->get(); // Get loans where user_id matches
@@ -50,7 +55,9 @@ class UserLoanController extends Controller
         // Calculate the total paid amount
         $totalPaidAmount = $loanCommits->sum('payment_amount');
 
-        $interest = $loan->loan_amount * $loan->loan_category_id;
+        $loanCategory = Loancategory::where('id', $loan->loan_category_id)->first();
+        $interestRate = $loanCategory ? $loanCategory->percentage : 0;
+        $interest = $loan->loan_amount * $interestRate;
         $totalInterest = $interest / 100;
         $InterestWithamount = $loan->loan_amount + $totalInterest;
         $remainingAmount = $InterestWithamount - $totalPaidAmount;
@@ -67,7 +74,8 @@ class UserLoanController extends Controller
                 'loanterm' => $loan_term,
                 'loanamount' => $loan_amount,
                 'interestwithloan' => $InterestWithamount,
-                'interestrate' => $interestrate
+                'interestrate' => $interestrate,
+                'interestRateValue' => $interestRate,
 
             ]);
         }
@@ -88,12 +96,26 @@ class UserLoanController extends Controller
         $pendingLoan = Loan::where('user_id', $user->id)->where('status', 'pending')->count();
         $totalLoanAmt = Loan::where('user_id', $user->id)->where('status', 'complete')->sum('loan_amount');
 
+        $loan = Loan::where('user_id', $user->id)
+            ->where('status', 'complete')
+            ->first();
+        $committedLoan = LoanCommit::where('loan_payment_id', $loan->loan_ide)->where('status', 'approved')->sum('payment_amount');
+        $remainingAmount = $totalLoanAmt - $committedLoan;
+
+      $latestMonth = LoanCommit::where('loan_payment_id', $loan->loan_ide)
+            ->where('status', 'approved')
+            ->latest()
+            ->first()
+            ->payment_month ?? null;
+
 
         return Template::loadView('admin/userdashboard', [
             'countLoan' => $countLoan,
             'rejectedLoan' => $rejectedLoan,
             'pendingLoan' => $pendingLoan,
-            'totalLoanAmt' => $totalLoanAmt
+            'totalLoanAmt' => $totalLoanAmt,
+            'remainingAmount' => $remainingAmount,
+            'latestMonth' => $latestMonth
 
         ]);
     }

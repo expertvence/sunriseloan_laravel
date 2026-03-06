@@ -102,7 +102,7 @@ $(document).ready(function() {
                         $('#total_loan').text(parseFloat(response.loanamount).toFixed(2));
                         $('#total_term').text(response.loanterm);
                         $('#total_loan_withinterest').text(parseFloat(response.interestwithloan).toFixed(2));
-                        $('#interest').text(response.interestrate);
+                        $('#interest').text(response.interestRateValue);
                     } else {
                         $('#loan_commitments_table tbody').html('<tr><td colspan="6" class="text-center">No commitments found for this loan.</td></tr>');
                         $('#remaining_amount').text('N/A');
