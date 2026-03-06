@@ -5,232 +5,622 @@
 
 <style>
     :root {
-        --primary-color: #4361ee;
-        --primary-hover: #3730a3;
-        --secondary-color: #64748b;
-        --success-color: #10b981;
-        --danger-color: #ef4444;
-        --warning-color: #f59e0b;
-        --dark-bg: #1e293b;
-        --light-bg: #f8fafc;
-        --border-color: #e2e8f0;
+        /* Light Mode - Modern Fresh */
+        --primary: #2563eb;
+        --primary-light: #3b82f6;
+        --primary-soft: #dbeafe;
+        --secondary: #64748b;
+        --success: #16a34a;
+        --success-soft: #dcfce7;
+        --warning: #ca8a04;
+        --warning-soft: #fef9c3;
+        --danger: #dc2626;
+        --danger-soft: #fee2e2;
+        --info: #0891b2;
+        --info-soft: #cffafe;
+        
+        /* Light Mode Backgrounds */
+        --bg-card: #ffffff;
+        --bg-body: #f1f5f9;
+        --bg-header: #f8fafc;
+        --bg-hover: #ffffff;
+        --bg-stripe: #f8fafc;
+        
+        /* Light Mode Text */
         --text-primary: #0f172a;
         --text-secondary: #334155;
         --text-muted: #475569;
-        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-        /* Dark mode variables */
-        --dark-bg-primary: #0f172a;
-        --dark-bg-secondary: #1e293b;
-        --dark-bg-tertiary: #2d3a4f;
-        --dark-text-primary: #ffffff;
-        --dark-text-secondary: #e2e8f0;
-        --dark-text-muted: #cbd5e1;
-        --dark-border: #334155;
-        --dark-card-bg: #1e293b;
-        --dark-hover: #2d3a4f;
-        --dark-table-stripe: #1e293b;
-        --dark-table-hover: #2d3a4f;
+        --text-light: #64748b;
+        
+        /* Borders & Shadows */
+        --border: #e2e8f0;
+        --border-light: #f1f5f9;
+        --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+        
+        /* Dark Mode */
+        --dark-bg-body: #030712;
+        --dark-bg-card: #111827;
+        --dark-bg-header: #1f2937;
+        --dark-bg-hover: #263445;
+        --dark-bg-stripe: #1a1f2e;
+        --dark-border: #2d3748;
+        --dark-border-light: #262f3f;
+        
+        --dark-text-primary: #f3f4f6;
+        --dark-text-secondary: #d1d5db;
+        --dark-text-muted: #9ca3af;
+        --dark-text-light: #6b7280;
+        
+        /* Dark Mode Status Colors */
+        --dark-primary-soft: #1e3a5f;
+        --dark-success-soft: #14532d;
+        --dark-warning-soft: #422006;
+        --dark-danger-soft: #450a0a;
+        --dark-info-soft: #164e63;
     }
 
-    /* Premium Card Styles */
+    /* ===== BASE STYLES ===== */
     .premium-table-card {
         background: transparent;
-        padding: 25px;
-        border-radius: 24px;
-        box-shadow: var(--shadow-xl);
-        margin-bottom: 2rem;
-        transition: var(--transition);
-    }
-
-    .premium-table-card:hover {
-        box-shadow: 0 25px 50px -12px rgba(102, 126, 234, 0.5);
+        padding: 20px;
     }
 
     .table-inner {
-        background: white;
-        border-radius: 22px;
+        background: var(--bg-card);
+        border-radius: 28px;
         padding: 1.5rem;
-        overflow: hidden;
-        transition: var(--transition);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
     }
 
-    /* Dark Mode Styles */
-    body.dark-mode {
-        background-color: var(--dark-bg-primary);
-    }
-
-    body.dark-mode .premium-table-card .table-inner {
-        background: var(--dark-card-bg);
-    }
-
-    body.dark-mode .card-header {
-        background: linear-gradient(135deg, #1e293b 0%, #2d3a4f 100%);
-        border-bottom: 2px solid var(--dark-border);
-        color: var(--dark-text-primary);
-    }
-
-    body.dark-mode .card-header .badge {
-        background: var(--dark-text-primary) !important;
-        color: var(--dark-bg-primary) !important;
-    }
-
-    body.dark-mode .table {
-        color: var(--dark-text-primary);
-    }
-
-    body.dark-mode .table thead th {
-        background: linear-gradient(135deg, #2d3a4f 0%, #1e293b 100%);
-        color: var(--dark-text-primary);
-    }
-
-    body.dark-mode .table tbody td {
-        border-color: var(--dark-border);
-        color: var(--dark-text-primary);
-    }
-
-    body.dark-mode .table tbody tr:hover td {
-        background-color: var(--dark-table-hover);
-    }
-
-    /* Card Header */
+    /* ===== CARD HEADER ===== */
     .card-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1.25rem 1.5rem;
-        border-bottom: none;
-        border-radius: 18px 18px 0 0;
-        color: white;
-        font-weight: 600;
-        font-size: 1.25rem;
+        background: transparent;
+        padding: 0.5rem 0.75rem 1.5rem 0.75rem;
+        border-bottom: 2px dashed var(--border);
+        color: var(--text-primary);
+        font-weight: 700;
+        font-size: 1.4rem;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
+        letter-spacing: -0.02em;
+    }
+
+    .card-header i {
+        color: var(--primary);
+        font-size: 1.8rem;
+        background: var(--primary-soft);
+        padding: 12px;
+        border-radius: 18px;
     }
 
     .card-header .badge {
-        background: rgba(255, 255, 255, 0.2) !important;
-        color: white !important;
-        backdrop-filter: blur(10px);
+        background: var(--primary-soft) !important;
+        color: var(--primary) !important;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 8px 18px !important;
+        border-radius: 40px;
+        border: 1px solid var(--primary-light);
+    }
+
+    /* ===== TABLE STYLES - ULTRA CARD ROWS ===== */
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 20px; /* Increased gap between rows for card-like appearance */
+        margin: 0;
     }
 
     /* Table Header */
     .table thead th {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        background: transparent;
+        color: var(--text-muted);
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         text-transform: uppercase;
-        padding: 1rem 0.75rem;
+        letter-spacing: 0.05em;
+        padding: 0.75rem 0.75rem;
         border: none;
+        border-bottom: 2px solid var(--border);
         white-space: nowrap;
     }
 
-    /* Status Badge Styles */
-    .status-badge {
-        padding: 6px 12px;
+    /* Table Rows - Floating Cards */
+    .table tbody tr {
+        background: var(--bg-header);
+        border-radius: 24px; /* More rounded for premium card look */
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.02);
+        border: 1px solid var(--border);
+        position: relative;
+        backdrop-filter: blur(2px);
+    }
+
+    /* Top gradient line animation */
+    .table tbody tr::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, var(--primary-soft), var(--primary-light), var(--primary-soft), transparent);
+        border-radius: 24px 24px 0 0;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .table tbody tr:hover::after {
+        opacity: 1;
+    }
+
+    /* Hover effect - Card lifts up */
+    .table tbody tr:hover {
+        background: white;
+        transform: translateY(-6px) scale(1.002);
+        box-shadow: 0 25px 35px -14px rgba(37, 99, 235, 0.3), 0 8px 12px -4px rgba(0, 0, 0, 0.08);
+        border-color: var(--primary-light);
+        z-index: 10;
+    }
+
+    .table tbody td {
+        padding: 1.4rem 0.75rem; /* Increased vertical padding */
+        border: none;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        vertical-align: middle;
+        background: transparent;
+    }
+
+    /* First and last cell rounded corners - maintaining card shape */
+    .table tbody tr td:first-child {
+        border-top-left-radius: 24px;
+        border-bottom-left-radius: 24px;
+        padding-left: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .table tbody tr td:last-child {
+        border-top-right-radius: 24px;
+        border-bottom-right-radius: 24px;
+        padding-right: 1.5rem;
+    }
+
+    /* Left accent bar for each card */
+    .table tbody td:first-child::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 12%;
+        height: 76%;
+        width: 4px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        border-radius: 0 6px 6px 0;
+        opacity: 0.4;
+        transition: opacity 0.3s ease, height 0.3s ease;
+    }
+
+    .table tbody tr:hover td:first-child::before {
+        opacity: 1;
+        height: 80%;
+        top: 10%;
+    }
+
+    /* ===== AVATAR ===== */
+    .avatar-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        box-shadow: 0 6px 12px -3px var(--primary-light);
+        transition: all 0.2s ease;
+    }
+
+    .table tbody tr:hover .avatar-circle {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px -4px var(--primary);
+    }
+
+    /* ===== BADGES ===== */
+    .badge.bg-secondary {
+        background: var(--primary-soft) !important;
+        color: var(--primary) !important;
+        font-weight: 600;
+        padding: 6px 14px !important;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        border: 1px solid var(--primary-light);
+    }
+
+    /* Role Badges */
+    .badge.bg-primary {
+        background: var(--primary-soft) !important;
+        color: var(--primary) !important;
+        padding: 6px 16px !important;
         border-radius: 30px;
         font-weight: 600;
         font-size: 0.85rem;
-        text-transform: capitalize;
+    }
+
+    .badge.bg-success {
+        background: var(--success-soft) !important;
+        color: var(--success) !important;
+        padding: 6px 16px !important;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    /* ===== STATUS STYLES ===== */
+    .status-badge {
+        padding: 6px 16px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.85rem;
         display: inline-block;
-        min-width: 80px;
+        min-width: 100px;
         text-align: center;
-        color: white !important;
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
     }
 
     .status-badge.active {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        background: var(--success-soft);
+        color: var(--success);
+        border-color: #86efac;
     }
 
     .status-badge.inactive {
-        background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+        background: var(--secondary);
+        color: white;
+        opacity: 0.8;
     }
 
     .status-badge.rejected {
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        background: var(--danger-soft);
+        color: var(--danger);
+        border-color: #fecaca;
     }
 
-    /* Status Select Dropdown */
+    /* Status Select */
     .status-select {
-        padding: 8px 16px;
-        border-radius: 30px;
+        padding: 6px 16px;
+        border-radius: 40px;
         border: 2px solid transparent;
         font-weight: 600;
         font-size: 0.85rem;
         cursor: pointer;
         outline: none;
-        transition: var(--transition);
         min-width: 120px;
-        text-transform: capitalize;
-        color: white !important;
+        text-align: center;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 14px;
     }
 
     .status-select.status-active {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        background-color: var(--success);
+        color: white;
+        border-color: #4ade80;
     }
 
     .status-select.status-inactive {
-        background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+        background-color: var(--secondary);
+        color: white;
     }
 
     .status-select.status-rejected {
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        background-color: var(--danger);
+        color: white;
+        border-color: #f87171;
     }
 
     .status-select option {
         background: white;
         color: var(--text-primary);
+        padding: 10px;
     }
 
-    /* Action Buttons */
+    /* ===== ACTION BUTTONS ===== */
     .action-buttons {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         justify-content: center;
     }
 
     .action-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 16px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        transition: var(--transition);
+        background: white;
+        color: var(--primary);
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
         cursor: pointer;
+        box-shadow: var(--shadow);
+    }
+
+    .action-btn:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        transform: scale(0.95);
     }
 
     .action-btn.view-btn {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: var(--success);
+    }
+
+    .action-btn.view-btn:hover {
+        background: var(--success);
+        color: white;
+        border-color: var(--success);
     }
 
     .action-btn.edit-btn {
-        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: var(--warning);
     }
 
-    /* Avatar Circle */
-    .avatar-circle {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .action-btn.edit-btn:hover {
+        background: var(--warning);
         color: white;
-        font-weight: 600;
+        border-color: var(--warning);
     }
 
-    /* ========== MOBILE RESPONSIVE STYLES ========== */
-    @media screen and (max-width: 767px) {
+    /* ===== EMAIL LINK ===== */
+    .table tbody td a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s ease;
+    }
 
-        /* Force table to not be like a table */
+    .table tbody td a:hover {
+        color: var(--primary-light);
+        text-decoration: underline;
+    }
+
+    .table tbody td a i {
+        font-size: 0.9rem;
+        opacity: 0.7;
+    }
+
+    /* ===== DATATABLES CUSTOM ===== */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+        margin-bottom: 1.5rem;
+    }
+
+    .dataTables_wrapper .dataTables_length label,
+    .dataTables_wrapper .dataTables_filter label {
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        border-radius: 40px;
+        border: 2px solid var(--border);
+        padding: 10px 18px 10px 45px;
+        outline: none;
+        transition: all 0.2s;
+        background: var(--bg-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") left 15px center no-repeat;
+        background-size: 18px;
+        width: 280px;
+        color: var(--text-primary);
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px var(--primary-soft);
+    }
+
+    .dataTables_wrapper .dataTables_length select {
+        border-radius: 30px;
+        border: 2px solid var(--border);
+        padding: 8px 30px 8px 16px;
+        background: var(--bg-card);
+        color: var(--text-primary);
+        font-weight: 500;
+        cursor: pointer;
+        margin: 0 8px;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        padding: 1rem 0;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        padding: 1rem 0;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border-radius: 12px !important;
+        padding: 8px 16px !important;
+        margin: 0 4px;
+        border: 2px solid transparent !important;
+        background: transparent !important;
+        color: var(--text-secondary) !important;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background: var(--primary) !important;
+        color: white !important;
+        border: 2px solid var(--primary-light) !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.current) {
+        background: var(--primary-soft) !important;
+        color: var(--primary) !important;
+        border-color: var(--primary-light) !important;
+    }
+
+    /* ===== DARK MODE ===== */
+    body.dark-mode {
+        background-color: var(--dark-bg-body);
+    }
+
+    body.dark-mode .table-inner {
+        background: var(--dark-bg-card);
+        border-color: var(--dark-border);
+    }
+
+    body.dark-mode .card-header {
+        border-bottom-color: var(--dark-border);
+        color: var(--dark-text-primary);
+    }
+
+    body.dark-mode .card-header i {
+        background: var(--dark-primary-soft);
+        color: #60a5fa;
+    }
+
+    body.dark-mode .card-header .badge {
+        background: var(--dark-primary-soft) !important;
+        color: #60a5fa !important;
+        border-color: #2563eb;
+    }
+
+    body.dark-mode .table thead th {
+        color: var(--dark-text-muted);
+        border-bottom-color: var(--dark-border);
+    }
+
+    body.dark-mode .table tbody tr {
+        background: var(--dark-bg-header);
+        border-color: var(--dark-border);
+        box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark-mode .table tbody tr:hover {
+        background: var(--dark-bg-hover);
+        border-color: #3b82f6;
+        box-shadow: 0 25px 35px -14px rgba(59, 130, 246, 0.3);
+    }
+
+    body.dark-mode .table tbody td {
+        color: var(--dark-text-primary);
+    }
+
+    body.dark-mode .table tbody td:first-child::before {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        opacity: 0.5;
+    }
+
+    body.dark-mode .table tbody tr:hover td:first-child::before {
+        opacity: 1;
+    }
+
+    body.dark-mode .avatar-circle {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+
+    body.dark-mode .badge.bg-secondary {
+        background: var(--dark-primary-soft) !important;
+        color: #60a5fa !important;
+        border-color: #2563eb;
+    }
+
+    body.dark-mode .badge.bg-primary {
+        background: var(--dark-primary-soft) !important;
+        color: #60a5fa !important;
+    }
+
+    body.dark-mode .badge.bg-success {
+        background: var(--dark-success-soft) !important;
+        color: #86efac !important;
+    }
+
+    body.dark-mode .text-secondary {
+        color: var(--dark-text-secondary) !important;
+    }
+
+    body.dark-mode .table tbody td a {
+        color: #60a5fa;
+    }
+
+    body.dark-mode .table tbody td a:hover {
+        color: #93c5fd;
+    }
+
+    body.dark-mode .action-btn {
+        background: var(--dark-bg-hover);
+        border-color: var(--dark-border);
+        color: var(--dark-text-secondary);
+    }
+
+    body.dark-mode .action-btn:hover {
+        background: var(--primary);
+        color: white;
+    }
+
+    body.dark-mode .status-select option {
+        background: var(--dark-bg-card);
+        color: var(--dark-text-primary);
+    }
+
+    /* Dark mode DataTables */
+    body.dark-mode .dataTables_wrapper .dataTables_length label,
+    body.dark-mode .dataTables_wrapper .dataTables_filter label {
+        color: var(--dark-text-secondary);
+    }
+
+    body.dark-mode .dataTables_wrapper .dataTables_filter input {
+        background-color: var(--dark-bg-header);
+        border-color: var(--dark-border);
+        color: var(--dark-text-primary);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+    }
+
+    body.dark-mode .dataTables_wrapper .dataTables_length select {
+        background-color: var(--dark-bg-header);
+        border-color: var(--dark-border);
+        color: var(--dark-text-primary);
+    }
+
+    body.dark-mode .dataTables_wrapper .dataTables_info {
+        color: var(--dark-text-muted);
+    }
+
+    body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button {
+        color: var(--dark-text-secondary) !important;
+    }
+
+    body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background: var(--primary) !important;
+        color: white !important;
+    }
+
+    body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.current) {
+        background: var(--dark-primary-soft) !important;
+        color: #60a5fa !important;
+    }
+
+    /* ===== MOBILE RESPONSIVE ===== */
+    @media screen and (max-width: 767px) {
         .table-responsive table,
         .table-responsive thead,
         .table-responsive tbody,
@@ -240,233 +630,91 @@
             display: block;
         }
 
-        /* Hide table headers */
         .table-responsive thead tr {
             position: absolute;
             top: -9999px;
             left: -9999px;
         }
 
-        /* Make each row a card */
         .table-responsive tbody tr {
             margin-bottom: 1.5rem;
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1rem;
-            background: white;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
+            background: var(--bg-card) !important;
+            border: 2px solid var(--border);
+            border-radius: 28px;
+            padding: 1.2rem;
+            box-shadow: var(--shadow-lg);
         }
 
         body.dark-mode .table-responsive tbody tr {
-            background: var(--dark-bg-secondary);
+            background: var(--dark-bg-header) !important;
             border-color: var(--dark-border);
         }
 
-        /* Style each cell as a row in the card */
         .table-responsive tbody td {
             display: flex;
             align-items: center;
-            padding: 0.75rem !important;
+            padding: 0.8rem !important;
             border: none !important;
-            border-bottom: 1px solid var(--border-color) !important;
+            border-bottom: 1px solid var(--border) !important;
             text-align: left !important;
-            font-size: 0.95rem;
-        }
-
-        .table-responsive tbody td:last-child {
-            border-bottom: none !important;
         }
 
         body.dark-mode .table-responsive tbody td {
             border-bottom-color: var(--dark-border) !important;
         }
 
-        /* Add labels before each cell */
+        .table-responsive tbody td:last-child {
+            border-bottom: none !important;
+        }
+
         .table-responsive tbody td:before {
             content: attr(data-label);
             font-weight: 700;
             width: 110px;
             min-width: 110px;
-            color: var(--primary-color);
-            font-size: 0.9rem;
+            color: var(--primary);
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         body.dark-mode .table-responsive tbody td:before {
-            color: #a5b4fc;
+            color: #60a5fa;
         }
 
-        /* Special styling for specific columns */
-        .table-responsive tbody td:first-child:before {
-            content: "SL#";
-        }
-
-        .table-responsive tbody td:nth-child(2):before {
-            content: "Code";
-        }
-
-        .table-responsive tbody td:nth-child(3):before {
-            content: "Name";
-        }
-
-        .table-responsive tbody td:nth-child(4):before {
-            content: "Father";
-        }
-
-        .table-responsive tbody td:nth-child(5):before {
-            content: "Mother";
-        }
-
-        .table-responsive tbody td:nth-child(6):before {
-            content: "Email";
-        }
-
-        .table-responsive tbody td:nth-child(7):before {
-            content: "Status";
-        }
-
-        .table-responsive tbody td:nth-child(8):before {
-            content: "Created By";
-        }
-
-        .table-responsive tbody td:nth-child(9):before {
-            content: "Actions";
-        }
-
-        /* Adjust content alignment */
         .table-responsive tbody td>* {
             margin-left: auto;
-        }
-
-        /* Status badge and select in mobile */
-        .table-responsive tbody td .status-badge,
-        .table-responsive tbody td .status-select {
-            margin-left: auto;
-            min-width: 100px;
-        }
-
-        /* Action buttons in mobile */
-        .table-responsive tbody td .action-buttons {
-            margin-left: auto;
-            justify-content: flex-end;
-        }
-
-        /* Avatar in mobile */
-        .table-responsive tbody td .d-flex {
-            margin-left: auto;
-        }
-
-        /* Email link in mobile */
-        .table-responsive tbody td a.text-decoration-none {
-            margin-left: auto;
-            text-align: right;
-            word-break: break-all;
-        }
-
-        /* Badge in mobile */
-        .table-responsive tbody td .badge {
-            margin-left: auto;
-        }
-
-        /* Card header adjustments */
-        .card-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 1rem;
-        }
-
-        .card-header .badge {
-            margin-left: 0 !important;
-            align-self: flex-start;
-        }
-
-        /* DataTables controls mobile */
-        .dataTables_wrapper .dataTables_length,
-        .dataTables_wrapper .dataTables_filter {
-            text-align: left;
-            margin-bottom: 1rem;
         }
 
         .dataTables_wrapper .dataTables_filter input {
             width: 100%;
             margin-left: 0;
-            margin-top: 0.5rem;
         }
 
-        .dataTables_wrapper .dataTables_info {
-            text-align: center;
-            padding: 1rem 0;
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .dataTables_wrapper .dataTables_paginate {
-            text-align: center;
-            padding: 1rem 0;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            padding: 6px 10px;
-            margin: 0 2px;
+        .card-header .badge {
+            margin-left: 0 !important;
         }
     }
 
-    /* Small phones */
     @media screen and (max-width: 480px) {
         .table-responsive tbody td:before {
             width: 90px;
             min-width: 90px;
-            font-size: 0.85rem;
         }
-
-        .table-responsive tbody td {
-            font-size: 0.9rem;
-            padding: 0.6rem !important;
-        }
-
+        
         .status-badge,
         .status-select {
             min-width: 90px;
-            padding: 4px 8px;
             font-size: 0.8rem;
-        }
-
-        .action-btn {
-            width: 32px;
-            height: 32px;
-        }
-
-        .action-btn i {
-            font-size: 0.9rem;
-        }
-
-        .avatar-circle {
-            width: 30px;
-            height: 30px;
-            font-size: 0.9rem;
-        }
-
-        .card-header {
-            font-size: 1.1rem;
-        }
-    }
-
-    /* Tablet adjustments */
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
-        .table thead th {
-            font-size: 0.8rem;
-            padding: 0.75rem 0.5rem;
         }
 
         .table tbody td {
-            font-size: 0.9rem;
-            padding: 0.75rem 0.5rem;
-        }
-
-        .status-select {
-            min-width: 100px;
-            padding: 6px 12px;
+            padding: 1rem 0.5rem;
         }
     }
 </style>
@@ -600,58 +848,59 @@
 
 
 <script>
-    $(document).ready(function() {
-        // Initialize DataTable with responsive options
-        var table = $(".data-table").DataTable({
-            "ordering": true,
-            "bAutoWidth": false,
-            "responsive": {
-                details: {
-                    display: $.fn.dataTable.Responsive.display.modal({
-                        header: function(row) {
-                            var data = row.data();
-                            return 'Details for ' + data[2]; // Shows name in modal header
-                        }
-                    }),
-                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                        tableClass: 'table'
-                    })
-                }
-            },
-            "language": {
-                "search": "🔍 Search:",
-                "lengthMenu": "Show _MENU_ entries",
-                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                "infoEmpty": "Showing 0 to 0 of 0 entries",
-                "infoFiltered": "(filtered from _MAX_ total entries)",
-                "paginate": {
-                    "first": "«",
-                    "last": "»",
-                    "next": "›",
-                    "previous": "‹"
-                }
-            },
-            "columnDefs": [{
-                "orderable": false,
-                "targets": [7, 8]
-            }],
-            "pageLength": 10,
-            "lengthMenu": [
-                [5, 10, 25, 50, -1],
-                [5, 10, 25, 50, "All"]
-            ]
-        });
+$(document).ready(function() {
 
-        // Initialize status colors
-        $('.status-select').each(function() {
-            updateStatusColor($(this));
-        });
+    var table = $(".data-table").DataTable({
 
-        // Handle responsive redraw
-        $(window).on('resize', function() {
-            table.columns.adjust().draw();
-        });
+        ordering: true,
+        bAutoWidth: false,
+        responsive: true,
+
+        // Premium Layout
+        dom:
+            "<'row align-items-center mb-3'<'col-md-6 d-flex align-items-center'l><'col-md-6 d-flex justify-content-end'f>>" +
+            "rt" +
+            "<'row align-items-center mt-3'<'col-md-6'i><'col-md-6 d-flex justify-content-end'p>>",
+
+        language: {
+            search: "",
+            searchPlaceholder: "🔎 Search members...",
+            lengthMenu: "Show _MENU_ members",
+            info: "Showing _START_ to _END_ of _TOTAL_ members",
+            paginate: {
+                first: "«",
+                last: "»",
+                next: "Next ›",
+                previous: "‹ Prev"
+            }
+        },
+
+        columnDefs: [{
+            orderable: false,
+            targets: [7, 8]
+        }],
+
+        pageLength: 10,
+
+        lengthMenu: [
+            [5, 10, 25, 50, -1],
+            [5, 10, 25, 50, "All"]
+        ]
+
     });
+
+
+    // Status color initialize
+    $('.status-select').each(function() {
+        updateStatusColor($(this));
+    });
+
+    // Fix responsive redraw
+    $(window).on('resize', function() {
+        table.columns.adjust();
+    });
+
+});
 
     // Function to update status select color
     function updateStatusColor(element) {
