@@ -8,6 +8,7 @@ use App\InstallmentPayment;
 use App\Investment;
 use App\Library\Template;
 use App\Loan;
+use App\Loancategory;
 use App\LoanCommit;
 use App\MemberDeposit;
 use App\MemberRegistration;
@@ -57,11 +58,20 @@ class HomeController extends Controller
         $warningMessage = $remainingAmount < 0 ? 'Total loan exceeds total assets! Remove : ' . abs($remainingAmount)  : null;
 
         //Fetch completed loans and calculate total profit
-        $completedLoans = Loan::where('status', 'complete')->get();
-        $totalProfit = $completedLoans->reduce(function ($carry, $loan) {
-            $loanCategory = $loan->loan_category_id ?? 0; // Default to 0 if null
-            return $carry + ($loan->loan_amount * ($loanCategory / 100));
-        }, 0);
+        $loans = Loan::where('status', 'complete')->get();
+
+
+         $totalProfit = Loan::where('loans.status', 'complete')
+            ->join('loancategories', 'loans.loan_category_id', '=', 'loancategories.id')
+            ->selectRaw('SUM(loans.loan_amount * (loancategories.percentage / 100)) as total_profit')
+            ->value('total_profit') ?? 0;
+
+        // $totalProfit = $completedLoans->reduce(function ($carry, $loan) {
+        //     $loanCategory = $loan->loan_category_id ?? 0; // Default to 0 if null
+        //     return $carry + ($loan->loan_amount * ($loanCategory / 100));
+        // }, 0);
+
+
         //Exact Capital
         $comitedAmount = LoanCommit::sum('payment_amount');
         $totalExpence = IncomeExpense::where('type', 'Expense')->sum('income_expence');
@@ -113,11 +123,15 @@ class HomeController extends Controller
         $warningMessage = $remainingAmount < 0 ? 'Total loan exceeds total assets! Remove : ' . abs($remainingAmount)  : null;
 
         // Fetch completed loans and calculate total profit
-        $completedLoans = Loan::where('status', 'complete')->get();
-        $totalProfit = $completedLoans->reduce(function ($carry, $loan) {
-            $loanCategory = $loan->loan_category_id ?? 0; // Default to 0 if null
-            return $carry + ($loan->loan_amount * ($loanCategory / 100));
-        }, 0);
+        // $completedLoans = Loan::where('status', 'complete')->get();
+        // $totalProfit = $completedLoans->reduce(function ($carry, $loan) {
+        //     $loanCategory = $loan->loan_category_id ?? 0; // Default to 0 if null
+        //     return $carry + ($loan->loan_amount * ($loanCategory / 100));
+        // }, 0);
+        $totalProfit = Loan::where('loans.status', 'complete')
+            ->join('loancategories', 'loans.loan_category_id', '=', 'loancategories.id')
+            ->selectRaw('SUM(loans.loan_amount * (loancategories.percentage / 100)) as total_profit')
+            ->value('total_profit') ?? 0;
 
         //Exact Capital
         $comitedAmount = LoanCommit::sum('payment_amount');
@@ -128,11 +142,11 @@ class HomeController extends Controller
         $exactAssetsWithprofitandwithoutloan = $remainingAmount + $comitedAmount + $totalServicesCharge - $totalExpence;
 
         $activeUser = DB::table('users')
-    ->join('members', 'users.member_id', '=', 'members.id')
-    ->where('users.user_type', 'user')
-    ->where('users.status', 'active')
-    ->where('members.status', 'active')
-    ->count();
+            ->join('members', 'users.member_id', '=', 'members.id')
+            ->where('users.user_type', 'user')
+            ->where('users.status', 'active')
+            ->where('members.status', 'active')
+            ->count();
 
         $totalUser = User::where('user_type', 'user')->count();
         $totalManager = User::where('user_type', 'manager')->count();
@@ -193,7 +207,7 @@ class HomeController extends Controller
     {
         $invenstment_data = [];
 
-      
+
         return Template::loadView('admin/income_expence/income_expence', ['invenstment_data' => $invenstment_data]);
         //  return Template::loadView('admin/income_expence/income_expence', ['invenstment_data' => $invenstment_data]);
     }
@@ -355,7 +369,7 @@ class HomeController extends Controller
     }
     public function investment_store(Request $request)
     {
-        
+
         try {
             $id = $request->id;
             $inversment_info = Investment::select('id')->orderby('id', 'desc')->first();
@@ -415,10 +429,10 @@ class HomeController extends Controller
     {
         // $data = MemberRegistration::get();
         $data = DB::table('members')
-    ->join('users', 'members.id', '=', 'users.member_id')
-    ->where('users.user_type', 'user')
-    ->select('members.*', 'users.user_type')
-    ->get();
+            ->join('users', 'members.id', '=', 'users.member_id')
+            ->where('users.user_type', 'user')
+            ->select('members.*', 'users.user_type')
+            ->get();
 
         // dd($data);
         return Template::loadView('admin/memberReg/member_list', ['data' => $data]);
@@ -426,7 +440,7 @@ class HomeController extends Controller
     public function memberProfile($id)
     {
         $user = User::find($id);
-        return Template::loadView('admin/memberReg/member_profile', [ 'user' => $user]);
+        return Template::loadView('admin/memberReg/member_profile', ['user' => $user]);
     }
 
 
@@ -435,7 +449,15 @@ class HomeController extends Controller
         // dd($request->all());
         $query = $request->search_data;
 
-        $filterResult = DB::table('members')->select('members.*', 'users.id as user_id')->leftJoin('users', 'users.member_id', '=', 'members.id')->whereRaw(DB::raw(" upper(members.name) LIKE '%$query%'"))->get();
+        // $filterResult = DB::table('members')->select('members.*', 'users.id as user_id')->leftJoin('users', 'users.member_id', '=', 'members.id')->whereRaw(DB::raw(" upper(members.name) LIKE '%$query%'"))->get();
+      $filterResult = DB::table('members')
+    ->select('members.*', 'users.id as user_id')
+    ->leftJoin('users', 'users.member_id', '=', 'members.id')
+    ->whereRaw("UPPER(members.name) LIKE '%$query%' 
+                OR UPPER(members.uid) LIKE '%$query%'")
+    ->get();
+
+
         //   dd( $filterResult);
         $member_data = [];
         if (!empty($filterResult)) {
