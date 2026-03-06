@@ -1,0 +1,22 @@
+name: Laravel Auto Deploy
+
+on:
+  push:
+    branches:
+      - sagor   
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2.1.0
+        with:
+          fetch-depth: 2
+      - name: FTP-Deploy-Action
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ftp.webgenius0.agency
+          username: chelseyibrown@chelseyibrown.webgenius0.agency
+          password: "[*[w6?m18WO0vSKv"
+
