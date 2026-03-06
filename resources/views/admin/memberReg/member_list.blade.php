@@ -482,7 +482,7 @@
         </div>
         <div class="card-body p-0 mt-4">
             <div class="table-responsive">
-                <table id="datatablesSimple" class="table table-hover w-100">
+                <table id="datatablesSimple" class="table table-hover w-100 data-table">
                     <thead>
                         <tr>
                             <th>SL#</th>
@@ -596,6 +596,8 @@
         </div>
     </div>
 </div>
+
+
 
 <script>
     $(document).ready(function() {

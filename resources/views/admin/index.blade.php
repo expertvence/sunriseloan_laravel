@@ -433,7 +433,7 @@
         <!-- Header -->
         <div class="header">
             <div>
-                <h1>Fin<span>Dash</span></h1>
+                <h1>Sun<span>Rise</span></h1>
             </div>
             <div class="datetime">
                 <div class="date-box">
@@ -458,8 +458,8 @@
                 </div>
                 <div class="card-value">৳{{ number_format($totalAssets ?? 0, 2) }}</div>
                 <div class="card-trend">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 12.5%</span>
-                    <span class="trend-text">vs last month</span>
+                    {{-- <span class="trend-up"><i class="fas fa-arrow-up"></i> 12.5%</span>
+                    <span class="trend-text">vs last month</span> --}}
                 </div>
             </div>
 
@@ -471,8 +471,8 @@
                 </div>
                 <div class="card-value">৳{{ number_format($loan ?? 0, 2) }}</div>
                 <div class="card-trend">
-                    <span class="trend-down"><i class="fas fa-arrow-down"></i> 3.2%</span>
-                    <span class="trend-text">vs last month</span>
+                    {{-- <span class="trend-down"><i class="fas fa-arrow-down"></i> 3.2%</span>
+                    <span class="trend-text">vs last month</span> --}}
                 </div>
             </div>
 
@@ -484,8 +484,8 @@
                 </div>
                 <div class="card-value">৳{{ number_format($totalProfit ?? 0, 2) }}</div>
                 <div class="card-trend">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 18.3%</span>
-                    <span class="trend-text">vs last month</span>
+                    {{-- <span class="trend-up"><i class="fas fa-arrow-up"></i> 18.3%</span>
+                    <span class="trend-text">vs last month</span> --}}
                 </div>
             </div>
 
@@ -503,8 +503,8 @@
                 @else --}}
                     <div class="card-value">৳{{ number_format($remainingAmount ?? 0, 2) }}</div>
                     <div class="card-trend">
-                        <span class="trend-neutral"><i class="fas fa-minus"></i> Stable</span>
-                        <span class="trend-text">Available</span>
+                        {{-- <span class="trend-neutral"><i class="fas fa-minus"></i> Stable</span>
+                        <span class="trend-text">Available</span> --}}
                     </div>
                 {{-- @endif --}}
             </div>
@@ -517,8 +517,8 @@
                 </div>
                 <div class="card-value">{{ number_format($totalUser ?? 0) }}</div>
                 <div class="card-trend">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
-                    <span class="trend-text">new this month</span>
+                    {{-- <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
+                    <span class="trend-text">new this month</span> --}}
                 </div>
             </div>
             <div class="card">
@@ -528,8 +528,8 @@
                 </div>
                 <div class="card-value">{{ number_format($activeUser ?? 0) }}</div>
                 <div class="card-trend">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
-                    <span class="trend-text">new this month</span>
+                    {{-- <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
+                    <span class="trend-text">new this month</span> --}}
                 </div>
             </div>
             <div class="card">
@@ -539,8 +539,8 @@
                 </div>
                 <div class="card-value">{{ number_format($totalManager ?? 0) }}</div>
                 <div class="card-trend">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
-                    <span class="trend-text">new this month</span>
+                    {{-- <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
+                    <span class="trend-text">new this month</span> --}}
                 </div>
             </div>
             <div class="card">
@@ -550,8 +550,8 @@
                 </div>
                 <div class="card-value">{{ number_format($activeManger ?? 0) }}</div>
                 <div class="card-trend">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
-                    <span class="trend-text">new this month</span>
+                    {{-- <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.7%</span>
+                    <span class="trend-text">new this month</span> --}}
                 </div>
             </div>
 
@@ -563,8 +563,8 @@
                 </div>
                 <div class="card-value">৳{{ number_format($totalServicesCharge ?? 0, 2) }}</div>
                 <div class="card-trend">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 2.1%</span>
-                    <span class="trend-text">vs last month</span>
+                    {{-- <span class="trend-up"><i class="fas fa-arrow-up"></i> 2.1%</span>
+                    <span class="trend-text">vs last month</span> --}}
                 </div>
             </div>
 
@@ -576,8 +576,8 @@
                 </div>
                 <div class="card-value">৳{{ number_format($totalExpence ?? 0, 2) }}</div>
                 <div class="card-trend">
-                    <span class="trend-down"><i class="fas fa-arrow-down"></i> 8.4%</span>
-                    <span class="trend-text">reduced</span>
+                    {{-- <span class="trend-down"><i class="fas fa-arrow-down"></i> 8.4%</span>
+                    <span class="trend-text">reduced</span> --}}
                 </div>
             </div>
 
@@ -589,8 +589,8 @@
                 </div>
                 <div class="card-value">৳{{ number_format($exactAssetsWithprofitandwithoutloan ?? 0, 2) }}</div>
                 <div class="card-trend">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 9.2%</span>
-                    <span class="trend-text">net position</span>
+                    {{-- <span class="trend-up"><i class="fas fa-arrow-up"></i> 9.2%</span>
+                    <span class="trend-text">net position</span> --}}
                 </div>
             </div>
             <div class="card">
@@ -614,14 +614,14 @@
                 </div>
                 <div class="card-value">৳{{ number_format($totalWithdraw ?? 0, 2) }}</div>
                 <div class="card-trend">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 9.2%</span>
-                    <span class="trend-text">net position</span>
+                    {{-- <span class="trend-up"><i class="fas fa-arrow-up"></i> 9.2%</span>
+                    <span class="trend-text">net position</span> --}}
                 </div>
             </div>
         </div>
 
         <!-- Analytics (your existing PHP code remains exactly the same) -->
-        <div class="analytics">
+        {{-- <div class="analytics">
             <div class="analytics-header">
                 <h3><i class="fas fa-chart-line"></i> Key Metrics</h3>
                 <span class="live-badge">UPDATED</span>
@@ -657,7 +657,7 @@
                     <div class="metric-change positive"><i class="fas fa-arrow-up"></i> 12.5k</div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Data Table (your existing code remains exactly the same) -->
         @if (isset($dataTable))
