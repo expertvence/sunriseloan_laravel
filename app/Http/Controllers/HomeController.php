@@ -363,7 +363,7 @@ class HomeController extends Controller
         //     DB::rollback();
         //     $message = ['msg' => 'Do not paid', 'title' => 'Error'];
         // }
-        // dd($request->all());
+       
 
         return response()->json($message);
     }
@@ -419,7 +419,6 @@ class HomeController extends Controller
             DB::rollback();
             $message = ['msg' => 'Do not paid', 'title' => 'Error'];
         }
-        // dd($request->all());
 
         return response()->json($message);
     }

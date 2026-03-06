@@ -301,49 +301,68 @@
                     </p>
                 </div>
 
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
+                @if (!Auth::check())
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
 
-                    <div class="mb-4">
-                        <label for="email" class="form-label">E-Mail or Mobile No</label>
-                        <input id="email" type="text" class="form-control @error('email') is-invalid @enderror"
-                            name="email" value="{{ old('email') }}" required autofocus>
+                        <div class="mb-4">
+                            <label for="email" class="form-label">E-Mail or Mobile No</label>
+                            <input id="email" type="text" class="form-control @error('email') is-invalid @enderror"
+                                name="email" value="{{ old('email') }}" required autofocus>
 
-                        @error('email')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4 position-relative">
-                        <label for="password" class="form-label">Password</label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                            name="password" required>
-
-                        <span class="toggle-pass" onclick="togglePassword()">👁</span>
-
-                        @error('password')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" name="remember" id="remember">
-                        <label class="form-check-label" for="remember">Remember Me</label>
-                    </div>
-
-                    <button type="submit" class="btn btn-login">
-                        Login to SURISE LOAN
-                    </button>
-
-                    @if (Route::has('password.request'))
-                        <div class="mt-3 text-center">
-                            <a href="{{ route('password.request') }}" style="color:#0a2540;">
-                                Forgot Your Password?
-                            </a>
+                            @error('email')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
                         </div>
-                    @endif
 
-                </form>
+                        <div class="mb-4 position-relative">
+                            <label for="password" class="form-label">Password</label>
+                            <input id="password" type="password"
+                                class="form-control @error('password') is-invalid @enderror" name="password" required>
+
+                            <span class="toggle-pass" onclick="togglePassword()">👁</span>
+
+                            @error('password')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" name="remember" id="remember">
+                            <label class="form-check-label" for="remember">Remember Me</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-login">
+                            Login to SUNRISE LOAN
+                        </button>
+
+                    </form>
+                @else
+                    <div class="text-center mt-5">
+                        <h4>You are already logged in</h4>
+
+                        @switch(Auth::user()->user_type)
+                            @case('admin')
+                                <a href="{{ route('admin-panel') }}" class="btn btn-login mt-3">
+                                    Go to Admin Dashboard
+                                </a>
+                            @break
+
+                            @case('manager')
+                                <a href="{{ route('managerDashboard') }}" class="btn btn-login mt-3">
+                                    Go to Manager Dashboard
+                                </a>
+                            @break
+
+                            @case('user')
+                                <a href="{{ route('userDashboard') }}" class="btn btn-login mt-3">
+                                    Go to User Dashboard
+                                </a>
+                            @break
+                        @endswitch
+
+                    </div>
+                @endif
 
             </div>
 
