@@ -1,111 +1,89 @@
-
-
-
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<div class="container">
-    <div class="form-row justify-content-center">
-        <div class="col-lg-12">
-            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                <div class="card-header">
-                    <h3 class="text-center font-weight-light my-4">Payment list</h3>
-                    <form action="#" method="get" id="search" target="_blank">
-                        <table width="100%">
-                            <tr>
-                                <td>
-                                    <select name="loan_id" id="loan_id">
-                                        @if($loans->isEmpty())
-                                            <option value="">No loans available</option>
-                                        @else
-                                        <option value="" selected>--Select--</option>
-                                            @foreach($loans as $loan)
-                                                <option value="{{ $loan->loan_ide }}">{{ $loan->loan_ide }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </td>
-                                <td>
-                                    <!-- <input type="text" class="form-control" name="member_name" id="member_name" placeholder="Write....." required="required" autocomplete="off">
-                                    <input type="hidden" name="member_id" id="member_id" value=""> -->
-                                    <div>
-                                    <strong >Remaining Amount: </strong><span id="remaining_amount" style="color:red;">0.0</span>
-                                    </div>
-                                </td>
-                                <td>
-                                <div>
-                                    <strong >Loan Amount: </strong><span id="total_loan" style="color:red;">0.0</span>
-                                    </div>
-                                </td>
-                                <td>
-                                <div>
-                                    <strong >Loan With Interest: </strong><span id="total_loan_withinterest" style="color:red;">0.0</span>
-                                    </div>
-                                </td>
-                                <td>
-                                <div>
-                                    <strong >Loan Term: </strong><span id="total_term" style="color:red;">0.0</span>
-                                    </div>
-                                </td>
-
-                                <td>
-                                <div>
-                                    <strong >Interest : </strong><span id="interest" style="color:red;">0.0</span>%
-                                    </div>
-                                </td>
-                               <!--  <td>
-                                    <button type="submit">PDF</button>
-                                </td> -->
-                            </tr>
-                        </table>
-                    </form>
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-12">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header text-center">
+                    <h3 class="font-weight-light my-3">Payment List</h3>
                 </div>
                 <div class="card-body">
-                    
-    <div class="table-responsive">
-        <table id="loan_commitments_table" class="table table-bordered data-table" style="width: 100%">
-            <thead class="thead-dark">
-                <tr>
-                    <th class="text-center">SL#</th>
-                    <th class="text-center">Payment Date & Time</th>
-                    <th class="text-center">Invoice Id</th>
-                    <th class="text-center">Payment Aomunt</th>
-                    <th>From Month</th>
-                    
-                    <th>Year</th>
-                    <!-- <th class="text-center">Number Of Share</th>
-                    <th class="text-right">Share Amt.</th> -->
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Data will be inserted here dynamically via AJAX -->
-            </tbody>
-        </table>
-    </div>
-</div>
+                    <!-- Loan Selection Form -->
+                    <form id="search" target="_blank" class="row g-3 align-items-center">
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <label for="loan_id" class="form-label">Select Loan:</label>
+                            <select class="form-select" name="loan_id" id="loan_id">
+                                @if($loans->isEmpty())
+                                    <option value="">No loans available</option>
+                                @else
+                                    <option value="" selected>--Select--</option>
+                                    @foreach($loans as $loan)
+                                        <option value="{{ $loan->loan_ide }}">{{ $loan->l_uId }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <strong>Remaining Amount: </strong>
+                            <span id="remaining_amount" class="text-danger">0.0</span>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <strong>Loan Amount: </strong>
+                            <span id="total_loan" class="text-danger">0.0</span>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <strong>Loan With Interest: </strong>
+                            <span id="total_loan_withinterest" class="text-danger">0.0</span>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <strong>Loan Term: </strong>
+                            <span id="total_term" class="text-danger">0.0</span>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <strong>Interest: </strong>
+                            <span id="interest" class="text-danger">0.0</span>%
+                        </div>
+                    </form>
 
+                    <!-- Loan Commitments Table -->
+                    <div class="table-responsive mt-4">
+                        <table id="loan_commitments_table" class="table table-bordered data-table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">SL#</th>
+                                    <th class="text-center">Payment Date & Time</th>
+                                    <th class="text-center">Invoice Id</th>
+                                    <th class="text-center">Payment Amount</th>
+                                    <th class="text-center">From Month</th>
+                                    <th class="text-center">Year</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be inserted here dynamically via AJAX -->
+                                <tr>
+                                    <td colspan="6" class="text-center">Please select a loan to view commitments.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-
 <script>
- $(document).ready(function() {
-    // Listen for loan selection change
+$(document).ready(function() {
     $('#loan_id').on('change', function() {
-        let loanId = $(this).val();  // Get the selected loan ID (loan_ide)
-
-        // Ensure that loanId is not empty
+        let loanId = $(this).val();
         if (loanId) {
-            // Trigger AJAX request to fetch loan commitments for the selected loan
             $.ajax({
-                url: '{{ url("getLoanCommitments") }}', // Define the route to fetch commitments
+                url: '{{ url("getLoanCommitments") }}',
                 type: 'GET',
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // CSRF token for security
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                data: { loan_ide: loanId }, // Pass the selected loan ID as loan_ide
+                data: { loan_ide: loanId },
                 success: function(response) {
-                    // If data is returned, dynamically display the loan commitments
                     if (response.success) {
                         let dataHtml = '';
                         response.data.forEach(function(commit, index) {
@@ -117,23 +95,16 @@
                                     <td class="text-center">${commit.payment_amount}</td>
                                     <td class="text-center">${commit.payment_month}</td>
                                     <td class="text-center">${commit.loan_year}</td>
-                                </tr>
-                            `;
+                                </tr>`;
                         });
-                        $('#loan_commitments_table tbody').html(dataHtml);  // Populate the table with commitments
-
-                        // Display the remaining amount
-                        $('#remaining_amount').text(Math.round(response.remaining_amount).toFixed(2));  // Show the remaining amount
-                        $('#total_loan').text(Math.round(response.loanamount).toFixed(2));
+                        $('#loan_commitments_table tbody').html(dataHtml);
+                        $('#remaining_amount').text(parseFloat(response.remaining_amount).toFixed(2));
+                        $('#total_loan').text(parseFloat(response.loanamount).toFixed(2));
                         $('#total_term').text(response.loanterm);
-                        $('#total_loan_withinterest').text(response.interestwithloan.toFixed(2));
-                        $('#interest').text(response.interestrate);
-
+                        $('#total_loan_withinterest').text(parseFloat(response.interestwithloan).toFixed(2));
+                        $('#interest').text(response.interestRateValue);
                     } else {
-                        // If no data found, show a message in the table
                         $('#loan_commitments_table tbody').html('<tr><td colspan="6" class="text-center">No commitments found for this loan.</td></tr>');
-
-                        // Hide the remaining amount if no data is found
                         $('#remaining_amount').text('N/A');
                     }
                 },
@@ -142,14 +113,9 @@
                 }
             });
         } else {
-            // If no loan is selected, clear the table container and remaining amount
             $('#loan_commitments_table tbody').html('<tr><td colspan="6" class="text-center">Please select a loan.</td></tr>');
-            $('#remaining_amount').text('N/A');  // Hide the remaining amount
+            $('#remaining_amount').text('N/A');
         }
     });
 });
-
-
 </script>
-
-

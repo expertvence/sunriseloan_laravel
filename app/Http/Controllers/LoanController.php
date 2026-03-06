@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Library\Template;
 use App\Loan;
+use App\Loancategory;
 use App\LoanCommit;
+use App\MemberRegistration;
 use App\TotalAsset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use PDF;
 
 class LoanController extends Controller
 {
@@ -233,6 +236,27 @@ class LoanController extends Controller
     public function ApprovalLoanList(){
         $data = LoanCommit::all();
         return Template::loadView('admin/loan_commit/approval_loan_list', compact('data'));
+    }
+
+     public function loanCommitPdf(Request $request)
+    {
+        PDF::setOptions(['isPhpEnabled', 'true']);
+        $pdf = app('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->getDomPDF()->set_option('isHtml5ParserEnabled', true);
+        $member_info = MemberRegistration::find($request->member_id);
+
+        $loan_info = Loan::where('member_id', $member_info->id)->first();
+
+        $payment_list = LoanCommit::where('loan_payment_id', $loan_info->loan_ide)->orderby('created_at', 'asc')->get();
+        //  $extrapayment=ExtraPayment::where('member_id_fk',$member_info->id)->get();
+   // Loan Category Percentage
+    $loan_category = Loancategory::find($loan_info->loan_category_id);
+    $percentage = $loan_category ? $loan_category->percentage : 0;
+
+        $pdf = PDF::loadView('admin/loan_commit/approval_payment_pdf', ['payment_list' => $payment_list, 'member_info' => $member_info,'loan_info'=>$loan_info,'percentage'=>$percentage/*  'extrapayment'=>$extrapayment */]);
+        return $pdf->stream('pdf_file.pdf');
+        // ->setPaper('a5', 'portrait');
     }
 
     // public function UpdateApprovalLoanStatus(Request $request)

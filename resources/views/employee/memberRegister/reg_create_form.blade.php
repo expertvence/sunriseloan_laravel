@@ -106,7 +106,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="premium-input-group">
                         <div class="form-floating">
-                            <input class="form-control" id="mothers_name" name="mothers_name" type="text" placeholder="Enter mother's name" value="{{ $mothers_name }}" /><input class="form-control" id="mothers_name" name="mothers_name" type="text" placeholder="Enter mother's name" value="{{ $mothers_name }}" />
+                            <input class="form-control" id="mothers_name" name="mothers_name" type="text" placeholder="Enter mother's name" value="{{ $mothers_name }}" />
                             <label for="mothers_name"><i class="fas fa-female me-2"></i>Mother's Name</label>
                         </div>
                     </div>

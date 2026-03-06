@@ -584,7 +584,27 @@
                     </nav>
                 </div>
             @else
-                <!-- Member menu items -->
+              <div class="sb-sidenav-menu-heading">Core</div>
+            <a class="nav-link ajax_link" href="#" data-url="{{route('userDashboard')}}">
+                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                Dashboard
+            </a>
+            <a class="nav-link ajax_link" href="#" data-url="{{route('user-profile')}}">
+                <div class="sb-nav-link-icon"><i class="fa fa-user" style=" font-size: 20px;"></i></div>
+                My Profile
+            </a>
+
+            <a class="nav-link ajax_link" href="#" data-url="{{route('loan-request')}}">
+                <div class="sb-nav-link-icon"><i class="fa fa-credit-card" style=" font-size: 20px;"></i>
+                    </i></div>
+                Loan Request
+            </a>
+
+            <a class="nav-link ajax_link" href="#" data-url="{{route('user-loan-list')}}">
+                <div class="sb-nav-link-icon"><i class="fa fa-hand-holding-usd" style=" font-size: 20px;"></i>
+                </div>
+                Loan Commit List
+            </a>
             @endif
         </div>
     </div>

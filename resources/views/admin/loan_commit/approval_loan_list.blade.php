@@ -1,69 +1,90 @@
-
 <style>
+    /* Wrapper */
+    .action-wrapper {
+        position: relative;
+        display: inline-block;
+    }
 
-/* Wrapper */
-.action-wrapper{
-    position:relative;
-    display:inline-block;
-}
+    /* Three Dot Button */
+    .action-toggle {
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all .3s ease;
+    }
 
-/* Three Dot Button */
-.action-toggle{
-    border-radius:50%;
-    width:36px;
-    height:36px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:all .3s ease;
-}
+    .action-toggle:hover {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        transform: rotate(90deg);
+    }
 
-.action-toggle:hover{
-    background:linear-gradient(135deg,#667eea,#764ba2);
-    color:#fff;
-    transform:rotate(90deg);
-}
+    /* Dropdown Box */
+    .action-dropdown {
+        position: absolute;
+        top: 45px;
+        right: 0;
+        min-width: 160px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 8px 0;
+        display: none;
+        z-index: 999;
+        animation: fadeIn .2s ease-in-out;
+    }
 
-/* Dropdown Box */
-.action-dropdown{
-    position:absolute;
-    top:45px;
-    right:0;
-    min-width:160px;
-    background:#fff;
-    border-radius:12px;
-    padding:8px 0;
-    display:none;
-    z-index:999;
-    animation:fadeIn .2s ease-in-out;
-}
+    /* Dropdown Items */
+    .action-dropdown .dropdown-item {
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: all .2s;
+        font-size: 14px;
+    }
 
-/* Dropdown Items */
-.action-dropdown .dropdown-item{
-    padding:8px 15px;
-    cursor:pointer;
-    transition:all .2s;
-    font-size:14px;
-}
+    .action-dropdown .dropdown-item:hover {
+        background: #f1f3f9;
+        padding-left: 20px;
+    }
 
-.action-dropdown .dropdown-item:hover{
-    background:#f1f3f9;
-    padding-left:20px;
-}
+    /* Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-5px);
+        }
 
-/* Animation */
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(-5px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 </style>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
-        Loan Request
+        
+          <h3 class="text-center font-weight-light my-4">Loan commit list</h3>
+            <form action="{{ route('committed-list-pdf') }}" method="get" id="search" target="_blank">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <input type="text" class="form-control" name="member_name" id="member_name"
+                                placeholder="Write....." required="required" autocomplete="off">
+                            <input type="hidden" name="member_id" id="member_id" value="">
+                        </td>
+                        <td>
+                            <button type="submit">PDF</button>
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
+        
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -76,7 +97,7 @@
                         <th>Loan amount</th>
                         <th>Payment Month</th>
                         <th>Payment Year</th>
-                                   <th>Status</th>
+                        <th>Status</th>
                         {{-- <th>Add Deposit</th> --}}
                         <th>Loan Terms</th>
                         @if (auth()->user()->user_type == 'admin')
@@ -85,7 +106,7 @@
                         @endif
                         <th>Email</th>
                         <th>Date</th>
-             
+
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -97,12 +118,12 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $value->loan_commit_id }}</td>
                                 <td>{{ $value->user_name }}</td>
-                                
+
                                 <td>{{ $value->payment_amount }}</td>
                                 <td>{{ $value->payment_month }}</td>
                                 <td>{{ $value->loan_year }}</td>
 
-                                 <!-- Status Update -->
+                                <!-- Status Update -->
                                 <td class="text-center">
 
                                     @if (auth()->user()->user_type == 'admin')
@@ -158,7 +179,7 @@
                                 <td>{{ $value->user ? $value->user->email : 'no email' }}</td>
                                 <td>{{ $value->created_at->format('Y-m-d H:i:s') }}</td>
 
-                               
+
 
 
                                 {{-- <td>
@@ -176,41 +197,37 @@
 
                                 <td style="position:relative;">
 
-    <!-- Modern Three Dot Button -->
-    <div class="action-wrapper">
-        <button type="button" class="btn btn-light btn-sm action-toggle">
-            <i class="fas fa-ellipsis-v"></i>
-        </button>
+                                    <!-- Modern Three Dot Button -->
+                                    <div class="action-wrapper">
+                                        <button type="button" class="btn btn-light btn-sm action-toggle">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
 
-        <!-- Dropdown Action Box -->
-        <div class="action-dropdown shadow-lg">
+                                        <!-- Dropdown Action Box -->
+                                        <div class="action-dropdown shadow-lg">
 
-            <a href="{{ url('show-view', $value->loan_ide) }}" 
-               class="dropdown-item text-info">
-                <i class="fas fa-eye me-2"></i> View
-            </a>
+                                            {{-- <a href="{{ url('show-view', $value->loan_ide) }}"
+                                                class="dropdown-item text-info">
+                                                <i class="fas fa-eye me-2"></i> View
+                                            </a> --}}
 
-            @if (auth()->user()->user_type == 'admin')
+                                            @if (auth()->user()->user_type == 'admin')
+                                                <span class="dropdown-item text-warning open-modal btnView"
+                                                    data-action="{{ url('show-edit', $value->loan_ide) }}"
+                                                    data-modal="common-modal-md" data-title="Member Edit"
+                                                    data-id="{{ $value->loan_ide }}">
+                                                    <i class="fas fa-edit me-2"></i> Edit
+                                                </span>
 
-                <span class="dropdown-item text-warning open-modal btnView"
-                      data-action="{{ url('show-edit', $value->loan_ide) }}"
-                      data-modal="common-modal-md"
-                      data-title="Member Edit"
-                      data-id="{{ $value->loan_ide }}">
-                    <i class="fas fa-edit me-2"></i> Edit
-                </span>
+                                                <button type="button" class="dropdown-item text-danger btnDelete"
+                                                    data-id="{{ $value->loan_ide }}">
+                                                    <i class="fas fa-trash me-2"></i> Delete
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                <button type="button"
-                        class="dropdown-item text-danger btnDelete"
-                        data-id="{{ $value->loan_ide }}">
-                    <i class="fas fa-trash me-2"></i> Delete
-                </button>
-
-            @endif
-        </div>
-    </div>
-
-</td>
+                                </td>
 
                             </tr>
                         @endforeach
@@ -224,6 +241,7 @@
 
 <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 <script>
+    openDoctorAutocomplete('#member_name', 'member_id');
     $(document).ready(function() {
         $(".data-table").DataTable({
             "ordering": true,
@@ -271,15 +289,15 @@
 </script>
 
 <script>
-  $(document).on('click', '.action-toggle', function(e){
-    e.stopPropagation();
+    $(document).on('click', '.action-toggle', function(e) {
+        e.stopPropagation();
 
-    $(".action-dropdown").not($(this).next()).hide(); // close others
-    $(this).next('.action-dropdown').toggle();
-});
+        $(".action-dropdown").not($(this).next()).hide(); // close others
+        $(this).next('.action-dropdown').toggle();
+    });
 
-// click outside to close
-$(document).on('click', function(){
-    $(".action-dropdown").hide();
-});
+    // click outside to close
+    $(document).on('click', function() {
+        $(".action-dropdown").hide();
+    });
 </script>
