@@ -691,6 +691,25 @@ body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     text-align: center;
     padding: 3rem 0;
 }
+
+/* enable horizontal scroll */
+.dataTables_wrapper{
+    width:100%;
+}
+
+.dataTables_wrapper .dataTables_scroll{
+    overflow-x:auto;
+}
+
+/* keep search right */
+.dataTables_filter{
+    float:right !important;
+}
+
+/* keep pagination right */
+.dataTables_paginate{
+    float:right !important;
+}
 </style>
 
 <div class="premium-table-card">
@@ -822,7 +841,8 @@ $(document).ready(function() {
     var table = $("#datatablesSimple").DataTable({
         "ordering": false,
         "bAutoWidth": false,
-        "responsive": true,
+        "responsive": false,
+        "scrollX": true,
         "dom": 'lfrtip',
         "language": {
             "search": "",

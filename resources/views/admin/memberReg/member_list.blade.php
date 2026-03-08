@@ -717,6 +717,83 @@
             padding: 1rem 0.5rem;
         }
     }
+
+    /* ===============================
+   FIX SEARCH & PAGINATION POSITION
+   =============================== */
+
+/* wrapper full width */
+.dataTables_wrapper{
+    width:100%;
+    overflow:hidden;
+}
+
+/* scroll only table */
+.table-responsive{
+    overflow-x:auto;
+    width:100%;
+}
+
+/* make table larger than container to allow scroll */
+.data-table{
+    min-width:1200px;
+}
+
+/* keep search right */
+.dataTables_wrapper .dataTables_filter{
+    float:right !important;
+    text-align:right;
+}
+
+/* keep pagination right */
+.dataTables_wrapper .dataTables_paginate{
+    float:right !important;
+    text-align:right;
+}
+
+/* prevent movement */
+.dataTables_wrapper .row{
+    margin-left:0 !important;
+    margin-right:0 !important;
+}
+/* ==============================
+   MOBILE TABLE SCROLL FIX
+   ============================== */
+
+@media screen and (max-width: 767px){
+
+    /* restore normal table layout */
+    .table-responsive table{
+        display: table !important;
+        width: 100%;
+        min-width: 1200px; /* same as desktop scroll width */
+    }
+
+    .table-responsive thead{
+        display: table-header-group !important;
+    }
+
+    .table-responsive tbody{
+        display: table-row-group !important;
+    }
+
+    .table-responsive tr{
+        display: table-row !important;
+    }
+
+    .table-responsive td,
+    .table-responsive th{
+        display: table-cell !important;
+    }
+
+    /* enable horizontal scroll */
+    .table-responsive{
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+}
+
 </style>
 
 <div class="premium-table-card">
@@ -850,44 +927,46 @@
 <script>
 $(document).ready(function() {
 
-    var table = $(".data-table").DataTable({
+var table = $(".data-table").DataTable({
 
-        ordering: true,
-        bAutoWidth: false,
-        responsive: true,
+    ordering: true,
+    bAutoWidth: false,
+    responsive: true,
 
-        // Premium Layout
-        dom:
-            "<'row align-items-center mb-3'<'col-md-6 d-flex align-items-center'l><'col-md-6 d-flex justify-content-end'f>>" +
-            "rt" +
-            "<'row align-items-center mt-3'<'col-md-6'i><'col-md-6 d-flex justify-content-end'p>>",
+    scrollX: true,   // ADD THIS
+    scrollCollapse: true,  // ADD THIS
 
-        language: {
-            search: "",
-            searchPlaceholder: "🔎 Search members...",
-            lengthMenu: "Show _MENU_ members",
-            info: "Showing _START_ to _END_ of _TOTAL_ members",
-            paginate: {
-                first: "«",
-                last: "»",
-                next: "Next ›",
-                previous: "‹ Prev"
-            }
-        },
+    dom:
+        "<'row align-items-center mb-3'<'col-md-6 d-flex align-items-center'l><'col-md-6 d-flex justify-content-end'f>>" +
+        "rt" +
+        "<'row align-items-center mt-3'<'col-md-6'i><'col-md-6 d-flex justify-content-end'p>>",
 
-        columnDefs: [{
-            orderable: false,
-            targets: [7, 8]
-        }],
+    language: {
+        search: "",
+        searchPlaceholder: "🔎 Search members...",
+        lengthMenu: "Show _MENU_ members",
+        info: "Showing _START_ to _END_ of _TOTAL_ members",
+        paginate: {
+            first: "«",
+            last: "»",
+            next: "Next ›",
+            previous: "‹ Prev"
+        }
+    },
 
-        pageLength: 10,
+    columnDefs: [{
+        orderable: false,
+        targets: [7, 8]
+    }],
 
-        lengthMenu: [
-            [5, 10, 25, 50, -1],
-            [5, 10, 25, 50, "All"]
-        ]
+    pageLength: 10,
 
-    });
+    lengthMenu: [
+        [5, 10, 25, 50, -1],
+        [5, 10, 25, 50, "All"]
+    ]
+
+});
 
 
     // Status color initialize

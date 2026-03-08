@@ -614,6 +614,83 @@ body.dark-mode .btn-secondary:hover {
         height: 40px;
     }
 }
+
+ /* ===============================
+   FIX SEARCH & PAGINATION POSITION
+   =============================== */
+
+/* wrapper full width */
+.dataTables_wrapper{
+    width:100%;
+    overflow:hidden;
+}
+
+/* scroll only table */
+.table-responsive{
+    overflow-x:auto;
+    width:100%;
+}
+
+/* make table larger than container to allow scroll */
+.data-table{
+    min-width:1200px;
+}
+
+/* keep search right */
+.dataTables_wrapper .dataTables_filter{
+    float:right !important;
+    text-align:right;
+}
+
+/* keep pagination right */
+.dataTables_wrapper .dataTables_paginate{
+    float:right !important;
+    text-align:right;
+}
+
+/* prevent movement */
+.dataTables_wrapper .row{
+    margin-left:0 !important;
+    margin-right:0 !important;
+}
+/* ==============================
+   MOBILE TABLE SCROLL FIX
+   ============================== */
+
+@media screen and (max-width: 767px){
+
+    /* restore normal table layout */
+    .table-responsive table{
+        display: table !important;
+        width: 100%;
+        min-width: 1200px; /* same as desktop scroll width */
+    }
+
+    .table-responsive thead{
+        display: table-header-group !important;
+    }
+
+    .table-responsive tbody{
+        display: table-row-group !important;
+    }
+
+    .table-responsive tr{
+        display: table-row !important;
+    }
+
+    .table-responsive td,
+    .table-responsive th{
+        display: table-cell !important;
+    }
+
+    /* enable horizontal scroll */
+    .table-responsive{
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+}
+
 </style>
 
 <!-- Edit Modal (ADDED) -->
@@ -724,6 +801,8 @@ $(document).ready(function() {
     var table = $("#incomeExpenseTable").DataTable({
         "ordering": false,
         "bAutoWidth": false,
+        "responsive": false,
+        "scrollX": true,
         "dom": 'lfrtip',
         "language": {
             "search": "",
