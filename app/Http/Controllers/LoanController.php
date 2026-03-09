@@ -233,10 +233,23 @@ class LoanController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function ApprovalLoanList(){
-        $data = LoanCommit::all();
-        return Template::loadView('admin/loan_commit/approval_loan_list', compact('data'));
-    }
+  public function ApprovalLoanList()
+{
+    $data = DB::table('loan_commits')
+        ->select(
+            'loan_commits.*',
+            'loans.loan_term',
+            'members.name as member_name',
+            'members.email as member_email'
+        )
+        ->leftJoin('loans', 'loans.loan_ide', '=', 'loan_commits.loan_payment_id')
+        ->leftJoin('members', 'members.id', '=', 'loans.member_id')
+        ->get();
+
+    return Template::loadView('admin.loan_commit.approval_loan_list', compact('data'));
+}
+
+
 
      public function loanCommitPdf(Request $request)
     {

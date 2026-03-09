@@ -611,15 +611,15 @@
                 <tr>
                     <th>SL#</th>
                     <th>Serial No</th>
-                    <th>User Name</th>
+                    <th>Member Name</th>
                     <th>Loan Amt</th>
                     <th>Month</th>
                     <th>Year</th>
                     <th>Status</th>
                     <th>Terms</th>
                     @if (auth()->user()->user_type == 'admin')
-                        <th>Schedule</th>
-                        <th>Docs</th>
+                        {{-- <th>Schedule</th> --}}
+                        {{-- <th>Docs</th> --}}
                     @endif
                     <th>Email</th>
                     <th>Date</th>
@@ -633,7 +633,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td><span class="status-badge" style="background: rgba(102, 126, 234, 0.15); color: #667eea;">{{ $value->loan_commit_id }}</span></td>
-                            <td><strong style="color: var(--text-primary); font-size: 0.9rem;">{{ $value->user_name }}</strong></td>
+                            <td><strong style="color: var(--text-primary); font-size: 0.9rem;">{{ $value->member_name }}</strong></td>
                             <td><span class="status-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--badge-approved);">${{ number_format($value->payment_amount, 2) }}</span></td>
                             <td>{{ $value->payment_month }}</td>
                             <td>{{ $value->loan_year }}</td>
@@ -670,15 +670,16 @@
                             </td>
 
                             @if (auth()->user()->user_type == 'admin')
-                                <td>{{ $value->payment_schedule }}</td>
-                                <td>
+                                {{-- <td>{{ $value->payment_schedule }}</td> --}}
+                                {{-- <td>
                                     <img src="{{ $value->other_documents ? asset('images/loan_documents/' . $value->other_documents) : asset('default/default.jpg') }}"
                                          class="doc-image" onclick="window.open(this.src, '_blank')">
-                                </td>
+                                </td> --}}
                             @endif
 
-                            <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;">{{ $value->user ? $value->user->email : 'no email' }}</td>
-                            <td>{{ $value->created_at->format('d M, Y') }}</td>
+                            <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;">{{ $value->member_email ? $value->member_email : 'no email' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($value->created_at)->format('d M, Y') }}
+</td>
 
                             <!-- Action Column -->
                             <td style="position:relative;">
@@ -689,15 +690,15 @@
 
                                     <div class="action-dropdown-premium">
                                         @if (auth()->user()->user_type == 'admin')
-                                            <span class="dropdown-item text-warning open-modal btnView"
-                                                data-action="{{ url('show-edit', $value->loan_ide) }}"
+                                            {{-- <span class="dropdown-item text-warning open-modal btnView"
+                                                data-action="{{ url('show-edit', $value->id) }}"
                                                 data-modal="common-modal-md" data-title="Member Edit"
-                                                data-id="{{ $value->loan_ide }}">
+                                                data-id="{{ $value->id }}">
                                                 <i class="fas fa-edit"></i> Edit
-                                            </span>
+                                            </span> --}}
 
                                             <button type="button" class="dropdown-item text-danger btnDelete"
-                                                data-id="{{ $value->loan_ide }}">
+                                                data-id="{{ $value->id }}">
                                                 <i class="fas fa-trash"></i> Delete
                                             </button>
                                         @endif

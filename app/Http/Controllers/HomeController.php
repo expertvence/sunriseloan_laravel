@@ -134,7 +134,7 @@ class HomeController extends Controller
             ->value('total_profit') ?? 0;
 
         //Exact Capital
-        $comitedAmount = LoanCommit::sum('payment_amount');
+        $comitedAmount = LoanCommit::where('status', 'approved')->sum('payment_amount');
         $totalExpence = IncomeExpense::where('type', 'Expense')->sum('income_expence');
 
         $totalServicesCharge = IncomeExpense::where('type', 'Income')->sum('income_expence');
