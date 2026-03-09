@@ -435,8 +435,8 @@
 </style>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+{{-- <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet"> --}}
+{{-- <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> --}}
 
 <div class="premium-card">
     <div class="card-header">

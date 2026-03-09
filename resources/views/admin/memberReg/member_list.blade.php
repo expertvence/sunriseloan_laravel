@@ -1,8 +1,3 @@
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet">
-
 <style>
     :root {
         /* Light Mode - Modern Fresh */
@@ -18,26 +13,26 @@
         --danger-soft: #fee2e2;
         --info: #0891b2;
         --info-soft: #cffafe;
-        
+
         /* Light Mode Backgrounds */
         --bg-card: #ffffff;
         --bg-body: #f1f5f9;
         --bg-header: #f8fafc;
         --bg-hover: #ffffff;
         --bg-stripe: #f8fafc;
-        
+
         /* Light Mode Text */
         --text-primary: #0f172a;
         --text-secondary: #334155;
         --text-muted: #475569;
         --text-light: #64748b;
-        
+
         /* Borders & Shadows */
         --border: #e2e8f0;
         --border-light: #f1f5f9;
         --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
         --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
-        
+
         /* Dark Mode */
         --dark-bg-body: #030712;
         --dark-bg-card: #111827;
@@ -46,12 +41,12 @@
         --dark-bg-stripe: #1a1f2e;
         --dark-border: #2d3748;
         --dark-border-light: #262f3f;
-        
+
         --dark-text-primary: #f3f4f6;
         --dark-text-secondary: #d1d5db;
         --dark-text-muted: #9ca3af;
         --dark-text-light: #6b7280;
-        
+
         /* Dark Mode Status Colors */
         --dark-primary-soft: #1e3a5f;
         --dark-success-soft: #14532d;
@@ -111,7 +106,8 @@
     .table {
         width: 100%;
         border-collapse: separate;
-        border-spacing: 0 20px; /* Increased gap between rows for card-like appearance */
+        border-spacing: 0 20px;
+        /* Increased gap between rows for card-like appearance */
         margin: 0;
     }
 
@@ -132,7 +128,8 @@
     /* Table Rows - Floating Cards */
     .table tbody tr {
         background: var(--bg-header);
-        border-radius: 24px; /* More rounded for premium card look */
+        border-radius: 24px;
+        /* More rounded for premium card look */
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.02);
         border: 1px solid var(--border);
@@ -168,7 +165,8 @@
     }
 
     .table tbody td {
-        padding: 1.4rem 0.75rem; /* Increased vertical padding */
+        padding: 1.4rem 0.75rem;
+        /* Increased vertical padding */
         border: none;
         color: var(--text-primary);
         font-size: 0.95rem;
@@ -621,6 +619,7 @@
 
     /* ===== MOBILE RESPONSIVE ===== */
     @media screen and (max-width: 767px) {
+
         .table-responsive table,
         .table-responsive thead,
         .table-responsive tbody,
@@ -706,7 +705,7 @@
             width: 90px;
             min-width: 90px;
         }
-        
+
         .status-badge,
         .status-select {
             min-width: 90px;
@@ -722,78 +721,79 @@
    FIX SEARCH & PAGINATION POSITION
    =============================== */
 
-/* wrapper full width */
-.dataTables_wrapper{
-    width:100%;
-    overflow:hidden;
-}
+    /* wrapper full width */
+    .dataTables_wrapper {
+        width: 100%;
+        overflow: hidden;
+    }
 
-/* scroll only table */
-.table-responsive{
-    overflow-x:auto;
-    width:100%;
-}
+    /* scroll only table */
+    .table-responsive {
+        overflow-x: auto;
+        width: 100%;
+    }
 
-/* make table larger than container to allow scroll */
-.data-table{
-    min-width:1200px;
-}
+    /* make table larger than container to allow scroll */
+    .data-table {
+        min-width: 1200px;
+    }
 
-/* keep search right */
-.dataTables_wrapper .dataTables_filter{
-    float:right !important;
-    text-align:right;
-}
+    /* keep search right */
+    .dataTables_wrapper .dataTables_filter {
+        float: right !important;
+        text-align: right;
+    }
 
-/* keep pagination right */
-.dataTables_wrapper .dataTables_paginate{
-    float:right !important;
-    text-align:right;
-}
+    /* keep pagination right */
+    .dataTables_wrapper .dataTables_paginate {
+        float: right !important;
+        text-align: right;
+    }
 
-/* prevent movement */
-.dataTables_wrapper .row{
-    margin-left:0 !important;
-    margin-right:0 !important;
-}
-/* ==============================
+    /* prevent movement */
+    .dataTables_wrapper .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* ==============================
    MOBILE TABLE SCROLL FIX
    ============================== */
 
-@media screen and (max-width: 767px){
+    @media screen and (max-width: 767px) {
 
-    /* restore normal table layout */
-    .table-responsive table{
-        display: table !important;
-        width: 100%;
-        min-width: 1200px; /* same as desktop scroll width */
+        /* restore normal table layout */
+        .table-responsive table {
+            display: table !important;
+            width: 100%;
+            min-width: 1200px;
+            /* same as desktop scroll width */
+        }
+
+        .table-responsive thead {
+            display: table-header-group !important;
+        }
+
+        .table-responsive tbody {
+            display: table-row-group !important;
+        }
+
+        .table-responsive tr {
+            display: table-row !important;
+        }
+
+        .table-responsive td,
+        .table-responsive th {
+            display: table-cell !important;
+        }
+
+        /* enable horizontal scroll */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
     }
-
-    .table-responsive thead{
-        display: table-header-group !important;
-    }
-
-    .table-responsive tbody{
-        display: table-row-group !important;
-    }
-
-    .table-responsive tr{
-        display: table-row !important;
-    }
-
-    .table-responsive td,
-    .table-responsive th{
-        display: table-cell !important;
-    }
-
-    /* enable horizontal scroll */
-    .table-responsive{
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-}
-
 </style>
 
 <div class="premium-table-card">
@@ -925,61 +925,60 @@
 
 
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
 
-var table = $(".data-table").DataTable({
+        var table = $(".data-table").DataTable({
 
-    ordering: true,
-    bAutoWidth: false,
-    responsive: true,
+            ordering: true,
+            bAutoWidth: false,
+            responsive: true,
 
-    scrollX: true,   // ADD THIS
-    scrollCollapse: true,  // ADD THIS
+            scrollX: true, // ADD THIS
+            scrollCollapse: true, // ADD THIS
 
-    dom:
-        "<'row align-items-center mb-3'<'col-md-6 d-flex align-items-center'l><'col-md-6 d-flex justify-content-end'f>>" +
-        "rt" +
-        "<'row align-items-center mt-3'<'col-md-6'i><'col-md-6 d-flex justify-content-end'p>>",
+            dom: "<'row align-items-center mb-3'<'col-md-6 d-flex align-items-center'l><'col-md-6 d-flex justify-content-end'f>>" +
+                "rt" +
+                "<'row align-items-center mt-3'<'col-md-6'i><'col-md-6 d-flex justify-content-end'p>>",
 
-    language: {
-        search: "",
-        searchPlaceholder: "🔎 Search members...",
-        lengthMenu: "Show _MENU_ members",
-        info: "Showing _START_ to _END_ of _TOTAL_ members",
-        paginate: {
-            first: "«",
-            last: "»",
-            next: "Next ›",
-            previous: "‹ Prev"
-        }
-    },
+            language: {
+                search: "",
+                searchPlaceholder: "🔎 Search members...",
+                lengthMenu: "Show _MENU_ members",
+                info: "Showing _START_ to _END_ of _TOTAL_ members",
+                paginate: {
+                    first: "«",
+                    last: "»",
+                    next: "Next ›",
+                    previous: "‹ Prev"
+                }
+            },
 
-    columnDefs: [{
-        orderable: false,
-        targets: [7, 8]
-    }],
+            columnDefs: [{
+                orderable: false,
+                targets: [7, 8]
+            }],
 
-    pageLength: 10,
+            pageLength: 10,
 
-    lengthMenu: [
-        [5, 10, 25, 50, -1],
-        [5, 10, 25, 50, "All"]
-    ]
+            lengthMenu: [
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, "All"]
+            ]
 
-});
+        });
 
 
-    // Status color initialize
-    $('.status-select').each(function() {
-        updateStatusColor($(this));
+        // Status color initialize
+        $('.status-select').each(function() {
+            updateStatusColor($(this));
+        });
+
+        // Fix responsive redraw
+        $(window).on('resize', function() {
+            table.columns.adjust();
+        });
+
     });
-
-    // Fix responsive redraw
-    $(window).on('resize', function() {
-        table.columns.adjust();
-    });
-
-});
 
     // Function to update status select color
     function updateStatusColor(element) {
