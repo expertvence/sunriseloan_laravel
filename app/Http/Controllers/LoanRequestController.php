@@ -21,7 +21,7 @@ class LoanRequestController extends Controller
 
     public function loanRequestList()
     {
-        $data = Loan::all();
+        $data = Loan::latest()->get();
         return Template::loadView('admin/loan/loan_list', ['data' => $data]);
     }
 

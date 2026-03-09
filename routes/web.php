@@ -16,7 +16,10 @@ use App\Http\Controllers\MemberRegistrationController;
 use App\Http\Controllers\TotalAssetController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\UserLoanController;
+use App\Loan;
+use App\LoanCommit;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -217,3 +220,63 @@ Route::get('/loan-request-details/{loan_ide}', [LoanRequestController::class, 's
 Route::get('/manager-create-form/{id?}', [ManagerAddController::class, 'managerCreate'])->name('manager-create-form');
 Route::post('/manager-create', [ManagerAddController::class, 'store'])->name('manager-create');
 Route::get('/manager-list', [ManagerAddController::class, 'managerList'])->name('manager-list');
+
+Route::get('/loan-commit-data', function(Request $request){
+    $loanId = $request->loan_id;
+    $memberId = $request->member_id;
+
+    $loan = Loan::find($loanId);
+    $currentYear = date('Y');
+
+    $commits = LoanCommit::where('loan_payment_id', $loanId)
+                ->where('committed_user_id', $memberId)
+                ->pluck('payment_month','payment_week');
+
+    if($loan->repayment_type == 'monthly'){
+        $committedMonths = LoanCommit::where('loan_payment_id', $loanId)
+                            ->where('committed_user_id', $memberId)
+                            ->pluck('payment_month')
+                            ->toArray();
+
+        return [
+            'repayment_type'=>'monthly',
+            'committed_months'=>$committedMonths
+        ];
+    } else {
+        $months = range(1,12);
+        $committedWeeks = [];
+        $commits = LoanCommit::where('loan_payment_id', $loanId)
+                    ->where('committed_user_id', $memberId)
+                    ->get();
+
+        foreach($commits as $c){
+            $month = $c->payment_month;
+            $week  = $c->payment_week;
+            if(!isset($committedWeeks[$month])) $committedWeeks[$month] = [];
+            $committedWeeks[$month][] = $week;
+        }
+
+        return [
+            'repayment_type'=>'weekly',
+            'months'=>$months,
+            'committed_weeks'=>$committedWeeks
+        ];
+    }
+});
+Route::get('/get-committed-months-weeks/{loanId}/{year}', function($loanId, $year){
+    $loan = Loan::find($loanId);
+    $committedMonths = $loan->payments()
+                            ->whereYear('payment_date', $year)
+                            ->pluck('month_name')
+                            ->toArray();
+
+    $committedWeeks = $loan->payments()
+                           ->whereYear('payment_date', $year)
+                           ->pluck('week_number')
+                           ->toArray();
+
+    return response()->json([
+        'committed_months' => $committedMonths,
+        'committed_weeks' => $committedWeeks
+    ]);
+});
