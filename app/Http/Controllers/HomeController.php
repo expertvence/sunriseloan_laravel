@@ -141,14 +141,21 @@ class HomeController extends Controller
         //dd($totalServicesCharge);
         $exactAssetsWithprofitandwithoutloan = $remainingAmount + $comitedAmount + $totalServicesCharge - $totalExpence;
 
+        // $activeUser = DB::table('users')
+        //     ->join('members', 'users.member_id', '=', 'members.id')
+        //     ->where('users.user_type', 'user')
+        //     ->where('users.status', 'active')
+        //     ->where('members.status', 'active')
+        //     ->count();
+
         $activeUser = DB::table('users')
-            ->join('members', 'users.member_id', '=', 'members.id')
+            ->leftJoin('members', 'users.member_id', '=', 'members.id')
             ->where('users.user_type', 'user')
             ->where('users.status', 'active')
             ->where('members.status', 'active')
             ->count();
-
-        $totalUser = User::where('user_type', 'user')->count();
+        // $totalUser = User::where('user_type', 'user')->count();
+        $totalUser = User::where('user_type', '=', 'user')->count();
         $totalManager = User::where('user_type', 'manager')->count();
         $activeManger = User::where('user_type', 'manager')->where('status', 'active')->count();
 
@@ -363,7 +370,7 @@ class HomeController extends Controller
         //     DB::rollback();
         //     $message = ['msg' => 'Do not paid', 'title' => 'Error'];
         // }
-       
+
 
         return response()->json($message);
     }
@@ -431,6 +438,7 @@ class HomeController extends Controller
             ->join('users', 'members.id', '=', 'users.member_id')
             ->where('users.user_type', 'user')
             ->select('members.*', 'users.user_type')
+            ->orderBy('members.Uid','asc' )
             ->get();
 
         // dd($data);

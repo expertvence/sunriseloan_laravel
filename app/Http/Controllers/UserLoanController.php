@@ -99,6 +99,15 @@ class UserLoanController extends Controller
         $loan = Loan::where('user_id', $user->id)
             ->where('status', 'complete')
             ->first();
+         $loanCategory = Loan::where('user_id', $user->id)
+        ->where('status','complete')
+        ->value('loan_category_id'); 
+    
+        $laonPercentage = Loancategory::where('id', $loanCategory)->value('percentage') ?? 0; 
+
+        $loanInterest = $totalLoanAmt * ($laonPercentage / 100);
+
+        $loanInterestWithAmount = $loanInterest + $totalLoanAmt;
         $committedLoan = LoanCommit::where('loan_payment_id', $loan->loan_ide)->where('status', 'approved')->sum('payment_amount');
         $remainingAmount = $totalLoanAmt - $committedLoan;
 
@@ -115,8 +124,69 @@ class UserLoanController extends Controller
             'pendingLoan' => $pendingLoan,
             'totalLoanAmt' => $totalLoanAmt,
             'remainingAmount' => $remainingAmount,
-            'latestMonth' => $latestMonth
+            'latestMonth' => $latestMonth,
+            'loanInterest'=> $loanInterest,
+            'loanInterestWithAmount'=> $loanInterestWithAmount
 
         ]);
     }
+
+//     public function userDashboard()
+// {
+//     $user = Auth::user();
+//     if (!$user) {
+//         return redirect()->route('login');
+//     }
+    
+//     // Loan statistics
+//     $countLoan = Loan::where('user_id', $user->id)->where('status', 'complete')->count();
+//     $rejectedLoan = Loan::where('user_id', $user->id)->where('status', 'rejected')->count();
+//     $pendingLoan = Loan::where('user_id', $user->id)->where('status', 'pending')->count();
+//     $totalLoanAmt = Loan::where('user_id', $user->id)->where('status', 'complete')->sum('loan_amount');
+    
+//     // Get completed loan
+//     $loan = Loan::where('user_id', $user->id)
+//         ->where('status', 'complete')
+//         ->first();
+    
+//     // Initialize default values
+//     $remainingAmount = $totalLoanAmt;
+//     // $latestMonth = null;
+//     $loanInterest = 0;
+//     $committedLoan = 0;
+    
+//     if ($loan) {
+//         // Get loan category percentage
+//         $loanCategoryId = Loan::where('user_id', $user->id)
+//             ->where('status', 'complete')
+//             ->value('loan_category_id');
+        
+//         $loanPercentage = Loancategory::where('id', $loanCategoryId)->value('percentage') ?? 0;
+//         $loanInterest = $totalLoanAmt * ($loanPercentage / 100);
+        
+//         // Get committed loan amount
+//         $committedLoan = LoanCommit::where('loan_payment_id', $loan->loan_id) // Fixed: loan_ide -> loan_id
+//             ->where('status', 'approved')
+//             ->sum('payment_amount');
+        
+//         $remainingAmount = $totalLoanAmt - $committedLoan;
+        
+//         // Get latest payment month
+//         $latestMonth = LoanCommit::where('loan_payment_id', $loan->loan_id)
+//             ->where('status', 'approved')
+//             ->latest()
+//             ->value('payment_month');
+//     }
+    
+//     return Template::loadView('admin/userdashboard', [
+//         'countLoan' => $countLoan,
+//         'rejectedLoan' => $rejectedLoan,
+//         'pendingLoan' => $pendingLoan,
+//         'totalLoanAmt' => $totalLoanAmt,
+//         'remainingAmount' => $remainingAmount,
+//         'latestMonth' => $latestMonth,
+//         'loanInterest' => $loanInterest,
+//         'committedLoan' => $committedLoan // Consider adding this to view
+//     ]);
+// }
 }

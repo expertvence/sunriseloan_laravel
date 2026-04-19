@@ -929,6 +929,7 @@
 
         var table = $(".data-table").DataTable({
 
+            order: [], /* Disable initial ordering */
             ordering: true,
             bAutoWidth: false,
             responsive: true,

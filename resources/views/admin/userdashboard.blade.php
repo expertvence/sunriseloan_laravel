@@ -1,5 +1,5 @@
 <main>
-   
+
     <div class="dashboard">
         <h1 class="mt-4">Dashboard</h1>
         <div class="header">
@@ -40,7 +40,7 @@
                 <div class="card  text-white  text-center"
                     style="min-height: 150px; box-shadow: 9px 5px 10px rgba(14, 15, 15, 0.2); background-color:rgb(177, 206, 11);">
 
-                    <h5 class="mt-3"> Total Loan Amound</h5>
+                    <h5 class="mt-3"> Total Loan Amount</h5>
 
 
                     <!-- <a class="small text-white stretched-link" href="#">View Details</a> -->
@@ -50,6 +50,37 @@
 
                 </div>
             </div>
+
+            <div class="col-xl-3 col-md-6 col-sm-12 mb-2">
+                <div class="card  text-white  text-center"
+                    style="min-height: 150px; box-shadow: 9px 5px 10px rgba(14, 15, 15, 0.2); background-color:rgba(177, 56, 237, 1);">
+
+                    <h5 class="mt-3"> Total Loan Interest</h5>
+
+
+                    <!-- <a class="small text-white stretched-link" href="#">View Details</a> -->
+                    <div class="small text-white mt-3">
+                        <h3>৳{{ $loanInterest ?? 0 }}</h3>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 col-sm-12 mb-2">
+                <div class="card  text-white  text-center"
+                    style="min-height: 150px; box-shadow: 9px 5px 10px rgba(14, 15, 15, 0.2); background-color:rgba(186, 102, 17, 1);">
+
+                    <h5 class="mt-3"> Total Loan with Interest</h5>
+
+
+                    <!-- <a class="small text-white stretched-link" href="#">View Details</a> -->
+                    <div class="small text-white mt-3">
+                        <h3>৳{{ $loanInterestWithAmount ?? 0 }}</h3>
+                    </div>
+
+                </div>
+            </div>
+
+
             <div class="col-xl-3 col-md-6 col-sm-12 mb-2">
                 <div class="card  text-white text-center"
                     style="min-height: 150px; box-shadow: 9px 5px 10px rgba(18, 19, 19, 0.2); background-color:rgb(230, 40, 26);">
@@ -68,7 +99,7 @@
                 <div class="card  text-white "
                     style="min-height: 150px; box-shadow: 9px 5px 10px rgba(17, 18, 17, 0.2); background-color:rgb(59, 189, 221);">
                     <h5 class="mt-3">Latest Month</h5>
-                     <h3>{{ $latestMonth ?? 'N/A'}}</h3>
+                    <h3>{{ $latestMonth ?? 'N/A' }}</h3>
 
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
@@ -155,5 +186,3 @@
         // Page will auto-update via CSS variables
     });
 </script>
-
-

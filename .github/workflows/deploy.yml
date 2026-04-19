@@ -2,7 +2,7 @@ name: Deploy Private GitHub repository to our server
 on:
   push:
     branches:
-      - main
+      - sagor
 jobs:
   FTP-Deploy-Action:
     name: FTP-Deploy-Action
@@ -18,9 +18,9 @@ jobs:
           username: u847662062.apps
           password: "y1W4N7wMgH;Bk9|X"
           exclude: |
-          
-           **/.git*
-           **/.github/**
-           **/node_modules/**
-           **/tests/**
-           **/stubs/**
+
+            **/.git*
+            **/.github/**
+            **/node_modules/**
+            **/tests/**
+            **/stubs/**

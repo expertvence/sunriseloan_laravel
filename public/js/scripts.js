@@ -41,10 +41,11 @@ window.addEventListener('DOMContentLoaded', event => {
         link.addEventListener('touchstart', handleSidebarToggle); // Add touchstart for mobile devices
     });
 
-    function handleSidebarToggle(event) {
-        console.log('Sidebar link clicked!');
-        $('body').addClass('sb-sidenav-toggled');
-    }
+    // this is for sidebar onclick toggled
+    // function handleSidebarToggle(event) {
+    //     console.log('Sidebar link clicked!');
+    //     $('body').addClass('sb-sidenav-toggled');
+    // }
   
 });
 
