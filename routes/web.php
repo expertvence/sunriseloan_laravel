@@ -84,6 +84,7 @@ Route::get('/get-committed-weeks/{loanId}/{month}', [LoanCommitController::class
 
 
 Route::post('/loan-commit-submit', [LoanCommitController::class, 'insertLoanCommit'])->name('loan-commit-submit');
+Route::get('/get-last-commit/{userId}', [LoanCommitController::class, 'getLastCommittedMonth']);
 Route::get('/employee-loan-commite', [EmployeeLoanCommitController::class, 'index']);
 // Route::get('/employee-get-loans-for-user/{userId}', [EmployeeLoanCommitController::class, 'getLoansForUser']);
 Route::get('/employee-get-loan-details/{loanIde}', [EmployeeLoanCommitController::class, 'getLoanDetails']);

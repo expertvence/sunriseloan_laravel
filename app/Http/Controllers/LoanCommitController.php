@@ -505,13 +505,14 @@ class LoanCommitController extends Controller
                             ], 400);
                         }
 
-                        $nextWeek = count($existingWeeks) + 1;
-                        if ($week != $nextWeek) {
-                            return response()->json([
-                                'message' => "Select the next sequential week. Next week: {$nextWeek}",
-                                'error' => true
-                            ], 400);
-                        }
+                        // week restriction remove
+                        // $nextWeek = count($existingWeeks) + 1;
+                        // if ($week != $nextWeek) {
+                        //     return response()->json([
+                        //         'message' => "Select the next sequential week. Next week: {$nextWeek}",
+                        //         'error' => true
+                        //     ], 400);
+                        // }
 
                         $existingWeeks[] = $week;
                         sort($existingWeeks);
@@ -637,14 +638,23 @@ class LoanCommitController extends Controller
         $remainingAmount = $totalWithInterest - (float)$totalPaid;
 
         $lastPayment = LoanCommit::where('loan_payment_id', $loanIde)
-            ->latest('created_at')
+            ->latest('payment_month')
             ->first();
-        $lastPaymentDate = $lastPayment ? $lastPayment->created_at->format('Y-m-d') : null;
+        $totalWeeks = 0;
+
+if ($lastPayment) {
+    $totalWeeks = LoanCommit::where('loan_payment_id', $loanIde)
+        ->where('payment_month', $lastPayment->payment_month)
+        ->where('loan_year', $lastPayment->loan_year)->where('status','approved') // ⚠️ important (year same রাখতে)
+        ->count();
+}
+        // $lastPaymentDate = $lastPayment;
 
         return response()->json([
             'totalPaid' => $totalPaid,
             'remainingAmount' => $remainingAmount,
-            'lastPaymentData' => $lastPaymentDate,
+            'lastPaymentMonth' => $lastPayment ? $lastPayment->payment_month : null,
+            'totalWeeks' => $totalWeeks,
             'loan_category_percentage' => (float)$loanCategory
         ]);
     }

@@ -53,7 +53,7 @@
 
         <div class="row mt-2">
             <!-- Year Dropdown -->
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="loan_year">Year</label>
                     <select class="form-control" id="loan_year" name="loan_year" required>
@@ -63,17 +63,23 @@
             </div>
 
             <!-- No of Months -->
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="no_of_month"><strong>No Of Month</strong></label>
                     <input type="text" class="form-control" id="no_of_month" name="no_of_month" readonly>
                 </div>
             </div>
             <!-- No of Months -->
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="no_of_month"><strong>Total Amount</strong></label>
                     <input type="text" class="form-control" id="total_amount" name="total_amount" readonly>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="no_of_month"><strong>Total Week</strong></label>
+                    <input type="text" class="form-control" id="total_week" name="total_week" readonly>
                 </div>
             </div>
         </div>
@@ -99,7 +105,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="last_payment_month">Last Payment Month</label>
-                    <input type="date" class="form-control" id="last_payment_month" name="last_payment_month"
+                    <input  class="form-control" id="last_payment_month" name="last_payment_month"
                         readonly>
                 </div>
             </div>
@@ -295,7 +301,10 @@
             success: function(res) {
                 $('#successfull_payment').val(parseFloat(res.totalPaid || 0).toFixed(2));
                 $('#remaining_amount').val(parseFloat(res.remainingAmount || 0).toFixed(2));
-                $('#last_payment_month').val(res.lastPaymentData || '');
+               $('#last_payment_month').val(res.lastPaymentMonth || '');
+               $('#total_week').val(res.totalWeeks || 0);
+               console.log('Last Payment Month:', res.lastPaymentMonth);
+
             }
         });
     });
