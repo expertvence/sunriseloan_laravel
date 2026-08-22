@@ -24,3 +24,7 @@ jobs:
             **/node_modules/**
             **/tests/**
             **/stubs/**
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.env
