@@ -16,7 +16,7 @@ jobs:
         with:
           server: ftp.expertvence.com
           username: u847662062.expertvence
-          password: "6s$ho!4Ey&X"
+          password: "aH[8Y0PvpVjQ&8ms"
           exclude: |
 
             **/.git*
