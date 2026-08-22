@@ -467,6 +467,10 @@
                             <i class="fas fa-check-circle me-2" style="font-size: 0.8rem;"></i>
                             <span>Loan Requet list</span>
                         </a>
+                        <a class="nav-link ajax_link" href="#" data-url="{{ url('committed-users') }}">
+                            <i class="fas fa-users me-2" style="font-size: 0.8rem;"></i>
+                            <span>Committed Users</span>
+                        </a>
 
                     </nav>
                 </div>

@@ -689,14 +689,16 @@
                                     </button>
 
                                     <div class="action-dropdown-premium">
-                                        @if (auth()->user()->user_type == 'admin')
-                                            {{-- <span class="dropdown-item text-warning open-modal btnView"
-                                                data-action="{{ url('show-edit', $value->id) }}"
-                                                data-modal="common-modal-md" data-title="Member Edit"
-                                                data-id="{{ $value->id }}">
-                                                <i class="fas fa-edit"></i> Edit
-                                            </span> --}}
+                                        <span class="dropdown-item text-primary open-modal"
+                                            data-action="{{ url('user-commit-details/' . ($value->committed_user_id ?? $value->id)) }}"
+                                            data-modal="common-modal-xl"
+                                            data-title="{{ $value->member_name }} — Commit History"
+                                            data-id="{{ $value->committed_user_id ?? $value->id }}"
+                                            style="cursor:pointer;">
+                                            <i class="fas fa-eye" style="color: #667eea; margin-right: 6px;"></i> View Commits
+                                        </span>
 
+                                        @if (auth()->user()->user_type == 'admin')
                                             <button type="button" class="dropdown-item text-danger btnDelete"
                                                 data-id="{{ $value->id }}">
                                                 <i class="fas fa-trash"></i> Delete

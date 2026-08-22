@@ -893,8 +893,17 @@
                                         <div class="action-buttons">
                                             <a href="{{ route('show-employee', $value->id) }}" target=""
                                                 class="action-btn view-btn" data-tooltip="View Profile">
-                                                <i class="fas fa-eye"></i>
+                                                <i class="fas fa-user"></i>
                                             </a>
+                                            <span class="action-btn view-commits-btn open-modal"
+                                                data-action="{{ url('user-commit-details/' . $value->id) }}"
+                                                data-modal="common-modal-xl"
+                                                data-title="{{ $value->name }} — Commit History"
+                                                data-id="{{ $value->id }}"
+                                                data-tooltip="View Commits"
+                                                style="cursor:pointer;">
+                                                <i class="fas fa-history"></i>
+                                            </span>
                                             <span class="action-btn edit-btn open-modal"
                                                 data-action="{{ route('member-register-form', $value->id) }}"
                                                 data-modal="common-modal-md" data-title="Edit Member"

@@ -249,6 +249,110 @@ class LoanController extends Controller
     return Template::loadView('admin.loan_commit.approval_loan_list', compact('data'));
 }
 
+    /**
+     * Show list of unique users who have committed loans
+     */
+    public function committedUserList()
+    {
+        $users = DB::table('loan_commits')
+            ->select(
+                'members.id as member_id',
+                'loan_commits.committed_user_id',
+                'loan_commits.committed_user_name',
+                'members.name as member_name',
+                'members.email as member_email',
+                'members.mobile as member_mobile',
+                'members.Uid as member_uid',
+                DB::raw('COUNT(loan_commits.id) as total_commits'),
+                DB::raw('SUM(loan_commits.payment_amount) as total_paid'),
+                DB::raw('MAX(loan_commits.created_at) as last_commit_date')
+            )
+            ->join('loans', 'loans.loan_ide', '=', 'loan_commits.loan_payment_id')
+            ->join('members', 'members.id', '=', 'loans.member_id')
+            ->groupBy(
+                'members.id',
+                'loan_commits.committed_user_id',
+                'loan_commits.committed_user_name',
+                'members.name',
+                'members.email',
+                'members.mobile',
+                'members.Uid'
+            )
+            ->orderBy('last_commit_date', 'desc')
+            ->get();
+
+        return Template::loadView('admin.loan_commit.committed_user_list', compact('users'));
+    }
+
+    /**
+     * Show all commits for a specific user with dates
+     */
+    public function userCommitDetails($userId)
+    {
+        // 1. Resolve member info strictly
+        $memberInfo = DB::table('members')->where('id', $userId)->first();
+
+        if (!$memberInfo) {
+            $memberIdFromUser = DB::table('users')->where('id', $userId)->value('member_id');
+            if ($memberIdFromUser) {
+                $memberInfo = DB::table('members')->where('id', $memberIdFromUser)->first();
+            }
+        }
+
+        if ($memberInfo) {
+            $memberId = $memberInfo->id;
+            $userInfo = (object) [
+                'member_id'           => $memberInfo->id,
+                'member_name'         => $memberInfo->name,
+                'member_email'        => $memberInfo->email,
+                'member_mobile'       => $memberInfo->mobile,
+                'member_uid'          => $memberInfo->Uid,
+                'committed_user_name' => $memberInfo->name,
+                'committed_user_id'   => $memberInfo->id,
+            ];
+        } else {
+            $memberId = $userId;
+            $userInfo = DB::table('users')
+                ->select(
+                    'users.id as member_id',
+                    'users.name as member_name',
+                    'users.email as member_email',
+                    DB::raw('NULL as member_mobile'),
+                    DB::raw('NULL as member_uid'),
+                    'users.name as committed_user_name',
+                    'users.id as committed_user_id'
+                )
+                ->where('users.id', $userId)
+                ->first();
+        }
+
+        // 2. Fetch commits strictly belonging to loans of this member_id
+        $commits = DB::table('loan_commits')
+            ->select(
+                'loan_commits.*',
+                'loans.loan_term',
+                'loans.loan_amount',
+                'loans.repayment_type',
+                'members.name as member_name',
+                'members.Uid as member_uid'
+            )
+            ->join('loans', 'loans.loan_ide', '=', 'loan_commits.loan_payment_id')
+            ->join('members', 'members.id', '=', 'loans.member_id')
+            ->where('loans.member_id', $memberId)
+            ->orderBy('loan_commits.created_at', 'desc')
+            ->get();
+
+        $totalPaid = $commits->sum('payment_amount');
+        $totalCommits = $commits->count();
+
+        return Template::loadView('admin.loan_commit.user_commit_details', compact(
+            'userInfo',
+            'commits',
+            'totalPaid',
+            'totalCommits'
+        ));
+    }
+
 
 
      public function loanCommitPdf(Request $request)

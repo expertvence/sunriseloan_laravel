@@ -54,7 +54,10 @@ Route::get('/show-edit/{loan_ide?}',[LoanController::class, 'loanEdit'])->name('
 Route::get('/show-list',[LoanController::class, 'showLoan_list'])->name('show-list');
 Route::get('/comitted-list', [LoanController::class, 'ApprovalLoanList'])->name('comitted-list');
 Route::get('/committed-list-pdf', [LoanController::class, 'loanCommitPdf'])->name('committed-list-pdf');
+Route::get('/committed-users', [LoanController::class, 'committedUserList'])->name('committed-users');
+Route::get('/user-commit-details/{userId}', [LoanController::class, 'userCommitDetails'])->name('user-commit-details');
 
+Route::post('/export-modal-dompdf', [HomeController::class, 'exportModalDompdf'])->name('export-modal-dompdf');
 Route::post('/submit-request', [LoanController::class,'loan_store'])->name('submit-request');
 Route::post('/loan/insert',[LoanController::class,'loan_store'])->name('loan');
 Route::post('/update-status', [LoanController::class, 'updateStatus'])->name('update-status');

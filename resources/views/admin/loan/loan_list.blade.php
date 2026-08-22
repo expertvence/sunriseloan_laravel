@@ -525,6 +525,15 @@
                                             <i class="fas fa-eye" style="color: #3b82f6;"></i> View Details
                                         </a>
 
+                                        <span class="dropdown-item open-modal"
+                                            data-action="{{ url('user-commit-details/' . ($value->member_id ?? $value->user_id)) }}"
+                                            data-modal="common-modal-xl"
+                                            data-title="{{ $value->user ? $value->user->name : 'User' }} — Commit History"
+                                            data-id="{{ $value->member_id ?? $value->user_id }}"
+                                            style="cursor:pointer;">
+                                            <i class="fas fa-history" style="color: #667eea;"></i> View User Commits
+                                        </span>
+
                                         @if (auth()->user()->user_type == 'admin')
                                             <span class="dropdown-item open-modal btnView"
                                                 data-action="{{ url('show-edit', $value->loan_ide) }}" 

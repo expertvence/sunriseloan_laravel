@@ -498,4 +498,23 @@ class HomeController extends Controller
         return $pdf->stream('pdf_file.pdf');
         // ->setPaper('a5', 'portrait');
     }
+
+    public function exportModalDompdf(Request $request)
+    {
+        PDF::setOptions(['isPhpEnabled' => true, 'isRemoteEnabled' => true, 'isHtml5ParserEnabled' => true]);
+        $pdf = app('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->getDomPDF()->set_option('isHtml5ParserEnabled', true);
+
+        $title = $request->input('title', 'SUNRISE LOAN REPORT');
+        $html_content = $request->input('html_content', '');
+
+        $pdf = PDF::loadView('pdf.modal_export_pdf', [
+            'title' => $title,
+            'html_content' => $html_content
+        ])->setPaper('a4', 'landscape');
+
+        $fileName = strtolower(preg_replace('/[^a-zA-Z0-9]/', '_', $title)) . '_sunrise_loan.pdf';
+        return $pdf->download($fileName);
+    }
 }
