@@ -15,8 +15,8 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ftp.expertvence.com
-          username: u847662062.expertvence
-          password: "aH[8Y0PvpVjQ&8ms"
+          username: u847662062.bank
+          password: "8&EEa;Nn;f:t"
           exclude: |
 
             **/.git*
