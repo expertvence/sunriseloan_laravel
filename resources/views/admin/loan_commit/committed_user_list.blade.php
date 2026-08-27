@@ -461,7 +461,6 @@
                             </div>
                         </div>
                     </td>
-
                     <td>
                         @if($user->member_mobile)
                             <span style="color: var(--text-secondary);">
