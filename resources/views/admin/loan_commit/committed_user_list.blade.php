@@ -409,7 +409,7 @@
             </div>
             <h3>
                 Committed Users List
-                <small>সকল কমিট করা ইউজারের তালিকা</small>
+                <small>All comitted users list</small>
             </h3>
         </div>
         <a href="{{ route('comitted-list') }}" class="btn-view" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
@@ -421,11 +421,11 @@
     <div class="stats-row">
         <div class="stat-chip purple">
             <i class="fas fa-user-check"></i>
-            মোট ইউজার: <strong>{{ $users->count() }}</strong>
+            Total User: <strong>{{ $users->count() }}</strong>
         </div>
         <div class="stat-chip green">
             <i class="fas fa-money-bill-wave"></i>
-            মোট পরিশোধ: <strong>৳{{ number_format($users->sum('total_paid'), 2) }}</strong>
+            Total Comitted: <strong>৳{{ number_format($users->sum('total_paid'), 2) }}</strong>
         </div>
     </div>
 
@@ -435,11 +435,11 @@
             <thead>
                 <tr>
                     <th>SL#</th>
-                    <th>ইউজার তথ্য</th>
-                    <th>মোবাইল</th>
-                    <th>মোট কমিট</th>
-                    <th>মোট পরিশোধ</th>
-                    <th>সর্বশেষ কমিট</th>
+                    <th>User's Information</th>
+                    <th>Phone</th>
+                    <th>Total Comitted</th>
+                    <th>Total Paid</th>
+                    <th>Last Comitted</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -455,9 +455,9 @@
                             </div>
                             <div>
                                 <div class="user-name">{{ $user->member_name ?? $user->committed_user_name }}</div>
-                                @if($user->member_uid)
+                                <!-- @if($user->member_uid)
                                     <div class="user-uid">ID: {{ $user->member_uid }}</div>
-                                @endif
+                                @endif -->
                             </div>
                         </div>
                     </td>
@@ -476,7 +476,7 @@
                     <td>
                         <span class="badge-commits">
                             <i class="fas fa-file-invoice"></i>
-                            {{ $user->total_commits }} টি
+                            {{ $user->total_commits }} 
                         </span>
                     </td>
 
@@ -510,7 +510,7 @@
         @else
             <div class="empty-state">
                 <i class="fas fa-users-slash"></i>
-                <p>কোনো কমিট পাওয়া যায়নি।</p>
+                <p>No comitted yet!</p>
             </div>
         @endif
     </div>
