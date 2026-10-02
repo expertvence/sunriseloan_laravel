@@ -486,3 +486,17 @@
 
     });
 </script>
+<style>
+    .loan-request-card { --request-ink:#183d39; --request-muted:#68817c; --request-line:#d5e4de; margin:1.25rem auto; border-radius:11px; box-shadow:0 10px 28px rgba(26,72,58,.07); }
+    .loan-request-heading { background:linear-gradient(110deg,#e9f4ef,#f7faf8); }
+    .loan-request-card .loan-form-section-title { color:#183d39; }
+    .loan-request-card .form-control,.loan-request-card .form-select,.loan-request-card .repayment-option { border-color:#d5e4de; background:#f8fbfa; color:#183d39; }
+    .loan-request-card .form-control:focus,.loan-request-card .form-select:focus { border-color:#168573; box-shadow:0 0 0 3px rgba(22,133,115,.12); }
+    .loan-request-card .repayment-option:has(input:checked) { border-color:#168573; background:#eaf6f2; color:#12675c; }
+    .loan-request-card .loan-submit-button { background:linear-gradient(105deg,#147c6b,#1c9a7b); }
+    body.dark-mode .loan-request-card { --request-ink:#e6f0ef; --request-muted:#a2b6b8; --request-line:#314a52; background:#10243a; }
+    body.dark-mode .loan-request-heading { background:linear-gradient(110deg,#0b1d34,#10243a 72%); }
+    body.dark-mode .loan-request-card .loan-form-section-title { color:#e6f0ef; }
+    body.dark-mode .loan-request-card .form-control,body.dark-mode .loan-request-card .form-select,body.dark-mode .loan-request-card .repayment-option { border-color:#344e59; background:#0b1d34; color:#e6f0ef; }
+    body.dark-mode .loan-request-card .repayment-option:has(input:checked) { border-color:#45bba0; background:#174540; color:#b9f1df; }
+</style>

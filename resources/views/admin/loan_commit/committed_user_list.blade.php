@@ -543,3 +543,34 @@
     });
 </script>
 
+<style>
+    .premium-card { --loan-ink:#183d39; --loan-muted:#68817c; --loan-line:#d5e4de; --loan-panel:#fff; --loan-soft:#f4f9f6; color:var(--loan-ink); background:var(--loan-panel); border:1px solid var(--loan-line); border-radius:10px; box-shadow:0 10px 28px rgba(26,72,58,.07); }
+    body.dark-mode .premium-card { --loan-ink:#e6f0ef; --loan-muted:#a2b6b8; --loan-line:#314a52; --loan-panel:#10243a; --loan-soft:#0b1d34; }
+    .premium-card .card-header { background:linear-gradient(110deg,var(--loan-soft),var(--loan-panel)); border-color:var(--loan-line); }
+    .premium-card .card-header h3,.premium-card .card-header h3 small { color:var(--loan-ink); -webkit-text-fill-color:currentColor; background:none; }
+    .card-header-icon,.btn-view { background:linear-gradient(105deg,#147c6b,#1c9a7b); box-shadow:none; }
+    .premium-card .stats-row { border-color:var(--loan-line); }
+    .premium-card .stat-chip.purple { color:#147b69; background:#e7f4ef; border-color:#c8e4d8; }
+    .premium-card .stat-chip.green { color:#167750; background:#e3f4eb; border-color:#c4e7d2; }
+    body.dark-mode .premium-card .stat-chip.purple { color:#88d8c1; background:#17443f; border-color:#285f55; }
+    body.dark-mode .premium-card .stat-chip.green { color:#9de0bb; background:#1b4939; border-color:#316a50; }
+    .premium-table-container { overflow-x:auto; }
+    .premium-table thead tr { background:#eaf4ef; border-color:var(--loan-line); }
+    .premium-table thead th { color:#5a7771; font-size:.68rem; }
+    .premium-table tbody tr,.premium-table tbody tr:nth-child(even),.premium-table tbody tr:nth-child(odd) { background:var(--loan-panel); border-color:var(--loan-line); }
+    .premium-table tbody tr:hover { background:var(--loan-soft); transform:none; box-shadow:none; }
+    .premium-table tbody td { color:#435269; font-size:.78rem; }
+    .badge-commits,.badge-amount,.badge-date { border-radius:5px; }
+    .badge-commits { color:#147b69; background:#e7f4ef; border-color:#c8e4d8; }
+    .badge-amount { color:#167750; background:#e3f4eb; border-color:#c4e7d2; }
+    .badge-date { color:#176f68; background:#e6f3f1; border-color:#c9e3dd; }
+    body.dark-mode .premium-table thead tr { background:#1a3a3d; }
+    body.dark-mode .premium-table thead th { color:#b5c9c5; }
+    body.dark-mode .premium-table tbody tr,body.dark-mode .premium-table tbody tr:nth-child(even),body.dark-mode .premium-table tbody tr:nth-child(odd) { background:var(--loan-panel); }
+    body.dark-mode .premium-table tbody tr:hover { background:#18343a; }
+    body.dark-mode .premium-table tbody td { color:#c5d4d4; }
+    body.dark-mode .user-name { color:var(--loan-ink); }
+    body.dark-mode .badge-commits { color:#88d8c1; background:#17443f; border-color:#285f55; }
+    body.dark-mode .badge-amount { color:#9de0bb; background:#1b4939; border-color:#316a50; }
+    body.dark-mode .badge-date { color:#a9d9d1; background:#173d3c; border-color:#285b58; }
+</style>

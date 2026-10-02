@@ -211,6 +211,11 @@
     .action-wrapper {
         position: relative;
         display: inline-block;
+        z-index: 1;
+    }
+
+    .action-wrapper:focus-within {
+        z-index: 1100;
     }
 
     .action-toggle-premium {
@@ -240,14 +245,22 @@
         top: 45px;
         right: 0;
         min-width: 180px;
-        background: var(--action-bg) !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        opacity: 1;
         border-radius: 16px;
         padding: 8px;
         display: none;
-        z-index: 1000;
-        box-shadow: var(--shadow-lg);
-        border: 2px solid var(--border-color) !important;
+        z-index: 1100;
+        box-shadow: 0 16px 36px rgba(17, 35, 57, 0.2);
+        border: 1px solid var(--border-color, #dbe3ec) !important;
         animation: slideDown 0.2s ease;
+    }
+
+    body.dark-mode .action-dropdown-premium {
+        background-color: #1e293b !important;
+        border-color: #475569 !important;
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.42);
     }
 
     .action-dropdown-premium .dropdown-item {
@@ -623,4 +636,26 @@
             }
         });
     }
-</script>
+</script><style>
+    .premium-card { --bg-body:#eef3f2; --card-bg:#fff; --table-header-bg:#eaf4ef; --table-row-hover:#f8fbfa; --table-row-even:#fff; --table-row-odd:#fff; --text-primary:#183d39; --text-secondary:#435269; --text-muted:#68817c; --border-color:#d5e4de; --input-bg:#fff; --input-text:#183d39; --pagination-bg:#fff; --pagination-text:#183d39; --pagination-hover:#16816f; background:#fff!important; border-radius:10px; box-shadow:0 10px 28px rgba(26,72,58,.07); }
+    .premium-card .card-header { background:linear-gradient(110deg,#e9f4ef,#f7faf8)!important; border-color:#d5e4de!important; }
+    .premium-card .card-header h5 { color:#183d39!important; background:none; -webkit-text-fill-color:#183d39; }
+    .premium-card .card-header i { color:#147b69; background:#d8eee5; }
+    .premium-table thead tr,.premium-table thead th { background:#eaf4ef!important; color:#5a7771!important; border-color:#d5e4de!important; }
+    .premium-table tbody tr,.premium-table tbody tr:nth-child(even),.premium-table tbody tr:nth-child(odd) { background:#fff!important; }
+    .premium-table tbody tr:hover { background:#f8fbfa!important; transform:none; box-shadow:none; }
+    .premium-table tbody td { color:#435269!important; border-color:#edf1f4!important; }
+    .status-pending { color:#916312!important; background:#fff5df!important; border-color:#f1d699!important; }
+    .status-complete { color:#167351!important; background:#e1f5ed!important; border-color:#b9e5d0!important; }
+    .status-rejected { color:#a63e45!important; background:#fde9e9!important; border-color:#f2c6c6!important; }
+    .action-dropdown-premium { background:#fff!important; border-color:#d5e4de!important; }
+    body.dark-mode .premium-card { --bg-body:#07152b; --card-bg:#10243a; --table-header-bg:#1a3a3d; --table-row-hover:#18343a; --table-row-even:#10243a; --table-row-odd:#10243a; --text-primary:#e6f0ef; --text-secondary:#c5d4d4; --text-muted:#a2b6b8; --border-color:#314a52; --input-bg:#0b1d34; --input-text:#e6f0ef; --pagination-bg:#10243a; --pagination-text:#e6f0ef; --pagination-hover:#16816f; background:#10243a!important; }
+    body.dark-mode .premium-card .card-header { background:linear-gradient(110deg,#0b1d34,#10243a)!important; border-color:#314a52!important; }
+    body.dark-mode .premium-card .card-header h5 { color:#e6f0ef!important; -webkit-text-fill-color:#e6f0ef; }
+    body.dark-mode .premium-card .card-header i { color:#78d8b9; background:#17443f; }
+    body.dark-mode .premium-table thead tr,body.dark-mode .premium-table thead th { background:#1a3a3d!important; color:#b5c9c5!important; border-color:#314a52!important; }
+    body.dark-mode .premium-table tbody tr,body.dark-mode .premium-table tbody tr:nth-child(even),body.dark-mode .premium-table tbody tr:nth-child(odd) { background:#10243a!important; }
+    body.dark-mode .premium-table tbody tr:hover { background:#18343a!important; }
+    body.dark-mode .premium-table tbody td { color:#c5d4d4!important; border-color:#263f43!important; }
+    body.dark-mode .action-dropdown-premium { background:#10243a!important; border-color:#36505a!important; }
+</style>

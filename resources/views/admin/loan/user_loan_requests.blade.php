@@ -54,6 +54,24 @@
             table { min-width: 700px; }
         }
     </style>
+<style>
+    .page { width:min(1480px,calc(100% - 40px)); margin:1.25rem auto; }
+    .panel { border-color:#d5e4de; border-radius:10px; box-shadow:0 10px 28px rgba(26,72,58,.07); }
+    .panel-head { background:linear-gradient(110deg,#e9f4ef,#f7faf8); border-color:#d5e4de; }
+    th { background:#eaf4ef; color:#5a7771; }
+    td { border-color:#edf1f4; color:#435269; }
+    tbody tr:hover { background:#f8fbfa; }
+    .button.primary { border-color:#147c6b; background:linear-gradient(105deg,#147c6b,#1c9a7b); }
+    .loan-code { color:#147b69; }
+    body.dark-mode { --ink:#e6f0ef; --muted:#a2b6b8; --line:#314a52; --surface:#10243a; --canvas:#07152b; --accent:#16816f; background:#07152b; }
+    body.dark-mode .panel { border-color:var(--line); }
+    body.dark-mode .panel-head { background:linear-gradient(110deg,#0b1d34,#10243a); border-color:var(--line); }
+    body.dark-mode th { background:#1a3a3d; color:#b5c9c5; }
+    body.dark-mode td { border-color:#263f43; color:#c5d4d4; }
+    body.dark-mode tbody tr:hover { background:#18343a; }
+    body.dark-mode .button:not(.primary) { border-color:#36505a; background:#10243a; color:#e6f0ef; }
+</style>
+
 </head>
 <body>
     <main class="page">
@@ -112,3 +130,4 @@
     </script>
 </body>
 </html>
+

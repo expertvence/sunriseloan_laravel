@@ -225,25 +225,36 @@
                     blockUI();
                 },
                 success: function(response) {
-                    if (response) {
-                        console.log(response.title);
-
-                        if (response.title == 'Success') {
-                            $('.common-modal-notify').modal('show');
-                            $('.common-modal-notify .modal-title').html(response.title);
-                            $('.common-modal-notify .modal-body').html(response.msg);
-                        } else {
-                            $('.common-modal-notify-error').modal('show');
-                            $('.common-modal-notify-error .modal-title').html(response.title);
-                            $('.common-modal-notify-error .modal-body').html(response.msg);
-                        }
+                    if (response && response.title === 'Success') {
+                        $('.common-modal-notify').modal('show');
+                        $('.common-modal-notify .modal-title').text(response.title);
+                        $('.common-modal-notify .modal-body').text(response.msg || 'Saved successfully.');
+                        afterSaveLoadPage(redirect);
+                        return;
                     }
+
+                    if (!response || !response.title) {
+                        afterSaveLoadPage(redirect);
+                        return;
+                    }
+
+                    var message = response.msg || response.message || 'The request could not be saved.';
+                    $('.common-modal-notify-error').modal('show');
+                    $('.common-modal-notify-error .modal-title').text(response && response.title || 'Save failed');
+                    $('.common-modal-notify-error .modal-body').text(message);
                 },
-                complete: function(response) {
-                    afterSaveLoadPage(redirect);
-                },
-                error: function(error) {
-                    console.log(error);
+                error: function(xhr) {
+                    var response = xhr.responseJSON || {};
+                    var message = response.msg || response.message;
+                    if (!message && response.errors) {
+                        message = Object.keys(response.errors).map(function(field) {
+                            return response.errors[field].join(' ');
+                        }).join(' ');
+                    }
+                    message = message || 'The request failed. Please check the form and try again.';
+                    $('.common-modal-notify-error').modal('show');
+                    $('.common-modal-notify-error .modal-title').text(xhr.status === 422 ? 'Please check the form' : 'Save failed');
+                    $('.common-modal-notify-error .modal-body').text(message);
                 },
             }).done(function() {
                 $.unblockUI();
@@ -262,3 +273,5 @@
     // channel.bind('my-event', function(data) {
     //   alert(JSON.stringify(data));
     // });
+
+
