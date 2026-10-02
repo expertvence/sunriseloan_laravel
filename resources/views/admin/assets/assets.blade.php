@@ -1,5 +1,6 @@
 
 <link rel="stylesheet" href="{{ asset('datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
     td {
@@ -7,10 +8,10 @@
     }
 </style>
 
-        <div class="container">
+        <div class="container-fluid asset-page-shell">
             <div class="form-row justify-content-center">
                 <div class="col-lg-12">
-                    <div class="card shadow-lg border-0 rounded-lg ">
+                    <div class="card asset-page-card shadow-lg border-0 rounded-lg ">
                        
                         <div class="card-body">
                         @include('admin/assets/assets_form')

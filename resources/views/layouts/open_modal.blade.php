@@ -48,6 +48,39 @@
 		transform: translateY(-1px);
 		box-shadow: 0 4px 8px rgba(220,53,69,0.3) !important;
 	}
+
+	.common-modal-md .modal-content {
+		overflow: hidden;
+		border: 1px solid #d5e4de;
+		border-radius: 12px;
+		box-shadow: 0 20px 55px rgba(20, 47, 44, 0.2);
+	}
+
+	.common-modal-md .theme-modal-header {
+		border-bottom: 1px solid #d2e4dc;
+		background: linear-gradient(110deg, #e4f3ec, #f3f8f5) !important;
+	}
+
+	.common-modal-md .theme-modal-header .modal-title,
+	.common-modal-md .theme-modal-header .close {
+		color: #21473e !important;
+	}
+
+	body.dark-mode .common-modal-md .modal-content {
+		border-color: #355650;
+		background: #142b32;
+		box-shadow: 0 20px 55px rgba(0, 0, 0, 0.4);
+	}
+
+	body.dark-mode .common-modal-md .theme-modal-header {
+		border-bottom-color: #355650;
+		background: linear-gradient(110deg, #173c3b, #152f36) !important;
+	}
+
+	body.dark-mode .common-modal-md .theme-modal-header .modal-title,
+	body.dark-mode .common-modal-md .theme-modal-header .close {
+		color: #e5f2ee !important;
+	}
 </style>
 
 <!-- html2pdf Library for client-side PDF export -->
@@ -99,13 +132,13 @@
 <div class="common-modal-md modal fade patient_entry exampleModal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
-			<div class="modal-header bg-primary d-flex align-items-center justify-content-between">
-				<h5 class="modal-title text-white m-0" id="exampleModalLabel">Modal title</h5>
+			<div class="modal-header theme-modal-header d-flex align-items-center justify-content-between">
+				<h5 class="modal-title m-0" id="exampleModalLabel">Modal title</h5>
 				<div class="modal-header-actions">
 					<button type="button" class="btn-modal-pdf" onclick="downloadModalPDF(this)" title="Download PDF">
 						<i class="fas fa-file-pdf"></i> PDF Download
 					</button>
-					<button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="color: white !important; opacity: 0.9; font-size: 1.2rem; border: none; background: transparent; cursor: pointer; margin-left: 10px;">
+					<button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="opacity: 0.9; font-size: 1.2rem; border: none; background: transparent; cursor: pointer; margin-left: 10px;">
 						<i class="fas fa-times"></i>
 					</button>
 				</div>

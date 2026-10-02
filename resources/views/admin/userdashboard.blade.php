@@ -97,7 +97,8 @@
 
     .user-dashboard .user-stats-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: 1fr;
         gap: 0.85rem;
     }
 
@@ -105,6 +106,7 @@
         position: relative;
         display: flex;
         min-height: 142px;
+        min-width: 0;
         flex-direction: column;
         justify-content: space-between;
         gap: 1rem;

@@ -433,6 +433,35 @@
             background: #07152b;
         }
 
+        body.dark-mode #layoutSidenav_content:has(.income-expense-surface),
+        body.dark-mode #page-content:has(.income-expense-surface) {
+            background: #07152b !important;
+        }
+
+        body:not(.dark-mode) #page-content:has(.income-expense-surface) {
+            background: #eef3f2;
+        }
+
+        body.dark-mode .income-expense-surface {
+            background-color: #07152b;
+        }
+
+        body.dark-mode .income-expense-shell {
+            border-color: transparent !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        body.dark-mode #page-content:has(.admin-dashboard) {
+            background: #07152b;
+        }
+
+        body.dark-mode .admin-dashboard {
+            background:
+                radial-gradient(ellipse at 50% -15%, rgba(13, 94, 205, 0.34), transparent 45%),
+                linear-gradient(145deg, #07152b 0%, #081a35 58%, #07152b 100%);
+        }
+
         .dashboard {
             --dash-ink: #f3f7ff;
             --dash-muted: #a9bbd9;

@@ -7,7 +7,7 @@
     }
 </style>
 
-        <div class="container">
+        <div class="container-fluid loan-request-page-container">
             <div class="form-row justify-content-center">
                 <div class="col-lg-12">
                     <div class="card shadow-lg border-0 rounded-lg ">

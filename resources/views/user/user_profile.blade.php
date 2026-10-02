@@ -9,7 +9,7 @@
         --profile-card: #ffffff;
         --profile-tile: #f4f9f6;
         --profile-accent: #147b69;
-        width: min(1080px, calc(100% - 32px));
+        width: min(1480px, calc(100% - 40px));
         margin: 1.5rem auto;
         color: var(--profile-ink);
         font-family: 'Inter', sans-serif;

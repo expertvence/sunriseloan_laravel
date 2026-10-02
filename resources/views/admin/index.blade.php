@@ -1,7 +1,7 @@
 <main>
  
 
-    <div class="dashboard">
+    <div class="dashboard admin-dashboard">
         <!-- Header -->
         <div class="header">
             <div class="dashboard-heading">

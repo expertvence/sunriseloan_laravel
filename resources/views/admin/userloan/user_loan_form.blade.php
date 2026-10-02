@@ -6,7 +6,7 @@
         --commit-border: #d7e5e0;
         --commit-surface: #ffffff;
         --commit-soft: #f2f8f5;
-        width: min(1180px, calc(100% - 32px));
+        width: min(1480px, calc(100% - 40px));
         margin: 28px auto;
         color: var(--commit-ink);
     }
@@ -42,7 +42,7 @@
     .member-commit-select-area select { width: min(420px, 100%); min-height: 42px; border: 1px solid #c9ddd5; border-radius: 7px; background: #fff; color: #173a3b; padding: 0.55rem 0.7rem; font-size: 0.82rem; }
     .member-commit-select-area select:focus { border-color: #168573; outline: 0; box-shadow: 0 0 0 3px rgba(22, 133, 115, 0.12); }
 
-    .member-commit-stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.65rem; padding: 0.9rem 1.2rem 1.1rem; border-bottom: 1px solid var(--commit-border); }
+    .member-commit-stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 0.65rem; padding: 0.9rem 1.2rem 1.1rem; border-bottom: 1px solid var(--commit-border); }
     .member-commit-stat { min-width: 0; padding: 0.75rem 0.8rem; border: 1px solid #e1ece7; border-radius: 8px; background: var(--commit-soft); }
     .member-commit-stat-label { display: block; color: var(--commit-muted); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.035em; text-transform: uppercase; }
     .member-commit-stat-value { display: block; margin-top: 0.35rem; color: #1a5048; font-size: 0.95rem; font-weight: 720; line-height: 1.25; overflow-wrap: anywhere; }

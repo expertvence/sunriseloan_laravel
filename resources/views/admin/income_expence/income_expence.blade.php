@@ -7,10 +7,10 @@
     }
 </style>
 
-        <div class="container">
+        <div class="container-fluid income-expense-surface">
             <div class="form-row justify-content-center">
                 <div class="col-lg-12">
-                    <div class="card shadow-lg border-0 rounded-lg ">
+                    <div class="card income-expense-shell shadow-lg border-0 rounded-lg ">
                        
                         <div class="card-body">
                             @include('admin/income_expence/income_expence_form')

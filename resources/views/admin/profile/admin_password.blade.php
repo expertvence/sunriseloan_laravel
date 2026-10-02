@@ -83,7 +83,7 @@ padding:10px 18px; border-radius:12px; cursor:pointer;">
 
             <input type="password" name="new_password" id="new_password"
                 style="width:100%; padding:14px 50px 14px 48px; border:1.8px solid #e2e8f0; border-radius:16px;"
-                placeholder="Enter new password">
+                placeholder="Enter new password" minlength="8" required>
 
             <i class="fas fa-eye" onclick="togglePassword('new_password',this)"
                 style="position:absolute; right:16px; top:50%; transform:translateY(-50%); cursor:pointer; color:#8a9bb5;">
@@ -97,7 +97,7 @@ padding:10px 18px; border-radius:12px; cursor:pointer;">
 
             <input type="password" name="new_password_confirmation" id="confirm_password"
                 style="width:100%; padding:14px 50px 14px 48px; border:1.8px solid #e2e8f0; border-radius:16px;"
-                placeholder="Confirm password">
+                placeholder="Confirm password" minlength="8" required>
 
             <i class="fas fa-eye" onclick="togglePassword('confirm_password',this)"
                 style="position:absolute; right:16px; top:50%; transform:translateY(-50%); cursor:pointer; color:#8a9bb5;">
@@ -109,7 +109,7 @@ padding:10px 18px; border-radius:12px; cursor:pointer;">
                 style="width:100%; background:linear-gradient(135deg,#0a2540,#163a63); color:white; border:none; padding:16px 28px; border-radius:40px; font-weight:600; font-size:1.05rem; letter-spacing:0.3px; box-shadow:0 10px 25px rgba(10,37,64,0.3); cursor:pointer; transition:0.3s;">
             <i class="fas fa-save"></i> Update Password
         </button> --}}
-        <div><button type="button" onclick="saveFile(this)" class="btn btn-primary btn-block"
+        <div><button type="button" id="confirm-password-update" class="btn btn-primary btn-block"
                 redirect="{{ route('home') }}"style="width:100%; background:linear-gradient(135deg,#0a2540,#163a63); color:white; border:none; padding:16px 28px; border-radius:40px; font-weight:600; font-size:1.05rem; letter-spacing:0.3px; box-shadow:0 10px 25px rgba(10,37,64,0.3); cursor:pointer; transition:0.3s;">
                 <i class="fas fa-save"></i>Update Password</button></div>
     </form>
@@ -123,6 +123,7 @@ padding:10px 18px; border-radius:12px; cursor:pointer;">
 
 <!-- Add FontAwesome for icons (minimal, just for the image) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <script>
@@ -144,4 +145,84 @@ padding:10px 18px; border-radius:12px; cursor:pointer;">
             icon.classList.add("fa-eye");
         }
     }
+
+    $(document).ready(function() {
+        const form = document.getElementById('passwordForm');
+        const submitButton = document.getElementById('confirm-password-update');
+
+        submitButton.addEventListener('click', function() {
+            if (!form.reportValidity()) return;
+
+            const newPassword = form.elements.new_password.value;
+            const confirmPassword = form.elements.new_password_confirmation.value;
+            if (newPassword !== confirmPassword) {
+                Swal.fire({
+                    title: 'Passwords do not match',
+                    text: 'Please make sure both new password fields match.',
+                    icon: 'warning',
+                    confirmButtonColor: '#163a63'
+                });
+                form.elements.new_password_confirmation.focus();
+                return;
+            }
+
+            Swal.fire({
+                title: 'Update your password?',
+                text: 'You will need to use the new password the next time you sign in.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Update password',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#163a63',
+                cancelButtonColor: '#64748b',
+                reverseButtons: true
+            }).then(function(result) {
+                if (!result.isConfirmed) return;
+
+                submitButton.disabled = true;
+                $.ajax({
+                    url: form.action,
+                    type: form.method,
+                    data: $(form).serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Accept': 'application/json'
+                    },
+                    success: function(response) {
+                        if (response.title !== 'Success' || response.success === false) {
+                            submitButton.disabled = false;
+                            Swal.fire({
+                                title: response.title || 'Password not updated',
+                                text: response.message || response.msg || 'The current password is incorrect.',
+                                icon: 'error',
+                                confirmButtonColor: '#163a63'
+                            });
+                            return;
+                        }
+
+                        Swal.fire({
+                            title: 'Password updated',
+                            text: response.message || 'Your password was changed successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'Continue',
+                            confirmButtonColor: '#163a63',
+                            allowOutsideClick: false
+                        }).then(function() {
+                            window.location.href = submitButton.getAttribute('redirect');
+                        });
+                    },
+                    error: function(xhr) {
+                        submitButton.disabled = false;
+                        const message = xhr.responseJSON && (xhr.responseJSON.message || xhr.responseJSON.msg);
+                        Swal.fire({
+                            title: xhr.status === 422 ? 'Check the password fields' : 'Update failed',
+                            text: message || 'The password could not be updated. Please try again.',
+                            icon: 'error',
+                            confirmButtonColor: '#163a63'
+                        });
+                    }
+                });
+            });
+        });
+    });
 </script>

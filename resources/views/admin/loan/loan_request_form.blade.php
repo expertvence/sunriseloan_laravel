@@ -18,7 +18,8 @@
         --request-ink: #173a3b;
         --request-muted: #607c7b;
         --request-line: #d7e5e1;
-        max-width: 1060px;
+        width: 100%;
+        max-width: 1480px;
         margin: 1.5rem auto;
         overflow: hidden;
         border: 1px solid var(--request-line);
@@ -146,7 +147,8 @@
 
     .member-request-nav {
         display: flex;
-        width: min(1060px, 100%);
+        width: 100%;
+        max-width: 1480px;
         justify-content: flex-end;
         gap: 0.5rem;
         margin: 1rem auto -0.75rem;
