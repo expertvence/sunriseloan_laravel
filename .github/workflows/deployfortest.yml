@@ -18,7 +18,6 @@ jobs:
           username: u847662062.apps
           password: "@7F:>~0rcO[k^3Ll"
           # exclude: |
-          
            **/.git*
            **/.github/**
            **/node_modules/**
