@@ -2,7 +2,7 @@ name: Deploy Private GitHub repository to our server
 on:
   push:
     branches:
-      - version_1
+      - main
 jobs:
   FTP-Deploy-Action:
     name: FTP-Deploy-Action
@@ -14,14 +14,10 @@ jobs:
       - name: FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          # server: ftp.expertvence.com
-          # username: u847662062.bank
-          # password: "8&EEa;Nn;f:t"
-            server: ftp.project.expertvence.com
-            username: u847662062.apps
-            password: "@7F:>~0rcO[k^3Ll"
-
-            exclude: |
+          server: ftp.expertvence.com
+          username: u847662062.bank
+          password: "8&EEa;Nn;f:t"
+          exclude: |
 
             **/.git*
             **/.github/**
