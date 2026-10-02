@@ -167,6 +167,7 @@ Route::get('/edit-assets/{id}',[TotalAssetController::class,'edit_assets'])->nam
 Route::post('/destroy-assets/{id}',[TotalAssetController::class,'destroyAsset'])->name('destroy-assets');
 // Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
 Route::get('/admin-panel', [HomeController::class, 'adminPanel'])->name('admin-panel');
+Route::delete('/loan-commit/{id}', [LoanCommitController::class, 'deleteCommit'])->name('loan-commit.delete');
  //Employee Salary
  Route::get('/employee-salary',[EmployeeSalaryController::class, 'index'])->name('employee-salary');
 
@@ -178,6 +179,9 @@ Route::get('/member_profile/{id}', [HomeController::class, 'memberProfile'])->na
 //Route::get('/admin-panel', 'HomeController@adminPanel')->name('admin-panel');
 
 Route::get('/userDashboard',[UserLoanController::class,'userDashboard'])->name('userDashboard');
+Route::get('/my-loan-requests', [LoanRequestController::class, 'myLoanRequests'])
+    ->middleware(['auth', 'user.type:user'])
+    ->name('my-loan-requests');
 Route::get('/user-profile',[UserController::class,'index'])->name('user-profile');
 Route::get('/for-get',[LoancategoryController::class, 'categoriwithid'])->name('for-get');
 /* Route::middleware(['auth', 'user.type:user'])->group(function () {   

@@ -86,7 +86,7 @@ class HomeController extends Controller
 
         // dd($totalExpence);
         // Return the admin view
-        return Template::loadView('admin.index', compact(
+        return Template::loadView('admin.index', array_merge(compact(
             'totalAssets',
             'loan',
             'remainingAmount',
@@ -96,7 +96,7 @@ class HomeController extends Controller
             'exactAssetsWithprofitandwithoutloan',
             'totalExpence',
             'totalServicesCharge'
-        ));
+        ), $this->dashboardInsightData()));
     }
 
     public function test()
@@ -159,7 +159,7 @@ class HomeController extends Controller
         $totalManager = User::where('user_type', 'manager')->count();
         $activeManger = User::where('user_type', 'manager')->where('status', 'active')->count();
 
-        return Template::loadView('admin.index', compact(
+        return Template::loadView('admin.index', array_merge(compact(
             'totalAssets',
             'loan',
             'remainingAmount',
@@ -175,7 +175,42 @@ class HomeController extends Controller
             'totalDeposit',
             'totalWithdraw',
             'totalBalance'
-        ));
+        ), $this->dashboardInsightData()));
+    }
+
+    private function dashboardInsightData()
+    {
+        $loanStatusCounts = Loan::query()
+            ->selectRaw('status, COUNT(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        $recentLoanRequests = Loan::with('user')
+            ->latest('created_at')
+            ->take(5)
+            ->get();
+
+        $financeEntries = IncomeExpense::whereBetween('date', [now()->subDays(6)->toDateString(), now()->toDateString()])
+            ->get(['date', 'type', 'income_expence'])
+            ->groupBy(function ($entry) {
+                return \Carbon\Carbon::parse($entry->date)->toDateString();
+            });
+
+        $financialOverview = collect(range(6, 0))->map(function ($daysAgo) use ($financeEntries) {
+            $date = now()->subDays($daysAgo);
+            $entries = $financeEntries->get($date->toDateString(), collect());
+            $income = (float) $entries->where('type', 'Income')->sum('income_expence');
+            $expense = (float) $entries->where('type', 'Expense')->sum('income_expence');
+
+            return [
+                'label' => $date->format('M j'),
+                'income' => $income,
+                'expense' => $expense,
+                'net' => $income - $expense,
+            ];
+        })->values();
+
+        return compact('loanStatusCounts', 'recentLoanRequests', 'financialOverview');
     }
 
     public function memRegistration()

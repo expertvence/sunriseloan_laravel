@@ -108,14 +108,21 @@ class UserLoanController extends Controller
         $loanInterest = $totalLoanAmt * ($laonPercentage / 100);
 
         $loanInterestWithAmount = $loanInterest + $totalLoanAmt;
-        $committedLoan = LoanCommit::where('loan_payment_id', $loan->loan_ide)->where('status', 'approved')->sum('payment_amount');
-        $remainingAmount = $totalLoanAmt - $committedLoan;
+        $committedLoan = 0;
+        $latestMonth = null;
 
-      $latestMonth = LoanCommit::where('loan_payment_id', $loan->loan_ide)
-            ->where('status', 'approved')
-            ->latest()
-            ->first()
-            ->payment_month ?? null;
+        if ($loan) {
+            $committedLoan = LoanCommit::where('loan_payment_id', $loan->loan_ide)
+                ->where('status', 'approved')
+                ->sum('payment_amount');
+
+            $latestMonth = LoanCommit::where('loan_payment_id', $loan->loan_ide)
+                ->where('status', 'approved')
+                ->latest()
+                ->value('payment_month');
+        }
+
+        $remainingAmount = $totalLoanAmt - $committedLoan;
 
 
         return Template::loadView('admin/userdashboard', [

@@ -14,7 +14,9 @@
 			<div id="layoutSidenav_content">
 				<div class="{{auth()->user() ? 'content-wrapper' : ''}}">
 					<main id="page-content">
-						<!-- @yield('content') -->
+						@isset($contentView)
+							@include($contentView)
+						@endisset
 							
 					</main>
 				</div>

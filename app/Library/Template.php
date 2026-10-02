@@ -25,6 +25,7 @@ class Template
             return view($pageName, $data);
         } else {
             // dd($data);
+            $data['contentView'] = $pageName;
              return view("layouts.master", $data);
             // return view($pageName, $data);
         }

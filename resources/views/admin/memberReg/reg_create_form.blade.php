@@ -541,7 +541,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                     <div class="premium-input-group">
                         <div class="form-floating">
                             <input class="form-control" id="age" name="age" type="number" placeholder="Enter your age" value="{{ $age }}" />
-                            <label for="age"><i class="fas fa-birthday-cake me-2"></i>Age</label>
+                            <label for="age"><i class="fas fa-birthday-cake me-2"></i>Age (optional)</label>
                         </div>
                     </div>
                 </div>
@@ -556,7 +556,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                                 <option value="Buddis" @if ($religion == 'Buddis') selected @endif>Buddis</option>
                                 <option value="Kristan" @if ($religion == 'Kristan') selected @endif>Kristan</option>
                             </select>
-                            <label for="religion"><i class="fas fa-pray me-2"></i>Religion</label>
+                            <label for="religion"><i class="fas fa-pray me-2"></i>Religion (optional)</label>
                         </div>
                     </div>
                 </div>
@@ -565,7 +565,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                     <div class="premium-input-group">
                         <div class="form-floating">
                             <input class="form-control" id="inputEmail" type="email" name="email" placeholder="name@example.com" value="{{ $email }}" />
-                            <label for="inputEmail"><i class="fas fa-envelope me-2"></i>Email</label>
+                            <label for="inputEmail"><i class="fas fa-envelope me-2"></i>Email (optional)</label>
                         </div>
                     </div>
                 </div>
@@ -576,7 +576,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                     <div class="premium-input-group">
                         <div class="form-floating">
                             <input class="form-control" id="fathers_name" name="fathers_name" type="text" placeholder="Enter father's name" value="{{ $fathers_name }}" />
-                            <label for="fathers_name"><i class="fas fa-male me-2"></i>Father's Name</label>
+                            <label for="fathers_name"><i class="fas fa-male me-2"></i>Father's Name (optional)</label>
                         </div>
                     </div>
                 </div>
@@ -585,7 +585,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                     <div class="premium-input-group">
                         <div class="form-floating">
                             <input class="form-control" id="mothers_name" name="mothers_name" type="text" placeholder="Enter mother's name" value="{{ $mothers_name }}" />
-                            <label for="mothers_name"><i class="fas fa-female me-2"></i>Mother's Name</label>
+                            <label for="mothers_name"><i class="fas fa-female me-2"></i>Mother's Name (optional)</label>
                         </div>
                     </div>
                 </div>
@@ -640,7 +640,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                         <div class="premium-input-group">
                             <div class="form-floating">
                                 <input class="form-control" id="nomini_name" name="nomini_name" type="text" placeholder="Enter nominee name" value="{{ $nomini_name }}" />
-                                <label for="nomini_name"><i class="fas fa-user me-2"></i>Nominee Name</label>
+                                <label for="nomini_name"><i class="fas fa-user me-2"></i>Nominee Name (optional)</label>
                             </div>
                         </div>
                     </div>
@@ -649,7 +649,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                         <div class="premium-input-group">
                             <div class="form-floating">
                                 <input class="form-control" id="nomini_relation" name="nomini_relation" type="text" placeholder="Enter relation" value="{{ $nomini_relation }}" />
-                                <label for="nomini_relation"><i class="fas fa-heart me-2"></i>Relation</label>
+                                <label for="nomini_relation"><i class="fas fa-heart me-2"></i>Relation (optional)</label>
                             </div>
                         </div>
                     </div>
@@ -658,7 +658,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                         <div class="premium-input-group">
                             <div class="form-floating">
                                 <input class="form-control" id="nomini_age" name="nomini_age" type="number" placeholder="Enter age" value="{{ $nomini_age }}" />
-                                <label for="nomini_age"><i class="fas fa-birthday-cake me-2"></i>Age</label>
+                                <label for="nomini_age"><i class="fas fa-birthday-cake me-2"></i>Age (optional)</label>
                             </div>
                         </div>
                     </div>
@@ -667,7 +667,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                         <div class="premium-input-group">
                             <div class="form-floating">
                                 <input class="form-control" id="nomini_birth_nid" name="nomini_birth_nid" type="text" placeholder="Birth certificate / NID" value="{{ $nomini_barth_or_ind }}" />
-                                <label for="nomini_birth_nid"><i class="fas fa-id-card me-2"></i>Birth / NID</label>
+                                <label for="nomini_birth_nid"><i class="fas fa-id-card me-2"></i>Birth / NID (optional)</label>
                             </div>
                         </div>
                     </div>
@@ -678,7 +678,7 @@ $is_publish=isset($data->is_publish)  ? $data->is_publish : "";
                         <div class="premium-input-group">
                             <div class="form-floating">
                                 <textarea class="form-control" id="nomini_adress" name="nomini_adress" placeholder="Enter nominee address" style="height: 120px">{{ old('nomini_adress', $nomini_address) }}</textarea>
-                                <label for="nomini_adress"><i class="fas fa-map-marker-alt me-2"></i>Nominee Address</label>
+                                <label for="nomini_adress"><i class="fas fa-map-marker-alt me-2"></i>Nominee Address (optional)</label>
                             </div>
                         </div>
                     </div>

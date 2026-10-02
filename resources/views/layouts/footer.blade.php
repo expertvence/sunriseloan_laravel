@@ -8,8 +8,6 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
  {{-- <script src="https://js.pusher.com/7.0/pusher.min.js"></script> --}}
 
- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
  {{-- <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.min.js"></script> --}}
  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js"
      integrity="sha512-8Y8eGK92dzouwpROIppwr+0kPauu0qqtnzZZNEF8Pat5tuRNJxJXCkbQfJ0HlUG3y1HB3z18CSKmUo7i2zcPpg=="
@@ -71,7 +69,7 @@
          var current_page_route_name = '{{ Route::currentRouteName() }}';
          var page_without_block = [];
 
-         if (pageurl != "") {
+         if (pageurl != "" && $('#page-content').children().length === 0) {
              console.log(pageurl + 'bellal')
              blockUI();
              $.ajax({

@@ -118,6 +118,17 @@ class LoanCommitController extends Controller
         return response()->json($loan);
     }
 
+    public function deleteCommit($id)
+    {
+        $loanCommit = LoanCommit::findOrFail($id);
+        $loanCommit->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Loan commitment deleted successfully.',
+        ]);
+    }
+
     // public function insertLoanCommit(Request $request)
     // {
     //     // dd($request->all());

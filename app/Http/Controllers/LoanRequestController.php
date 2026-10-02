@@ -25,6 +25,17 @@ class LoanRequestController extends Controller
         return Template::loadView('admin/loan/loan_list', ['data' => $data]);
     }
 
+    public function myLoanRequests()
+    {
+        $user = Auth::user();
+
+        $loans = Loan::where('user_id', $user->id)
+            ->latest('created_at')
+            ->get();
+
+        return view('admin.loan.user_loan_requests', compact('loans'));
+    }
+
 
     public function showLonDetails($loan_ide)
     {
@@ -63,6 +74,11 @@ class LoanRequestController extends Controller
         try {
 
             DB::beginTransaction();
+
+            $authenticatedUser = Auth::user();
+            if ($authenticatedUser && $authenticatedUser->user_type === 'user') {
+                $request->merge(['member_id' => $authenticatedUser->member_id]);
+            }
 
             $request->validate([
                 'member_id'        => 'required|exists:members,id',

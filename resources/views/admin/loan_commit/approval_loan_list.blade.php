@@ -5,6 +5,8 @@
         --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
         --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
         --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+        --action-bg: #ffffff;
+        --action-hover: #f1f5f9;
     }
 
     /* Light Mode */
@@ -332,6 +334,11 @@
     .action-wrapper {
         position: relative;
         display: inline-block;
+            z-index: 1;
+        }
+
+        .action-wrapper:focus-within {
+            z-index: 1050;
     }
 
     .action-toggle-premium {
@@ -359,11 +366,12 @@
         top: 40px;
         right: 0;
         min-width: 160px;
-        background: var(--action-bg);
+        background-color: var(--action-bg, #ffffff);
+        opacity: 1;
         border-radius: 12px;
         padding: 6px;
         display: none;
-        z-index: 1000;
+        z-index: 1060;
         box-shadow: var(--shadow-lg);
         border: 2px solid var(--border-color);
         animation: slideDown 0.2s ease;
@@ -587,6 +595,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="premium-card">
     <div class="card-header">
@@ -700,7 +709,8 @@
 
                                         @if (auth()->user()->user_type == 'admin')
                                             <button type="button" class="dropdown-item text-danger btnDelete"
-                                                data-id="{{ $value->id }}">
+                                                data-id="{{ $value->id }}"
+                                                data-url="{{ route('loan-commit.delete', $value->id) }}">
                                                 <i class="fas fa-trash"></i> Delete
                                             </button>
                                         @endif
@@ -716,7 +726,17 @@
 </div>
 
 <script>
-    openDoctorAutocomplete('#member_name', 'member_id');
+    const initializeMemberAutocomplete = function() {
+        if (typeof window.openDoctorAutocomplete === 'function') {
+            window.openDoctorAutocomplete('#member_name', 'member_id');
+        }
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeMemberAutocomplete, { once: true });
+    } else {
+        initializeMemberAutocomplete();
+    }
     
     $(document).ready(function() {
         // Destroy existing DataTable if any
@@ -755,6 +775,55 @@
         // Click outside to close
         $(document).on('click', function() {
             $(".action-dropdown-premium").hide();
+        });
+
+        $(document).on('click', '.btnDelete', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const button = $(this);
+            const commitId = button.data('id');
+
+            Swal.fire({
+                title: 'Delete this commitment?',
+                text: `Loan commitment #${commitId} will be permanently deleted.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Yes, delete it',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then(function(result) {
+                if (!result.isConfirmed) {
+                    return;
+                }
+
+                button.prop('disabled', true);
+
+                $.ajax({
+                    url: button.data('url'),
+                    type: 'DELETE',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (!response.success) {
+                            button.prop('disabled', false);
+                            Swal.fire('Delete failed', response.message || 'Could not delete the loan commitment.', 'error');
+                            return;
+                        }
+
+                        $('#datatablesSimple').DataTable().row(button.closest('tr')).remove().draw(false);
+                        Swal.fire('Deleted', response.message || 'Loan commitment deleted successfully.', 'success');
+                    },
+                    error: function(xhr) {
+                        button.prop('disabled', false);
+                        const message = xhr.responseJSON && xhr.responseJSON.message;
+                        Swal.fire('Delete failed', message || 'Could not delete the loan commitment. Please try again.', 'error');
+                    }
+                });
+            });
         });
     });
 

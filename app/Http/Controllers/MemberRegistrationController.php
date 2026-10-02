@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 
 class MemberRegistrationController extends Controller
@@ -52,6 +53,38 @@ class MemberRegistrationController extends Controller
                 $status = $request->status ?? 'inactive';
             }
 
+            $email = trim((string) $request->input('email', ''));
+            $generatedEmail = false;
+
+            if ($id == '' && $email == '') {
+                $email = $this->generateUniqueMemberEmail($request->name);
+                $generatedEmail = true;
+            } elseif ($id != '' && $email == '') {
+                $email = User::where('member_id', $id)->value('email')
+                    ?? MemberRegistration::where('id', $id)->value('email');
+            }
+
+            if ($email !== '') {
+                $duplicateEmail = User::where('email', $email)
+                    ->when($id != '', function ($query) use ($id) {
+                        $query->where('member_id', '!=', $id);
+                    })
+                    ->exists();
+                $duplicateMemberEmail = MemberRegistration::where('email', $email)
+                    ->when($id != '', function ($query) use ($id) {
+                        $query->where('id', '!=', $id);
+                    })
+                    ->exists();
+
+                if ($duplicateEmail || $duplicateMemberEmail) {
+                    DB::rollback();
+                    return response()->json([
+                        'msg' => 'Email already exists',
+                        'title' => 'Error',
+                    ]);
+                }
+            }
+
             $data = [
                 'Uid' => $request->uid,
                 'name' => $request->name,
@@ -63,7 +96,7 @@ class MemberRegistrationController extends Controller
                 'mobile' => $request->mobile,
                 'address' => $request->address,
                 'user_type' => 'user',
-                'email' => $request->email,
+                'email' => $email,
                 'no_of_share' => $request->number_of_share,
                 'share_amount' => $request->share_amt,
                 'nid' => $request->nid,
@@ -94,15 +127,6 @@ class MemberRegistrationController extends Controller
 
             if ($id == "") {
 
-                // ❗ Email duplicate check BEFORE insert
-                $existingUser = User::where('email', $request->email)->first();
-                if ($existingUser) {
-                    return response()->json([
-                        'msg' => 'Email already exists',
-                        'title' => 'Error'
-                    ]);
-                }
-
                 $member_id = MemberRegistration::insertGetId($data);
 
                 if ($member_id) {
@@ -111,7 +135,7 @@ class MemberRegistrationController extends Controller
                     $nameParts = explode(' ', $request->name); // Split name into parts
                     $firstLetter = strtolower(substr($nameParts[0], 0, 1)); // First letter of first name
                     $lastName = isset($nameParts[1]) ? strtolower($nameParts[1]) : ''; // Last name if exists
-                    $emailPrefix = strtolower(explode('@', $request->email)[0]); // Email before @
+                    $emailPrefix = strtolower(explode('@', $email)[0]); // Email before @
                     $baseUserName = "@{$firstLetter}{$lastName}_{$emailPrefix}_sunriseloan";
 
                     // Ensure uniqueness
@@ -126,7 +150,7 @@ class MemberRegistrationController extends Controller
                     $user_data = [
                         'name' => $request->name,
                         'user_name' => $userName,
-                        'email' => $request->email,
+                        'email' => $email,
                         'member_id' => $member_id,
                         'password' => Hash::make('12345678'),
                         'status' => 'active',
@@ -141,8 +165,9 @@ class MemberRegistrationController extends Controller
                     DB::commit();
 
                     return response()->json([
-                        'msg' => 'Member Saved Successfully',
-                        'title' => 'Success'
+                        'msg' => 'Member Saved Successfully' . ($generatedEmail ? '. Generated login email: ' . $email : ''),
+                        'title' => 'Success',
+                        'generated_email' => $generatedEmail ? $email : null,
                     ]);
                 } else {
                     DB::rollback();
@@ -153,7 +178,7 @@ class MemberRegistrationController extends Controller
 
                 User::where('member_id', $id)->update([
                     'name' => $request->name,
-                    'email' => $request->email,
+                    'email' => $email,
                     'update_ref_id' => Auth::user()->id,
                     'updated_by' => Auth::user()->name,
                 ]);
@@ -174,6 +199,22 @@ class MemberRegistrationController extends Controller
                 'title' => 'Error'
             ]);
         }
+    }
+
+    private function generateUniqueMemberEmail($name)
+    {
+        $nameSlug = Str::slug((string) $name, '.');
+        $nameSlug = $nameSlug !== '' ? $nameSlug : 'member';
+        $sequence = 1;
+
+        do {
+            $email = $nameSlug . '.' . $sequence . '@gmail.com';
+            $userExists = User::where('email', $email)->exists();
+            $memberExists = MemberRegistration::where('email', $email)->exists();
+            $sequence++;
+        } while ($userExists || $memberExists);
+
+        return $email;
     }
 
     public function updateStatus(Request $request)
