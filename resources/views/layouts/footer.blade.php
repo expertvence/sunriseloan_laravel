@@ -42,52 +42,65 @@
     });
   
      $(document).ready(function() {
-        $('.ajax_link').click(function(e) {
-             e.preventDefault(); // Prevent default behavior of anchor tag
-             var url = $(this).data('url'); // Get the URL from data attribute
-             blockUI();
-            console.log(url+'________-url');
-             // Send AJAX request to the Laravel route
-             $.ajax({
-                 async: false,
-                 type: 'get',
-                 url: url,
-                 beforeSend: function() {
-                     blockUI();
+        var loginUrl = $('meta[name="login-url"]').attr('content');
 
-                 },
-                 success: function(data) {
-                     $.unblockUI();
-                     window.history.pushState({path: url}, '', url);
-                     $('#page-content').html(data);
-                 }
-             });
-         });
+        function isLoginPage(data, responseUrl) {
+            if (responseUrl && new URL(responseUrl, window.location.href).pathname.replace(/\/$/, '') === new URL(loginUrl, window.location.href).pathname.replace(/\/$/, '')) {
+                return true;
+            }
 
-         var pageurl = '{{ url()->full() }}';
-         var img_path = 'images/loader.gif';
-         var current_page_route_name = '{{ Route::currentRouteName() }}';
-         var page_without_block = [];
+            return /<form[^>]+(?:action=["'][^"']*login|id=["']login-form)/i.test(data || '') ||
+                /<title>[^<]*login/i.test(data || '');
+        }
 
-         if (pageurl != "" && $('#page-content').children().length === 0) {
-             console.log(pageurl + 'bellal')
-             blockUI();
-             $.ajax({
-                 async: false,
-                 type: 'get',
-                 url: pageurl,
-                 beforeSend: function() {
-                     blockUI();
+        function loadPage(url, updateHistory) {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                cache: false,
+                headers: { 'Accept': 'text/html, application/json' },
+                beforeSend: function() {
+                    if ($.blockUI) blockUI();
+                },
+                success: function(data, status, xhr) {
+                    $.unblockUI();
 
-                 },
-                 success: function(data) {
-                     $.unblockUI();
-                     $('#page-content').html(data);
-                 }
-             });
-         }
+                    if (isLoginPage(data, xhr.responseURL)) {
+                        window.location.assign(xhr.responseURL || loginUrl);
+                        return;
+                    }
 
-       
+                    $('#page-content').html(data);
+                    if (updateHistory) {
+                        window.history.pushState({ path: url }, '', url);
+                    }
+                },
+                error: function(xhr) {
+                    $.unblockUI();
 
+                    if (xhr.status === 401 || xhr.status === 419 || isLoginPage(xhr.responseText, xhr.responseURL)) {
+                        window.location.assign(loginUrl);
+                        return;
+                    }
+
+                    $('#page-content').html('<div class="alert alert-danger m-3" role="alert">This page could not be loaded. Please try again.</div>');
+                }
+            });
+        }
+
+        $(document).on('click', '.ajax_link', function(e) {
+            e.preventDefault();
+            var url = $(this).data('url');
+            if (url) loadPage(url, true);
+        });
+
+        window.addEventListener('popstate', function() {
+            loadPage(window.location.href, false);
+        });
+
+        var pageurl = window.location.href;
+        if (pageurl && $('#page-content').children().length === 0) {
+            loadPage(pageurl, false);
+        }
      });
  </script>
