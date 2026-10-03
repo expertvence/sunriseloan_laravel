@@ -125,7 +125,7 @@
 
             <img src="{{ !empty($user->member_photo)
                 ? asset('images/member_images/' . $user->member_photo)
-                : asset('images/member_images/avater2.jpg') }}"
+                : asset('assets/img/avatar.png') }}"
                 class="profile-avatar">
 
             <h3>{{ $user->name ?? '' }}</h3>

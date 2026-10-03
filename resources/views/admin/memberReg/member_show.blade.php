@@ -85,7 +85,7 @@
                     @if (!empty($user) && $user->member_photo != '')
                         <img src="{{ asset('images/member_images/' . $user->member_photo) }}" class="profile-avatar">
                     @else
-                        <img src="{{ asset('images/member_images/avater2.jpg') }}" class="profile-avatar">
+                        <img src="{{ asset('assets/img/avatar.png') }}" class="profile-avatar">
                     @endif
                 </div>
 

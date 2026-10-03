@@ -53,6 +53,41 @@
                 /<title>[^<]*login/i.test(data || '');
         }
 
+        function updateActiveSidebar(url) {
+            var targetPath;
+            try {
+                targetPath = new URL(url, window.location.href).pathname.replace(/\/$/, '');
+            } catch (e) {
+                return;
+            }
+
+            var $links = $('.sb-sidenav-menu .ajax_link');
+            $links.removeClass('active');
+            $('.sb-sidenav-menu .collapse').removeClass('show');
+            $('.sb-sidenav-menu .nav-link[data-bs-toggle="collapse"]')
+                .addClass('collapsed')
+                .attr('aria-expanded', 'false');
+
+            $links.each(function() {
+                var linkUrl = $(this).data('url');
+                if (!linkUrl) return;
+
+                try {
+                    var linkPath = new URL(linkUrl, window.location.href).pathname.replace(/\/$/, '');
+                    if (linkPath === targetPath) {
+                        var $link = $(this).addClass('active');
+                        var $collapse = $link.closest('.collapse');
+                        if ($collapse.length) {
+                            $collapse.addClass('show');
+                            $('[data-bs-target="#' + $collapse.attr('id') + '"]')
+                                .removeClass('collapsed')
+                                .attr('aria-expanded', 'true');
+                        }
+                    }
+                } catch (e) {}
+            });
+        }
+
         function loadPage(url, updateHistory) {
             $.ajax({
                 type: 'GET',
@@ -71,6 +106,7 @@
                     }
 
                     $('#page-content').html(data);
+                    updateActiveSidebar(url);
                     if (updateHistory) {
                         window.history.pushState({ path: url }, '', url);
                     }
@@ -95,9 +131,11 @@
         });
 
         window.addEventListener('popstate', function() {
+            updateActiveSidebar(window.location.href);
             loadPage(window.location.href, false);
         });
 
+        updateActiveSidebar(window.location.href);
         var pageurl = window.location.href;
         if (pageurl && $('#page-content').children().length === 0) {
             loadPage(pageurl, false);

@@ -1,4 +1,29 @@
 <main>
+<style>
+    .admin-dashboard .stats-grid > .card { --metric-rgb: 67, 97, 238; --metric-accent: #4361c5; border: 1px solid rgba(var(--metric-rgb), .2); border-left: 4px solid var(--metric-accent); border-radius: 13px; overflow: hidden; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+    .admin-dashboard .stats-grid > .card:nth-child(1) { --metric-rgb: 43, 132, 232; --metric-accent: #2b84e8; }
+    .admin-dashboard .stats-grid > .card:nth-child(2) { --metric-rgb: 22, 140, 114; --metric-accent: #168c72; }
+    .admin-dashboard .stats-grid > .card:nth-child(3) { --metric-rgb: 122, 82, 200; --metric-accent: #7a52c8; }
+    .admin-dashboard .stats-grid > .card:nth-child(4) { --metric-rgb: 207, 123, 18; --metric-accent: #cf7b12; }
+    .admin-dashboard .stats-grid > .card:nth-child(5) { --metric-rgb: 54, 114, 204; --metric-accent: #3672cc; }
+    .admin-dashboard .stats-grid > .card:nth-child(6) { --metric-rgb: 7, 142, 156; --metric-accent: #078e9c; }
+    .admin-dashboard .stats-grid > .card:nth-child(7) { --metric-rgb: 100, 86, 189; --metric-accent: #6456bd; }
+    .admin-dashboard .stats-grid > .card:nth-child(8) { --metric-rgb: 198, 83, 83; --metric-accent: #c65353; }
+    .admin-dashboard .stats-grid > .card:nth-child(9) { --metric-rgb: 175, 122, 28; --metric-accent: #af7a1c; }
+    .admin-dashboard .stats-grid > .card:nth-child(10) { --metric-rgb: 40, 131, 93; --metric-accent: #28835d; }
+    .admin-dashboard .stats-grid > .card:nth-child(11) { --metric-rgb: 196, 78, 112; --metric-accent: #c44e70; }
+    .admin-dashboard .stats-grid > .card .card-header { background: transparent !important; border-bottom: 1px solid rgba(var(--metric-rgb), .18); }
+    .admin-dashboard .stats-grid > .card .card-icon { background: rgba(var(--metric-rgb), .13); color: var(--metric-accent); }
+    .admin-dashboard .stats-grid > .card:hover { border-color: rgba(var(--metric-rgb), .48); box-shadow: 0 12px 26px rgba(var(--metric-rgb), .13); transform: translateY(-3px); }
+    body:not(.dark-mode) .admin-dashboard .stats-grid > .card:nth-child(n) { background: linear-gradient(135deg, rgba(var(--metric-rgb), .11), rgba(255,255,255,.98) 78%); border-color: rgba(var(--metric-rgb), .23); border-left-color: var(--metric-accent); }
+    body:not(.dark-mode) .admin-dashboard .stats-grid > .card:nth-child(n) .card-title { color: #52627a; }
+    body:not(.dark-mode) .admin-dashboard .stats-grid > .card:nth-child(n) .card-icon { background: rgba(var(--metric-rgb), .13); color: var(--metric-accent); }
+    body:not(.dark-mode) .admin-dashboard .stats-grid > .card:nth-child(n) .card-value { color: #172338; }
+    body.dark-mode .admin-dashboard .stats-grid > .card:nth-child(n) { background: linear-gradient(135deg, rgba(var(--metric-rgb), .2), rgba(8, 25, 49, .98) 78%); border-color: rgba(var(--metric-rgb), .34); border-left-color: var(--metric-accent); }
+    body.dark-mode .admin-dashboard .stats-grid > .card:nth-child(n) .card-title { color: #d5e2f5; }
+    body.dark-mode .admin-dashboard .stats-grid > .card:nth-child(n) .card-icon { background: rgba(var(--metric-rgb), .24); color: #fff; }
+    @media (prefers-reduced-motion: reduce) { .admin-dashboard .stats-grid > .card { transition: none; } }
+</style>
  
 
     <div class="dashboard admin-dashboard">

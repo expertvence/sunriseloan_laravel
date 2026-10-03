@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Library\Template;
+use App\Loan;
 use App\Manager;
 use App\User;
 use Illuminate\Http\Request;
@@ -19,7 +20,26 @@ class ManagerController extends Controller
         if (!$user) {
             return redirect()->route('login');
         }
-        return Template::loadView('manager/managerdashboard');
+
+        $managedMemberIds = User::where('ref_id', $user->id)
+            ->where('user_type', 'user')
+            ->whereNotNull('member_id')
+            ->pluck('member_id');
+
+        $memberCount = $managedMemberIds->unique()->count();
+        $activeMemberCount = \App\MemberRegistration::whereIn('id', $managedMemberIds)
+            ->where('status', 'active')
+            ->count();
+
+        $loanQuery = Loan::where('creator_id', $user->id);
+
+        return Template::loadView('manager/managerdashboard', [
+            'memberCount' => $memberCount,
+            'activeMemberCount' => $activeMemberCount,
+            'loanRequestCount' => (clone $loanQuery)->count(),
+            'pendingLoanCount' => (clone $loanQuery)->where('status', 'pending')->count(),
+            'requestedLoanTotal' => (clone $loanQuery)->sum('loan_amount'),
+        ]);
     }
 
     public function managerProfile()

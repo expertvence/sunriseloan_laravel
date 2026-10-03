@@ -21,7 +21,17 @@ class LoanRequestController extends Controller
 
     public function loanRequestList()
     {
-        $data = Loan::latest()->get();
+        $loanQuery = Loan::query();
+        if (Auth::check() && Auth::user()->user_type === 'manager') {
+            $loanQuery->where('creator_id', Auth::id());
+        }
+
+        $status = request()->query('status');
+        if (in_array($status, ['pending', 'complete', 'rejected'], true)) {
+            $loanQuery->where('status', $status);
+        }
+
+        $data = $loanQuery->latest()->get();
         return Template::loadView('admin/loan/loan_list', ['data' => $data]);
     }
 

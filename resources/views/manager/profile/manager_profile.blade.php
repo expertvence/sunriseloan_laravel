@@ -129,7 +129,7 @@ body{
 
     <img src="{{ $user->member_photo 
         ? asset('images/member_images/'.$user->member_photo) 
-        : asset('images/member_images/avater2.jpg') }}"
+        : asset('assets/img/avatar.png') }}"
         class="profile-img">
 
     <h4 class="mt-3">{{ $user->name }}</h4>
