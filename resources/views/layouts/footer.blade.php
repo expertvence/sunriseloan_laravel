@@ -33,6 +33,28 @@
         integrity="sha512-lEb9Vp/rkl9g2E/LdHIMFTqz21+LA79f84gqP75fbimHqVTu6483JG1AwJlWLLQ8ezTehty78fObKupq3HSHPQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
+ @if (auth()->check() && auth()->user()->user_type === 'admin')
+ <script>
+ (function ($) {
+   function initAdminTables() {
+     if (!$.fn.DataTable) return;
+     $('#page-content table:has(thead)').each(function () {
+       var table = this, $table = $(table);
+       if ($table.closest('form, .pdf-content, .print-only').length || $.fn.DataTable.isDataTable(table)) return;
+       if (!$table.find('tbody tr').length || $table.find('tbody input, tbody select, tbody textarea').length) return;
+       $table.DataTable({pageLength:10,lengthMenu:[10,25,50,100],ordering:true,autoWidth:false,scrollX:true,language:{search:'',searchPlaceholder:'Search...',lengthMenu:'Show _MENU_',emptyTable:'No records available'}});
+     });
+   }
+   $(function () {
+     initAdminTables();
+     var content = document.getElementById('page-content');
+     if (content && window.MutationObserver) new MutationObserver(function (records) {
+       if (records.some(function (record) { return record.addedNodes.length; })) initAdminTables();
+     }).observe(content,{childList:true,subtree:true});
+   });
+ })(jQuery);
+ </script>
+ @endif
  @stack('js')
  <script>
        $.ajaxSetup({

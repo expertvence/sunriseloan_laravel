@@ -699,7 +699,7 @@
 
                                     <div class="action-dropdown-premium">
                                         <span class="dropdown-item text-primary open-modal"
-                                            data-action="{{ url('user-commit-details/' . ($value->committed_user_id ?? $value->id)) }}"
+                                            data-action="{{ url('user-commit-details/' . ($value->loan_payment_id ?? $value->id)) }}"
                                             data-modal="common-modal-xl"
                                             data-title="{{ $value->member_name }} — Commit History"
                                             data-id="{{ $value->committed_user_id ?? $value->id }}"

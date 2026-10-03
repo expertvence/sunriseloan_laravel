@@ -18,6 +18,7 @@
 
    <!-- <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
    <link href="{{asset('css/styles.css')}}" rel="stylesheet" />
+   <link href="{{ asset('css/admin-ui.css') }}" rel="stylesheet" />
    {{-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"> --}}
    @stack('styles')
    <style>

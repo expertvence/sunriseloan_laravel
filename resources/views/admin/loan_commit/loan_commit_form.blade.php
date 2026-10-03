@@ -166,7 +166,7 @@
 
                 if (response.repayment_type === 'weekly') {
                     $('#week-container').show();
-                    populateWeekDropdown(4, response.committed_weeks || []); 
+                    populateWeekDropdown(5, []);
                 } else {
                     $('#week-container').hide();
                 }
@@ -281,7 +281,7 @@
                 // Weekly repayment
                 if (response.repayment_type === 'weekly') {
                     $('#week-container').show();
-                    populateWeekDropdown(4, response.committed_weeks || []);
+                    populateWeekDropdown(5, []);
                 } else {
                     $('#week-container').hide();
                 }
@@ -314,9 +314,9 @@
         const repaymentType = $('#repayment_type').val();
         const selectedWeeks = $('#from_week').val() || [];
 
-        if (repaymentType === 'weekly' && selectedWeeks.length > 4) {
+        if (repaymentType === 'weekly' && selectedWeeks.length > 5) {
             e.preventDefault();
-            alert('You cannot select more than 4 weeks per month!');
+            alert('You cannot select more than 5 weeks per month!');
         }
     });
 
@@ -380,4 +380,3 @@ $('#loan_id, #loan_year').on('change', function() {
 });
 
 </script>
-

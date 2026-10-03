@@ -44,11 +44,12 @@
             <select name="from_month[]" id="from_month" class="form-control" onclick="monthSelect(this)" multiple required="required">
                 <!-- Months will be populated here dynamically -->
             </select>
+            <div class="mt-2" id="week-container" style="display:none;"><label for="from_week"><strong>Week (optional)</strong></label><select id="from_week" name="from_week[]" class="form-control" multiple></select></div>
         </td>
 
         </div>
         <!-- Payment Schedule Field -->
-      
+
         <!-- Year Dropdown -->
         <div class="col-md-6">
             <div class="form-group">
@@ -72,7 +73,7 @@
                                                 Amount</strong></label></td>
         <td><input type="text" class="form-control" name="payable_amt" id="payable_amt"
                                               value="" readonly></td>
-     </div>  
+     </div>
  </div>
   <div class="row">
     <div class="col-md-6">
@@ -86,7 +87,7 @@
                                                 Savings</strong></label></td>
         <td><input type="text" class="form-control" name="total_savings" id="total_savings"
                                               value="" readonly></td>
-     </div>  
+     </div>
  </div>
  <div class="row">
         <!-- Payment Amount Field -->
@@ -109,7 +110,9 @@
     <div class="col-md-3">
         <div class="form-group">
             <label for="successfull_payment">Last Payment Month</label>
-            <input type="date" class="form-control" id="last_payment_month" name="last_payment_month"   readonly>
+            <input type="text" class="form-control" id="last_payment_month" name="last_payment_month"   readonly>
+            <label for="total_week">Payments already in last payment month</label>
+            <input type="text" class="form-control" id="total_week" name="total_week" readonly>
 
         </div>
 
@@ -126,13 +129,13 @@
     </div>
 
 </div>
-      
 
-    
-  
+
+
+
 <!-- <button type="submit" onclick="save(this)" class="btn btn-primary btn-block" redirect="#">Payment</button> -->
 <button type="submit" class="btn btn-primary" id="createLoanButton">Create Loan</button>
-<div id="message" style="display: none; color:red;"></div> 
+<div id="message" style="display: none; color:red;"></div>
 </form>
 
 </div>
@@ -141,7 +144,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
-    
+
     openDoctorAutocomplete('#member_name', 'member_id', '', '', memberInfo);
 
 function memberInfo(item, obj) {
@@ -196,6 +199,15 @@ function fetchLoansForUser(userId) {
 
 
 
+$('#loan_id').on('change', function () {
+    const loanIde = $(this).val(), select = $('#from_week').empty();
+    if (!loanIde) { $('#week-container').hide(); return; }
+    $.get('/employee-get-loan-details/' + loanIde, function (loan) {
+        if (loan.repayment_type !== 'weekly') { $('#week-container').hide(); return; }
+        $('#week-container').show();
+        for (let week=1; week<=5; week++) select.append(new Option('Week '+week,week));
+    });
+});
 // Fetch the loan details when a loan_ide is selected
 $('#loan_id').on('change', function() {
     let loanIde = $(this).val();  // Get the selected loan_ide
@@ -213,14 +225,14 @@ $('#loan_id').on('change', function() {
                 console.log('Loan details:', response); // Debug: Check the loan details returned
 
                 let loanAmount = parseFloat(response.loan_amount); // Loan amount as a float
-                let loanCategoryId = parseFloat(response.loan_category_id); // Loan category as a percentage (float)
+                let loanCategoryId = parseFloat(response.loan_category_percentage || response.loan_category_id); // Category interest percentage
                 let loanTerm = parseInt(response.loan_term); // Loan term as an integer
                 // Check if response has loan details
-                if (response && response.loan_amount && response.loan_term && response.	loan_category_id) {
+                if (response && response.loan_amount && response.loan_term && !isNaN(loanCategoryId)) {
                     // Populate the form fields with the loan details
                     $('#loan_amount').val(response.loan_amount);  // Populate loan amount
                     $('#loan_term').val(response.loan_term);  // Populate loan term
-                   
+
 
                     // Calculate the payment amount (loan_amount / loan_term)
                     // Calculate the interest as a percentage of the loan amount
@@ -259,7 +271,7 @@ function populateMonthDropdown() {
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
-    
+
     let monthSelect = document.getElementById('from_month'); // Get the select element
 
     // Clear any existing options in the dropdown
@@ -277,10 +289,10 @@ function populateMonthDropdown() {
 // Function to handle selected months and update the payable amount
 function monthSelect() {
     const fromMonthSelect = document.getElementById('from_month');
-    
+
     // Get the number of selected months
     const selectedMonths = fromMonthSelect.selectedOptions.length;
-    
+
     // Update the "No of Months" field
     document.getElementById('no_of_month').value = selectedMonths;
 
@@ -342,74 +354,15 @@ populateYearDropdown();
 
 
     $(document).ready(function () {
-    $('#loan-commit-form').on('submit', async function (event) {
-        event.preventDefault();  // Prevent default form submission
-
-        // Get form data
-        let selectedMonths = $('#from_month').val();  // Get selected months as an array
-        let loanIde = $('#loan_id').val();  // Get the loan ID
-        let paymentAmount = $('#payment_amount').val();  // Get the payment amount
-        let loanYear = $('#loan_year').val();  // Get the loan year
-
-        let duplicateMonths = [];  // Array to collect duplicate months
-        let successfulRequests = 0;
-
-        // Loop through selected months and check for duplicates
-        for (let month of selectedMonths) {
-            let formData = {
-                loan_payment_id: loanIde,
-                payment_amount: paymentAmount,
-                loan_year: loanYear,
-                from_month: [month],  // Send each month as an array with one element
-            };
-
-            try {
-                // Send AJAX request to check for duplicates
-                await $.ajax({
-                    url: '/employee-loan-commit',  // Backend URL to check duplicate
-                    method: 'POST',
-                    data: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // CSRF token for security
-                    },
-                    success: function (response) {
-                        // If no duplicate found, proceed with the submission
-                        successfulRequests++;
-                        
-                    },
-                    error: function (xhr, status, error) {
-                        // If duplicate found, add the month to the duplicateMonths array
-                        if (xhr.status === 400) {
-                            let duplicateMonth = xhr.responseJSON.duplicate_month;  // Get duplicate month from response
-                            duplicateMonths.push(duplicateMonth);  // Add duplicate month to the array
-                        } else {
-                            console.error('Error submitting for month:', month, error);
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error('Error during AJAX request:', error);
-            }
-        }
-
-        // After all AJAX requests, check if there are any duplicates
-        if (duplicateMonths.length > 0) {
-            // Show all duplicate months in one alert
-            alert('Duplicate entry for the following months: ' + duplicateMonths.join(', ') + ' in year ' + loanYear);
-            return;  // Stop further processing if duplicates are found
-        }
-
-        // If all requests are successful, submit the form
-        if (successfulRequests === selectedMonths.length) {
-            // Show success message if all months were processed successfully
-            alert('Loan Commit(s) created successfully!');
-
-            // Optionally, reset the form
-            $('#loan-commit-form')[0].reset();  // Reset all form fields
-
-            // Enable the submit button (if it was disabled)
-            $('#loan-commit-form button').prop('disabled', false);
-        }
+    $('#loan-commit-form').on('submit', function (event) {
+        event.preventDefault();
+        const form = $(this);
+        $.ajax({
+            url: form.attr('action'), method: 'POST', data: form.serialize(),
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            success: function (response) { alert(response.message || 'Loan commit(s) created successfully.'); form[0].reset(); $('#week-container').hide(); },
+            error: function (xhr) { alert((xhr.responseJSON && xhr.responseJSON.message) || 'Unable to save loan commits.'); }
+        });
     });
 });
 
@@ -440,27 +393,31 @@ $('#loan_id').on('change', function() {
                 console.log('Response from server:', response);  // Debug: Log the full response data
 
                 // Check if response contains totalPaid
-                if (response && response.totalPaid &&response.remainingAmount!== undefined) {
+                if (response && response.totalPaid !== undefined && response.remainingAmount !== undefined) {
                     console.log([
                         'Total Paid:', response.totalPaid,
                         'Remaining Amount:', response.remainingAmount
                     ]);  // Log totalPaid value
 
                     // Set the value in the field
-                    const totalPaid = parseFloat(Math.round(response.totalPaid));  // Ensure it's a float number
-                    const remainingAmount = parseFloat(Math.round(response.remainingAmount));  // Ensure it's a float number
-                    $('#successfull_payment').val(Math.round(totalPaid).toFixed(2));  // Set the value in the field
+                    const totalPaid = parseFloat(response.totalPaid || 0);  // Ensure it's a float number
+                    const remainingAmount = parseFloat(response.remainingAmount || 0);  // Ensure it's a float number
+                    $('#successfull_payment').val(totalPaid.toFixed(2));  // Keep cents
+                        $("#last_payment_month").val(response.lastPaymentMonth || "");
+                        $("#total_week").val(response.lastPaymentCount || response.totalWeeks || 0);
 
-                   
+
 
 
 
                     if (!isNaN(totalPaid&&remainingAmount)) {  // Check if it's a valid number
                         console.log('Setting totalPaid in field:', totalPaid.toFixed(2));
 
-                        $('#successfull_payment').val(Math.round(totalPaid).toFixed(2));  // Set the value in the field
+                        $('#successfull_payment').val(totalPaid.toFixed(2));  // Keep cents
+                        $("#last_payment_month").val(response.lastPaymentMonth || "");
+                        $("#total_week").val(response.lastPaymentCount || response.totalWeeks || 0);
                         $('#successfull_payment').trigger('change');  // Force the UI update
-                        $('#remaining_amount').val(Math.round(response.remainingAmount).toFixed(2));  // Set the value in the field
+                        $('#remaining_amount').val(remainingAmount.toFixed(2));  // Set the value in the field
                         $('#remaining_amount').trigger('change');  // Force the UI update
                        // $('#last_payment_month').val(response.lastPaymentData);
                     } else {
@@ -473,7 +430,7 @@ $('#loan_id').on('change', function() {
                         $('#createLoanButton').prop('disabled', true);
                         $('#createLoanButton').css('background-color', 'red');
                         $('#createLoanButton').css('border-color', 'red');
-                        
+
                         // Show the message
                         $('#message').text('Your loan commitment is completed. Create a new commitment.').show();
                     } else {
@@ -503,7 +460,7 @@ $('#loan_id').on('change', function() {
 </script>
 
 
-<!-- 
+<!--
 <script>
     // Get the CSRF token from the meta tag
     let csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -546,7 +503,7 @@ $('#user-suggestions').on('click', '.user-item', function() {
     let userId = $(this).data('user-id');
     let loanIde = $(this).data('loan-ide');  // This is the loan ID, we can ignore it here
     let userName = $(this).text();  // The text content is the user's name
-    
+
     // Set the loan_ide (User Name) input value to the selected user's name
     $('#loan_ide').val(userName);  // Populate the User Name input field
 
@@ -566,7 +523,7 @@ $('#user-suggestions').on('click', '.user-item', function() {
                         // Populate the form fields with the loan data
                         $('#loan_amount').val(parseFloat(loan.loan_amount).toFixed(2));  // Populate loan amount as a number
                         $('#loan_schedule').val(loan.payment_schedule);  // Populate payment schedule (make sure this exists in your response)
-                        
+
                         // Show the full loan term (e.g., "6 months")
                         $('#loan_term').val(loan.loan_term);  // Display the full loan term (e.g., "6 months")
 
@@ -595,15 +552,15 @@ function calculatePaymentAmount(amount, term) {
         let monthlyPayment = amount / term;  // Simple calculation (you can modify this as needed)
         console.log('Calculated Monthly Payment:', monthlyPayment); // Debug: Log calculated monthly payment
         $('#payment_amount').val(monthlyPayment.toFixed(2));
-        
+
         let number_of_commit= amount/monthlyPayment;
         console.log('Number of commits:',number_of_commit);
         $('#total_commit').val(number_of_commit.toFixed(2));
-       
+
     }
 
-   
-    
+
+
 }
 
 

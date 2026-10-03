@@ -240,10 +240,12 @@ class LoanController extends Controller
             'loan_commits.*',
             'loans.loan_term',
             'members.name as member_name',
-            'members.email as member_email'
+            'members.email as member_email',
+            'loan_payment_id',
         )
         ->leftJoin('loans', 'loans.loan_ide', '=', 'loan_commits.loan_payment_id')
         ->leftJoin('members', 'members.id', '=', 'loans.member_id')
+        ->orderBy('loan_commits.created_at', 'desc')
         ->get();
 
     return Template::loadView('admin.loan_commit.approval_loan_list', compact('data'));

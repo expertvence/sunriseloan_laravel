@@ -2,7 +2,7 @@
 <html lang="en">
 @include('layouts.head')
 
-<body class="sb-nav-fixed mainContant">
+<body class="sb-nav-fixed mainContant {{ auth()->check() && auth()->user()->user_type === 'admin' ? 'admin-ui' : '' }}">
 	
 		@include('layouts.header')
 		@include('layouts.css')

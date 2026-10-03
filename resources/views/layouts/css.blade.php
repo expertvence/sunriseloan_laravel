@@ -1007,4 +1007,23 @@
                 grid-template-columns: 1fr;
             }
         }
+        /* Desktop-wide forms: keep the current small-screen layout unchanged. */
+        @media (min-width: 1200px) {
+            #page-content > *:has(form) {
+                width: min(1680px, calc(100% - 40px));
+                max-width: 1680px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            #page-content > *:has(form) :is(.container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl, .container-fluid) {
+                width: 100%;
+                max-width: none !important;
+            }
+
+            #page-content > *:has(form) :is(.loan-commit-entry, .loan-request-card, .deposit-page-shell, .income-expense-surface, .asset-page-shell, .form-card, .form-container) {
+                width: 100%;
+                max-width: none;
+            }
+        }
     </style>
