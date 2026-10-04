@@ -1,29 +1,64 @@
+# name: Deploy Private GitHub repository to our server
+# on:
+#   push:
+#     branches:
+#       - version_1
+# jobs:
+#   FTP-Deploy-Action:
+#     name: FTP-Deploy-Action
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2.1.0
+#         with:
+#           fetch-depth: 2
+#       - name: FTP-Deploy-Action
+#         uses: SamKirkland/FTP-Deploy-Action@4.3.0
+#         with:
+#           server: ftp.expertvence.com
+#           username: u847662062.bank
+#           password: "8&EEa;Nn;f:t"
+#           exclude: |
+#             **/.git*
+#             **/.github/**
+#             **/node_modules/**
+#             **/tests/**
+#             **/stubs/**
+#             **/.git*
+#             **/.git*/**
+#             **/node_modules/**
+#             **/.env
 name: Deploy Private GitHub repository to our server
+
 on:
   push:
     branches:
       - version_1
+
 jobs:
   FTP-Deploy-Action:
     name: FTP-Deploy-Action
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2.1.0
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
-      - name: FTP-Deploy-Action
+
+      - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ftp.expertvence.com
-          username: u847662062.bank
-          password: "8&EEa;Nn;f:t"
-          exclude: |
-            **/.git*
+         server: ftp.expertvence.com
+         username: u847662062.bank
+         password: "8&EEa;Nn;f:t"
+         protocol: ftp
+         port: 21
+
+         exclude: |
+           **/.git*
+           **/.git*/**
             **/.github/**
             **/node_modules/**
             **/tests/**
             **/stubs/**
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
             **/.env
