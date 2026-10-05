@@ -1,7 +1,8 @@
 @php
-    $income = 0;
-    $expense = 0;
-
+    $transactions = $income_expense ?? collect();
+    $income = $transactions->where('type', 'Income')->sum('income_expence');
+    $expense = $transactions->where('type', 'Expense')->sum('income_expence');
+    $net = $income - $expense;
 @endphp
 
 <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -42,6 +43,7 @@
     .finance-summary-card.income .finance-summary-value { color: #167750; }
     .finance-summary-card.expense .finance-summary-value { color: #b05248; }
     .finance-summary-card.net .finance-summary-value { color: #176f68; }
+    .finance-summary-card.net .finance-summary-value.negative { color: #F5B727; }
 
     .finance-table-heading { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; padding: 1rem 1.1rem 0.5rem; }
     .finance-table-heading h2 { margin: 0; color: var(--finance-ink); font-size: 0.9rem; font-weight: 700; }
@@ -85,6 +87,7 @@
     body.dark-mode .finance-summary-card.income .finance-summary-value { color: #86ddb2; }
     body.dark-mode .finance-summary-card.expense .finance-summary-value { color: #f0a09b; }
     body.dark-mode .finance-summary-card.net .finance-summary-value { color: #79d2c1; }
+    body.dark-mode .finance-summary-card.net .finance-summary-value.negative { color: #F5B727; }
     body.dark-mode .finance-list-table thead th { background: #1a3a3d; color: #b5c9c5; }
     body.dark-mode .finance-list-table tbody td { border-bottom-color: #263f43; color: #c5d4d4; }
     body.dark-mode .finance-list-table tbody tr:hover { background: #18343a; }
@@ -125,15 +128,15 @@
         <div class="finance-summary">
             <article class="finance-summary-card income">
                 <span class="finance-summary-label"><i class="fas fa-arrow-down"></i> Total income</span>
-                <strong class="finance-summary-value">৳<span id="total-income">0.00</span></strong>
+                <strong class="finance-summary-value">&#2547;{{ number_format((float) $income, 2, '.', ',') }}</strong>
             </article>
             <article class="finance-summary-card expense">
                 <span class="finance-summary-label"><i class="fas fa-arrow-up"></i> Total expense</span>
-                <strong class="finance-summary-value">৳<span id="total-expense">0.00</span></strong>
+                <strong class="finance-summary-value">&#2547;{{ number_format((float) $expense, 2, '.', ',') }}</strong>
             </article>
             <article class="finance-summary-card net">
                 <span class="finance-summary-label"><i class="fas fa-scale-balanced"></i> Net balance</span>
-                <strong class="finance-summary-value">৳<span id="net-total">0.00</span></strong>
+                <strong class="finance-summary-value {{ $net < 0 ? 'negative' : '' }}">&#2547;{{ number_format((float) $net, 2, '.', ',') }}</strong>
             </article>
         </div>
 
@@ -142,7 +145,7 @@
                 <span class="finance-entry-count">{{ is_countable($income_expense ?? null) ? count($income_expense) : 0 }} entries</span>
         </div>
         <div class="finance-table-wrap">
-            <table id="income-expense-table" class="finance-list-table data-table">
+            <table id="income-expense-table" class="finance-list-table">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -187,39 +190,3 @@
         </div>
     </section>
 </main>
-
-<script>
-    $(document).ready(function() {
-        let incomeTotal = 0;
-        let expenseTotal = 0;
-
-        $('#income-expense-table tbody tr').each(function() {
-            const type = $(this).find('.finance-type-badge').text().trim();
-            const amountText = $(this).find(type === 'Income' ? '.finance-amount.income' : '.finance-amount.expense').text();
-            const amount = Number(amountText.replace(/[^0-9.-]/g, '')) || 0;
-
-            if (type === 'Income') incomeTotal += amount;
-            if (type === 'Expense') expenseTotal += amount;
-        });
-
-        const formatTotal = value => new Intl.NumberFormat('en-BD', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
-        $('#total-income').text(formatTotal(incomeTotal));
-        $('#total-expense').text(formatTotal(expenseTotal));
-        $('#net-total').text(formatTotal(incomeTotal - expenseTotal));
-
-        if ($.fn.DataTable && !$.fn.DataTable.isDataTable('#income-expense-table')) {
-            $('#income-expense-table').DataTable({
-                ordering: false,
-                autoWidth: false,
-                pageLength: 10,
-                language: {
-                    search: 'Search',
-                    searchPlaceholder: 'Description or type...',
-                    lengthMenu: 'Show _MENU_',
-                    emptyTable: 'No income or expense records found.',
-                    zeroRecords: 'No matching entries found.'
-                }
-            });
-        }
-    });
-</script>

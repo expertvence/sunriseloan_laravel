@@ -56,7 +56,7 @@ jobs:
 
          exclude: |
            **/.git*
-           **/.git*/**
+           A**/.git*/**
             **/.github/**
             **/node_modules/**
             **/tests/**
