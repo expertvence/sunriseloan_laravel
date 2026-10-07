@@ -463,6 +463,9 @@
                     <th>SL#</th>
                     <th>NAME</th>
                     <th>LOAN AMOUNT</th>
+                    <th>TOTAL COMMIT</th>
+                    <th>COMMITTED</th>
+                    <th>REMAIN COMMITTED</th>
                     <th>MONTHLY INCOME</th>
                     <th>LOAN TERMS</th>
                     @if (auth()->user()->user_type == 'admin')
@@ -482,7 +485,15 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td><strong style="color: var(--text-primary) !important;">{{ $value->user ? $value->user->name : 'no user' }}</strong></td>
-                            <td><span class="deposit-amount">${{ number_format($value->loan_amount, 2) }}</span></td>
+                            <td><span class="deposit-amount">৳{{ number_format($value->loan_amount, 2) }}</span></td>
+                            @php
+                                $totalCommitVal = (int) ($value->weekly_duration ?: ($value->monthly_duration ?: ($value->loan_term ?: 0)));
+                                $committedVal = (int) ($value->approved_commits_count ?? $value->approvedLoanCommits()->count());
+                                $remainCommittedVal = max(0, $totalCommitVal - $committedVal);
+                            @endphp
+                            <td><span class="status-badge" style="background: rgba(102, 126, 234, 0.15); color: #667eea !important; border: 1px solid rgba(102, 126, 234, 0.3);">{{ $totalCommitVal }}</span></td>
+                            <td><span class="status-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981 !important; border: 1px solid rgba(16, 185, 129, 0.3);">{{ $committedVal }}</span></td>
+                            <td><span class="status-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b !important; border: 1px solid rgba(245, 158, 11, 0.3);">{{ $remainCommittedVal }}</span></td>
                             <td><span class="deposit-amount">${{ number_format($value->monthly_income, 2) }}</span></td>
 
                             <td>
@@ -582,6 +593,7 @@
         // Initialize DataTable with premium options
         var table = $(".premium-table").DataTable({
             "ordering": true,
+            "order": [[11, "desc"]],
             "bAutoWidth": false,
             "responsive": false,
             "scrollX": true,

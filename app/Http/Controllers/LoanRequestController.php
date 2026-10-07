@@ -21,7 +21,9 @@ class LoanRequestController extends Controller
 
     public function loanRequestList()
     {
-        $loanQuery = Loan::query();
+        $loanQuery = Loan::with('user')->withCount(['loanCommits as approved_commits_count' => function ($query) {
+            $query->where('status', '!=', 'pending');
+        }]);
         if (Auth::check() && Auth::user()->user_type === 'manager') {
             $loanQuery->where('creator_id', Auth::id());
         }

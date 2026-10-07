@@ -38,6 +38,7 @@
  (function ($) {
    function initAdminTables() {
      if (!$.fn.DataTable) return;
+     $.fn.dataTable.ext.errMode = 'none';
      $('#page-content table:has(thead)').each(function () {
        var table = this, $table = $(table);
        if ($table.closest('form, .pdf-content, .print-only').length || $.fn.DataTable.isDataTable(table)) return;

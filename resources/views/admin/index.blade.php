@@ -253,7 +253,7 @@
                 <div class="recent-table-wrap">
                     <table class="recent-loans-table">
                         <thead>
-                            <tr><th>#</th><th>Customer</th><th>Amount</th><th>Status</th><th>Date</th><th></th></tr>
+                            <tr><th>#</th><th>Customer</th><th>Amount</th><th>Total Commit</th><th>Committed</th><th>Remain Committed</th><th>Status</th><th>Date</th><th>Action</th></tr>
                         </thead>
                         <tbody>
                             @forelse ($recentLoanRequests as $recentLoan)
@@ -261,12 +261,20 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td class="customer-cell">{{ optional($recentLoan->user)->name ?? 'Unknown member' }}</td>
                                     <td>৳{{ number_format($recentLoan->loan_amount, 2) }}</td>
+                                    @php
+                                        $totalCommit = (int) ($recentLoan->weekly_duration ?: ($recentLoan->monthly_duration ?: ($recentLoan->loan_term ?: 0)));
+                                        $committed = (int) ($recentLoan->approved_commits_count ?? $recentLoan->approvedLoanCommits()->count());
+                                        $remainCommitted = max(0, $totalCommit - $committed);
+                                    @endphp
+                                    <td><span class="commit-badge total-badge" style="font-weight: 600; padding: 4px 10px; border-radius: 20px; background: rgba(102, 126, 234, 0.15); color: #667eea; border: 1px solid rgba(102, 126, 234, 0.3);">{{ $totalCommit }}</span></td>
+                                    <td><span class="commit-badge committed-badge" style="font-weight: 600; padding: 4px 10px; border-radius: 20px; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">{{ $committed }}</span></td>
+                                    <td><span class="commit-badge remain-badge" style="font-weight: 600; padding: 4px 10px; border-radius: 20px; background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3);">{{ $remainCommitted }}</span></td>
                                     <td><span class="loan-status-pill status-{{ $recentLoan->status }}">{{ $recentLoan->status === 'complete' ? 'Accepted' : ucfirst($recentLoan->status) }}</span></td>
                                     <td>{{ optional($recentLoan->created_at)->format('Y-m-d') ?? '—' }}</td>
                                     <td><a class="loan-view-link" href="{{ route('loan-request-details', ['loan_ide' => $recentLoan->loan_ide]) }}">View</a></td>
                                 </tr>
                             @empty
-                                <tr><td class="empty-table" colspan="6">No loan requests yet.</td></tr>
+                                <tr><td class="empty-table" colspan="9">No loan requests yet.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -452,8 +460,9 @@
         // DataTable initialization
         $(document).ready(function() {
             if ($.fn.DataTable) {
-                $(".data-table").DataTable({
-                    "ordering": false,
+                $(".recent-loans-table, .data-table").DataTable({
+                    "ordering": true,
+                    "order": [[7, "desc"]],
                     "pageLength": 10,
                     "responsive": true,
                     "language": {

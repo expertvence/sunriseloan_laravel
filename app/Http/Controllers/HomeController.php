@@ -186,8 +186,10 @@ class HomeController extends Controller
             ->pluck('total', 'status');
 
         $recentLoanRequests = Loan::with('user')
+            ->withCount(['loanCommits as approved_commits_count' => function ($query) {
+                $query->where('status', '!=', 'pending');
+            }])
             ->latest('created_at')
-            ->take(5)
             ->get();
 
         $financeEntries = IncomeExpense::whereBetween('date', [now()->subDays(6)->toDateString(), now()->toDateString()])
